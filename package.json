@@ -1,6 +1,6 @@
 {
   "name": "pajama-angular",
-  "version": "0.0.0",
+  "version": "0.1.2",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
@@ -8,10 +8,9 @@
     "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
-	"e2e": "ng e2e",
-	"packagr": "ng-packagr -p ng-package.json"
+    "e2e": "ng e2e",
+    "packagr": "ng-packagr -p ng-package.json"
   },
-  "private": true,
   "dependencies": {
     "@angular/animations": "^5.1.0",
     "@angular/common": "^5.1.0",
@@ -23,7 +22,7 @@
     "@angular/platform-browser-dynamic": "^5.1.0",
     "@angular/router": "^5.1.0",
     "core-js": "^2.4.1",
-    "moment": "^2.20.1",
+    "moment": "2.18.1",
     "rxjs": "^5.5.6",
     "zone.js": "^0.8.19"
   },
