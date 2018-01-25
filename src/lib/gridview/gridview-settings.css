@@ -1,0 +1,35 @@
+.gridview-settings {
+	margin-right: 20px;
+}
+
+	.gridview-settings .settings-dropdown-menu {
+		margin-left: -65px;
+	}
+
+	.gridview-settings .settings-dropdown-item {
+		padding: 5px 5px 5px 10px;
+		margin-left: 5px;
+		margin-right: 5px;
+		cursor: pointer;
+		white-space: nowrap;
+	}
+
+		.gridview-settings .settings-dropdown-item:hover {
+			background-color: #e6e6e6;
+		}
+
+
+.column-menu ul {
+		list-style: none;
+		padding: 5px 5px 5px 5px;
+		margin-right: 10px;
+	}
+
+.column-menu-item {
+	cursor: pointer;
+	white-space: nowrap;
+}
+
+.settings-body {
+	padding: 20px;
+}

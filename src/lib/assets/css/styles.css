@@ -1,0 +1,95 @@
+﻿.component {
+	font: 14px Helvetica,Arial,sans-serif;
+}
+
+input.component {
+	padding-left: 6px;
+	width: 100% !important;
+}
+
+.input-button-container {
+	display: block;
+	position: absolute;
+	top: -20px;
+	right: 0px;
+}
+
+.input-button {
+	border: 0px;
+	vertical-align: top;
+	margin-top: 1px;
+	height: 18px;
+	width: 23px;
+	background-color: rgba(255, 255, 255, 0.5);
+	cursor: pointer;
+}
+
+.clickable {
+	cursor: pointer;
+}
+
+.spinner-arrows {
+	background-size: 9px 6px !important;
+	background-repeat: no-repeat;
+	width: 9px;
+	height: 6px;
+}
+
+.error-label {
+	font-weight: bold;
+	color: red;
+}
+
+.disable-edit, checklist.disable-edit button {
+	font-weight: bold;
+	border: 0px !important;
+	background-color: rgb(240,240,240) !important;
+}
+
+
+	.disable-edit + multi-typeahead .multi-textbox-item {
+		font-weight: bold;
+		border-right: 1px solid black;
+		border-radius: 0px;
+	}
+
+		.disable-edit + multi-typeahead .multi-textbox-item:last-child {
+			border-right: 0px;
+		}
+
+	.disable-edit + multi-typeahead .multi-textbox-item-container {
+		padding-left: 4px !important;
+	}
+
+	.disable-edit + * .input-button-container, checklist.disable-edit .checklist-button-image {
+		display: none !important;
+	}
+
+input[type="radio"].disable-edit, input[type="radio"]:not(:checked).disable-edit + span,
+input[type="checkbox"].disable-edit, input[type="checkbox"]:not(:checked).disable-edit + span {
+	display: none;
+}
+
+/* WARNING! copied from icons.css */
+input[type="radio"]:checked.disable-edit + span,
+input[type="checkbox"]:checked.disable-edit + span {
+    font-weight: bold;
+	background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH4QUDEx8HhsfEDQAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAABxUlEQVRIx63Wz4tNYRgH8M+9XbnI3GRnc2PB2izQJEVWkh0bVqwmIRbWSBYWSlnYUMr8AShLYmcxk62kJMWGMtGMMe61eU6eTvecue7xrVPv877v+X6f9/nxntPyFz1MoW18DPEV39NcH6v4hEExOYOFeOFfn+lEPo3lELxeONtrQH4qkW/Em7S2iG2dCMvu2PQZN8OLOrTCy4dpbg92JvtjhE8/qV40GTbgfeIZ4IARCV2eUGAuHM32y5z1Qnl2AvL9Ea6C41VebGuGdbiKTWH/won/KXAeh5J9Cx9ifBhbqkLUCu/qsKNUsm/TSdbjGba3KyriGu6FF6PQw6PS3En8iPFRHCw6uXyC41gJewl7S0Tt6JVhRXlPRTUOi8oqCxwJ4kyQRXZFMou1F3HqAufSWn9UiJ7ifmnuOfbF+DE6MV4J75fS3tX8YqcixmfjmJdSXp5gvnQd3Ih7rBZ1jXa35qKbr+CbXStEGRfwIN39Bb6UG6oKawn8xGncjt6A37iCd+MIdMbYM4hcbMYxvMadcVu9LNCtETmDrRGeOnTLAoNkX254bXcTR+FYo09m3bMQ3I0/+lXkM1JlTPrbUpWvRXyDP0vZv5uiz9ocAAAAAElFTkSuQmCC);
+	background-size: 16px 16px !important;
+	width: 16px;
+	height: 16px;
+	background-repeat: no-repeat !important;
+	padding-left: 20px;
+}
+
+.modal-dialog-body {
+	padding: 15px;
+}
+
+.medium-modal-dialog-body {
+	width: 800px;
+}
+
+.large-modal-dialog-body {
+	width: 1000px;
+}

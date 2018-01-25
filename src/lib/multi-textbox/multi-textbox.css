@@ -1,0 +1,32 @@
+﻿.multi-textbox-item {
+	background-color: rgb(240,240,240);
+	border-radius: 2px;
+	padding: 2px 6px;
+	margin-top: 1px;
+	margin-left: 2px;
+	display: inline-block;
+}
+
+.multi-textbox-item-container {
+	margin-top: -21px;
+	margin-left: 1px;
+	position: absolute;
+}
+
+.multi-textbox {
+	position: relative;
+}
+
+.multi-textbox-remove, .multi-textbox-add {
+	height: 100%;
+	vertical-align: middle;
+	display: inline-block;
+}
+
+.multi-textbox-remove {
+	margin-left: 2px;
+}
+
+.multi-textbox-add {
+	margin-right: 5px;
+}

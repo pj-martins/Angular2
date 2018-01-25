@@ -1,0 +1,43 @@
+.grid-pagination, .grid-pagination .pagination {
+	margin: 0px;
+	margin-left: 20px;
+	margin-bottom: 8px;
+	margin-top: 4px;
+	font-size: 14px;
+	color: #428bca;
+}
+
+.pagination {
+	display: inline-block;
+	padding-left: 0;
+	margin-left: 0px !important;
+	border-radius: 4px;
+	cursor: pointer;
+	list-style: none;
+}
+
+	.pagination > li {
+		position: relative;
+		float: left;
+		padding: 3px 10px;
+		margin-left: -1px;
+		color: #337ab7;
+		background-color: #fff;
+		border: 1px solid #ddd;
+	}
+
+.pagination-selected {
+	color: #fff !important;
+	background-color: #337ab7 !important;
+}
+
+.jump-to-page {
+	display: inline-block;
+	vertical-align: top;
+	margin-top: 4px;
+	margin-left: 20px;
+}
+
+.jump-to-page input {
+	width: 50px;
+}

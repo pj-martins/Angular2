@@ -1,0 +1,21 @@
+.gridview-filtercell {
+	user-select: none;
+	padding-left: 0px !important;
+	padding-right: 1px !important;
+	width: 100%;
+	position: relative;
+}
+
+.gridview-filtercell-content {
+	display: inline-block;
+	width: calc(100% - 20px)
+}
+
+.gridview-filtercell-clear {
+	display: inline-block;
+	vertical-align:middle;
+}
+
+.filtercell-textbox {
+	width: 100%;
+}

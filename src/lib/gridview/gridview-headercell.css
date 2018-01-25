@@ -1,0 +1,52 @@
+
+.sort-header {
+	cursor: pointer;
+	margin-top: 2px;
+	margin-bottom: -2px;
+	width: calc(100% - 15px);
+	display: inline-block;
+	margin-left: 5px;
+}
+
+.sort-arrows {
+	margin-left: 13px !important;
+}
+
+.header-caption {
+	display: inline;
+	float: left;
+	position: relative;
+}
+
+.sort-arrow {
+	position: absolute;
+	margin-top: 5px;
+}
+
+	.sort-arrow.top-empty {
+		margin-top: 0px;
+	}
+
+	.sort-arrow.bottom-empty {
+		margin-top: 8px;
+	}
+
+.resize-div {
+	/*background-color: white;*/
+	background-color: transparent;
+	color: transparent;
+	float: right;
+	cursor: col-resize;
+	margin-right: -13px;
+	width: 14px;
+	user-select: none;
+	-moz-user-select: none;
+	-khtml-user-select: none;
+	-webkit-user-select: none;
+	-o-user-select: none;
+}
+
+gridview-headercell {
+	position: relative;
+	overflow: hidden;
+}
