@@ -1,6 +1,6 @@
 {
   "name": "pajama-angular",
-  "version": "0.1.2",
+  "version": "0.1.5",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
@@ -8,8 +8,10 @@
     "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e",
-    "packagr": "ng-packagr -p ng-package.json"
+	"e2e": "ng e2e",
+	"deploy": "npm run packagr && npm run csscopy",
+	"packagr": "ng-packagr -p ng-package.json",
+	"csscopy": "copyfiles -f ./src/lib/assets/css/* ./dist/assets/css"
   },
   "dependencies": {
     "@angular/animations": "^5.1.0",

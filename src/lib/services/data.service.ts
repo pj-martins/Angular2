@@ -1,5 +1,5 @@
 ﻿import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Http, Response, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
@@ -13,8 +13,12 @@ export class DataService {
 
 	constructor(protected http: Http) { }
 
+	getOptions(): RequestOptions {
+		return null;
+	}
+
 	post<TObject>(url: string, body: TObject = null): Observable<TObject> {
-		return this.http.post(url, body)
+		return this.http.post(url, body, this.getOptions())
 			.map((res: Response) => {
 				if (!res.text())
 					return null;
@@ -24,7 +28,7 @@ export class DataService {
 	}
 
 	put<TObject>(url: string, body: TObject): Observable<TObject> {
-		return this.http.put(url, body)
+		return this.http.put(url, body, this.getOptions())
 			.map((res: Response) => {
 				if (!res.text())
 					return null;
@@ -34,7 +38,7 @@ export class DataService {
 	}
 
 	delete(url: string): Observable<boolean> {
-		return this.http.delete(url)
+		return this.http.delete(url, this.getOptions())
 			.map((res: Response) => {
 				if (!res.text())
 					return null;
@@ -54,7 +58,7 @@ export class DataService {
 			}
 		}
 
-		return this.http.get(url)
+		return this.http.get(url, this.getOptions())
 			.map((res: Response) => {
 				return res.json();
 			})
@@ -62,7 +66,7 @@ export class DataService {
 	}
 
 	getItem<TObject>(url: string): Observable<TObject> {
-		return this.http.get(url)
+		return this.http.get(url, this.getOptions())
 			.map((res: Response) => {
 				return res.json();
 			})
