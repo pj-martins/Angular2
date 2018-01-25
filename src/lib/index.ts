@@ -7,7 +7,6 @@ import { MultiTextboxModule } from './multi-textbox/multi-textbox.module';
 import { OverlayModule } from './overlay/overlay.module';
 import { TypeaheadModule } from './typeahead/typeahead.module';
 import { ModalDialogModule } from './modal-dialog/modal-dialog.module';
-import { DisableEditDirective } from './disable-edit/disable-edit.directive';
 
 export * from './checklist/checklist.module';
 export * from './checklist/checklist.component';
@@ -40,7 +39,6 @@ export * from './pipes/enum-to-list.pipe';
 export * from './pipes/moment.pipe';
 export * from './pipes/order-by.pipe';
 export * from './pipes/to-camel-case.pipe';
-export { DisableEditDirective } from './disable-edit/disable-edit.directive';
 
 @NgModule({
 	imports: [
@@ -52,8 +50,5 @@ export { DisableEditDirective } from './disable-edit/disable-edit.directive';
 		OverlayModule,
 		TypeaheadModule
 	],
-	declarations: [
-		DisableEditDirective
-	]
 })
 export class PaJaMaModule { }

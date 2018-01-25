@@ -1,6 +1,4 @@
-﻿import { ODataArguments, FilterGroup, OrderBy, FilterOperator, BinaryFilter, FilterType } from './services/data.service';
-
-export enum SortDirection {
+﻿export enum SortDirection {
 	None,
 	Asc,
 	Desc

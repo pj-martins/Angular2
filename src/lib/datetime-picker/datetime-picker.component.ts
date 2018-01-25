@@ -1,7 +1,9 @@
 ﻿import { Component, Input, Output, EventEmitter, OnInit, forwardRef, NgZone, Directive, Attribute, ElementRef } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor, AbstractControl, NG_VALIDATORS, Validator, FormControl } from '@angular/forms';
-import * as moment from 'moment'
+import * as moment_ from 'moment'
 import { Utils } from '../shared';
+
+const moment = moment_;
 
 @Component({
 	selector: 'datetime-picker',

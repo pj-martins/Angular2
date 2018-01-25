@@ -4,7 +4,9 @@ import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import { SortDirection } from '../shared';
-import * as moment from 'moment';
+import * as moment_ from 'moment';
+
+const moment = moment_;
 
 @Injectable()
 export class DataService {
@@ -54,75 +56,7 @@ export class DataService {
 
 		return this.http.get(url)
 			.map((res: Response) => {
-				let results = new Items<TObject>();
-				results.results = res.json();
-				let inlineCount = res.headers.get('X-InlineCount');
-				if (inlineCount)
-					results.totalRecords = +inlineCount;
-				return results;
-			})
-			.catch(this.handleError);
-	}
-
-	getItemsOData<TObject>(url: string, args?: ODataArguments): Observable<Items<TObject>> {
-		if (args) {
-			let firstIn = true;
-			if (args.params) {
-				for (let p in args.params) {
-					url += (firstIn ? '?' : '&') + p + '=' + args.params[p];
-					firstIn = false;
-				}
-			}
-
-			if (args.filter) {
-				url += (firstIn ? '?' : '&') + '$filter=' + args.filter.getFilterString();
-				firstIn = false;
-			}
-
-			if (args.select && args.select.length > 0) {
-				url += (firstIn ? '?' : '&') + "$select=" + args.select.join(",");
-				firstIn = false;
-			}
-
-			if (args.expand && args.expand.length > 0) {
-				url += (firstIn ? '?' : '&') + "$expand=" + args.expand.join(",");
-				firstIn = false;
-			}
-
-			if (args.pageSize && args.pageSize > 0) {
-				if (!args.pageNumber)
-					args.pageNumber = 1;
-				url += (firstIn ? '?' : '&') + '$top=' + args.pageSize + '&$skip=' + ((args.pageNumber - 1) * args.pageSize);
-				firstIn = false;
-			}
-
-			if (args.orderBy && args.orderBy.length > 0) {
-				let orderFirstIn = true;
-				url += (firstIn ? '?' : '&') + '$orderby=';
-				for (let o of args.orderBy) {
-					url += (orderFirstIn ? '' : ',') + o.sortField + ' ' + SortDirection[o.sortDirection].toLowerCase();
-					orderFirstIn = false;
-				}
-				firstIn = false;
-			}
-			if (args.includeCount)
-				url += (firstIn ? '?' : '&') + '$inlinecount=allpages';
-		}
-		return this.http.get(url)
-			.map((res: Response) => {
-				let results = new Items<TObject>();
-				if (args && args.includeCount) {
-					let odataResults = res.json();
-					results.results = odataResults.items;
-					results.totalRecords = odataResults.count;
-				}
-				else {
-					results.results = res.json();
-					let inlineCount = res.headers.get('X-InlineCount');
-					if (inlineCount)
-						results.totalRecords = +inlineCount;
-				}
-				return results;
+				return res.json();
 			})
 			.catch(this.handleError);
 	}
@@ -156,29 +90,19 @@ export class DataService {
 }
 
 export class Items<TObject> {
-	results: TObject[];
-	totalRecords: number;
+	data: TObject[];
+	count: number;
 }
 
 export class GetArguments {
 	params: { [paramName: string]: string } = {};
 }
 
-export class ODataArguments extends GetArguments {
-	pageSize: number;
-	pageNumber: number;
-	filter: FilterBase;
-	orderBy: Array<OrderBy> = [];
-	select: Array<string> = [];
-	expand: Array<string> = [];
-	includeCount: boolean;
-}
-
 export class OrderBy {
 	constructor(public sortField: string, public sortDirection: SortDirection = SortDirection.Asc) { }
 }
 
-abstract class FilterBase {
+export abstract class FilterBase {
 	abstract getFilterString(): string;
 }
 export class FilterGroup extends FilterBase {

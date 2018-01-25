@@ -1,7 +1,9 @@
 ﻿import { Directive, ViewContainerRef, ComponentFactoryResolver, TemplateRef, Input, Output, OnInit, ComponentRef, ElementRef, EventEmitter } from '@angular/core';
 import { MultiTextboxComponent } from './multi-textbox.component';
 import { ParserService } from '../services/parser.service';
-import * as moment from 'moment'
+import * as moment_ from 'moment'
+
+const moment = moment_;
 
 @Directive({
 	selector: '[multiTextbox]',

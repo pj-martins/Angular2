@@ -5,7 +5,9 @@ import { TreeViewNode } from '../../lib/treeview/treeview';
 import { TreeViewComponent } from '../../lib/treeview/treeview.component';
 import { RoomNodeTemplateComponent } from './treeview-templates.component';
 import { Observable } from 'rxjs/Observable';
-import * as moment from 'moment';
+import * as moment_ from 'moment';
+
+const moment = moment_;
 
 declare var EVENTS: Array<Event>;
 

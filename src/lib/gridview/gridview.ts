@@ -383,19 +383,6 @@ export class DataColumn extends ColumnBase {
 		});
 	}
 
-	getODataField(): string {
-		if (!this.fieldName) return '';
-		let expression = '';
-		let parts = this.fieldName.split('.');
-		let firstIn = true;
-		for (let p of parts) {
-			expression += (firstIn ? '' : '/');
-			expression += p.substring(0, 1).toUpperCase() + p.substring(1);
-			firstIn = false;
-		}
-		return expression;
-	}
-
 	getCaption(): string {
 		if (this.caption) return this.caption;
 		let parsedFieldName = this.fieldName;
