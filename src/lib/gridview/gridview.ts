@@ -482,7 +482,21 @@ export interface IGridViewRowTemplateComponent {
 
 export interface IGridViewComponent {
 	unpagedData: Array<any>;
+	displayData: Array<any>;
 	resetDisplayData();
+	grid: GridView;
+	editingRows: { [tempKeyValue: string]: any };
+	editRow(row: any);
+	detailGridViewComponents: { [tempKeyValue: string]: IDetailGridViewComponent };
+	saveEdit(row: any);
+	cancelEdit(row: any);
+}
+
+export interface IDetailGridViewComponent {
+	isExpanded: boolean;
+	expandCollapse(): void;
+	detailGridViewInstance: DetailGridView;
+	gridViewComponent: IGridViewComponent;
 }
 
 export interface IGridViewFilterCellComponent {

@@ -38,7 +38,7 @@ export class GridViewPagerComponent {
 	@Output() pageChanged = new EventEmitter<number>();
 	@Output() pageChanging = new EventEmitter<any>();
 
-	protected pagingType = PagingType;
+	pagingType = PagingType;
 	protected moreToLeft = false;
 	protected moreToRight = false;
 

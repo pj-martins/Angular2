@@ -24,7 +24,7 @@ Height: <input type="text" [(ngModel)]='gridDemo.height' />
 `
 })
 export class DemoGridComponent implements OnInit {
-	protected gridDemo: GridView;
+	gridDemo: GridView;
 	private _coordinatorColumn: DataColumn;
 
 	constructor(private route: ActivatedRoute) {

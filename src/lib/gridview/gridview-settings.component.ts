@@ -76,15 +76,15 @@ export class GridViewSettingsComponent {
 	@ViewChild("customizeModal") cutomizeModal: ModalDialogComponent;
 	@ViewChild("settingsModal") settingsModal: ModalDialogComponent;
 
-	protected columnsSizable = false;
+	columnsSizable = false;
 
-	protected resetGridState() {
-		this.parentGridView.resetGridState();
+	customizeColumns() {
+		this.cutomizeModal.show();
 		this.settingsModal.hide();
 	}
 
-	protected customizeColumns() {
-		this.cutomizeModal.show();
+	protected resetGridState() {
+		this.parentGridView.resetGridState();
 		this.settingsModal.hide();
 	}
 

@@ -37,8 +37,9 @@ export class ModalDialogComponent {
 
 	protected button = Button;
 	protected buttons = Button.OK;
-	protected shown = false;
-
+	
+	shown = false;
+	
 	@Input()
 	headerText: string;
 

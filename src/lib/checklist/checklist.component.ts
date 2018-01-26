@@ -47,9 +47,13 @@ export class CheckListComponent implements OnInit {
 	@Input()
 	showMultiplesEllipses = false;
 
-	protected displayItems: Array<CheckListItem> = [];
-	protected allSelected = false;
-
+	displayItems: Array<CheckListItem> = [];
+	allSelected = false;
+	selectedText: string;
+	dropdownVisible: boolean;
+	uniqueId = Utils.newGuid();
+	private currentonclick: any;
+	
 	constructor(private zone: NgZone) { }
 
 	private _value: Array<any> = [];
@@ -76,11 +80,6 @@ export class CheckListComponent implements OnInit {
 		}
 		this.updateSelection(true);
 	}
-
-	selectedText: string;
-	dropdownVisible: boolean;
-	private currentonclick: any;
-	protected uniqueId = Utils.newGuid();
 
 	private updateSelection(init = false) {
 		if (init) {

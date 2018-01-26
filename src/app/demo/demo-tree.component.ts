@@ -20,7 +20,7 @@ declare var EVENTS: Array<Event>;
 `
 })
 export class DemoTreeComponent implements OnInit {
-	protected nodes: Array<TreeViewNode>;
+	nodes: Array<TreeViewNode>;
 
 	@ViewChild(TreeViewComponent)
 	treeViewComponent: TreeViewComponent;

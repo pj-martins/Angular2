@@ -19,6 +19,7 @@ import { TypeaheadModule } from '../typeahead/typeahead.module';
 import { CheckListModule } from '../checklist/checklist.module';
 import { DateTimePickerModule } from '../datetime-picker/datetime-picker.module';
 import { ModalDialogModule } from '../modal-dialog/modal-dialog.module';
+import { ColumnCaptionPipe }  from './column-caption.pipe';
 
 @NgModule({
     imports: [
@@ -42,7 +43,8 @@ import { ModalDialogModule } from '../modal-dialog/modal-dialog.module';
 		GridViewCellTemplateDirective,
 		GridViewFilterCellTemplateDirective,
 		DetailGridViewComponent,
-		DateFilterComponent
+		DateFilterComponent,
+		ColumnCaptionPipe,
     ],
     exports: [
         GridViewComponent,

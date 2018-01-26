@@ -9,10 +9,10 @@ import { ParserService } from '../services/parser.service';
 	styleUrls: ['../assets/css/styles.css', '../assets/css/icons.css', '../assets/css/buttons.css', 'gridview-headercell.css'],
 	template: `
 <div class="sort-header" (click)='setSort(column, $event)' [id]='column.getIdentifier()' draggable="true" (dragover)="dragOver($event)" (dragstart)="dragStart($event)" (drop)="drop($event)">
-	<div class='header-caption' [style.width]="(column.fieldName || column.sortField) && column.sortable ? '' : '100%'">
+	<div class='header-caption' [style.width]="column.fieldName && column.sortable ? '' : '100%'">
 		<div [innerHTML]="column.getCaption()"></div>
 	</div>
-	<div [ngClass]="{ 'header-caption sort-arrows' : (column.fieldName || column.sortField) && column.sortable }" *ngIf='(column.fieldName || column.sortField) && column.sortable'>
+	<div [ngClass]="{ 'header-caption sort-arrows' : column.fieldName && column.sortable }" *ngIf='column.fieldName && column.sortable'>
 		<div [ngClass]="'top-empty spinner-arrows' + (column.sortDirection == sortDirection.None ? ' icon-arrow-up-white' : '') + ' sort-arrow'"></div>
 		<div [ngClass]="'bottom-empty spinner-arrows' + (column.sortDirection == sortDirection.None ? ' icon-arrow-down-white' : '') + ' sort-arrow'"></div>
 		<div [ngClass]="'sort-arrow spinner-arrows' + (column.sortDirection == sortDirection.Desc ? ' icon-arrow-up-white' : '')"></div>
@@ -193,17 +193,17 @@ export class GridViewHeaderCellComponent implements AfterViewInit {
 
 	// IE has to be 'text' for some reason
 	private COLUMN_ID = "text";
-	protected dragOver(event) {
+	dragOver(event) {
 		if (!this.parentGridView.allowColumnOrdering) return;
 		event.preventDefault();
 	}
 
-	protected dragStart(event) {
+	dragStart(event) {
 		if (!this.parentGridView.allowColumnOrdering) return;
 		event.dataTransfer.setData(this.COLUMN_ID, event.currentTarget.id);
 	}
 
-	protected drop(event) {
+	drop(event) {
 		if (!this.parentGridView.allowColumnOrdering) return;
 		let id = event.dataTransfer.getData(this.COLUMN_ID);
 		this.changeColumnOrder(id, event.currentTarget.id);

@@ -21,11 +21,11 @@ import { ModalDialogComponent, DialogResult, Button } from '../../lib/modal-dial
 })
 export class DemoModalComponent {
 	@ViewChild("yesNoModal")
-	protected yesNoModal: ModalDialogComponent;
+	yesNoModal: ModalDialogComponent;
 
-	protected statusText = "";
+	statusText = "";
 
-	protected showYesNoModal() {
+	showYesNoModal() {
 		this.yesNoModal.show(Button.YesNo).subscribe(d => {
 			this.statusText = d == DialogResult.Yes ? "Yes selected" : "No selected";
 		});

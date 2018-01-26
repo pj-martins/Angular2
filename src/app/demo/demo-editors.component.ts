@@ -9,17 +9,28 @@ declare var ROOMS: Array<Room>;
 	templateUrl: './demo-editors.component.html'
 })
 export class DemoEditorsComponent {
-	protected selectedDateTime: Date;
-	protected selectedText: string;
-	protected multiTextboxItems: Array<string> = ['Item 1', 'Item 2'];
-	protected multiTypeaheadItems: Array<string> = [];
-	protected dataSource: Array<string> = ['Alpha', 'Bravo', 'Charlie', 'Delta', 'Echo', 'Foxtrot', 'Tango', 'Zulu'];
+	selectedDateTime: Date;
+	hideDate: boolean;
+	hideTime: boolean;
+	selectOnCalendarClick: boolean;
+	minDate: Date;
+	maxDate: Date;
+	minuteStep: number;
 
-	protected selectedRoomIDs: Array<number> = [];
-	protected selectedRooms: Array<Room> = [];
+	selectedText: string;
+	multiTextboxItems: Array<string> = ['Item 1', 'Item 2'];
+	multiTypeaheadItems: Array<string> = [];
+	dataSource: Array<string> = ['Alpha', 'Bravo', 'Charlie', 'Delta', 'Echo', 'Foxtrot', 'Tango', 'Zulu'];
 
-	protected rooms = ROOMS;
-	protected getRooms = (partial: string): Array<any> => {
+	selectedRoomIDs: Array<number> = [];
+	selectedRooms: Array<Room> = [];
+	selectedRoomID: number;
+	selectedRoom: Room;
+	selectedRoom2: Room;
+	selectedRoom3: Room;
+	
+	rooms = ROOMS;
+	getRooms = (partial: string): Array<any> => {
 		let rooms = [];
 		for (let r of this.rooms) {
 			if (r.roomName.toLowerCase().indexOf(partial.toLowerCase()) >= 0) {
@@ -29,7 +40,7 @@ export class DemoEditorsComponent {
 		return rooms;
 	}
 
-	protected getRoomsObservable = (partial: string): Observable<Array<any>> => {
+	getRoomsObservable = (partial: string): Observable<Array<any>> => {
 		let rooms = this.getRooms(partial);
 		return Observable.create(o => o.next(rooms));
 	}

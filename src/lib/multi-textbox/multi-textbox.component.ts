@@ -2,7 +2,7 @@
 
 export const MULTITEXTBOX_TEMPLATE = `
 <div class='multi-textbox'>
-	<div class='input-button-container component' [style.display]="currText && !typeahead ? 'inline' : 'none'">
+	<div class='input-button-container component' [style.display]="currText ? 'inline' : 'none'">
 		<div class='multi-textbox-add'>
 			<button class='icon-plus-black icon-x-small icon-button' (click)='addItem()' tabindex="-1">
 			</button>
@@ -85,7 +85,7 @@ export class MultiTextboxComponent implements OnInit {
 		return item1 == item2;
 	}
 
-	protected addItem() {
+	addItem() {
 		if (this.currText) {
 			this._items.push(this.currText);
 			this.currText = "";

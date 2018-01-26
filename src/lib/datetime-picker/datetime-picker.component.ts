@@ -93,7 +93,9 @@ export class DateTimePickerComponent implements OnInit { // implements ControlVa
 	minDate: Date;
 	maxDate: Date;
 	minuteStep: number;
-
+	uniqueId = Utils.newGuid();
+	dropdownVisible: boolean = false;
+	
 	dateChanged = new EventEmitter<Date>();
 
 	private _lock = false;
@@ -133,9 +135,7 @@ export class DateTimePickerComponent implements OnInit { // implements ControlVa
 	protected selectedHour: string;
 	protected selectedMinute: string;
 	protected selectedAMPM: string;
-	protected dropdownVisible: boolean = false;
-	protected uniqueId = Utils.newGuid();
-
+	
 	constructor(private zone: NgZone, public elementRef: ElementRef) { }
 
 	ngOnInit() {
@@ -240,7 +240,7 @@ export class DateTimePickerComponent implements OnInit { // implements ControlVa
 		this.updateDateTimeControls(new Date());
 	}
 
-	protected showDropdown() {
+	showDropdown() {
 		this.dropdownVisible = !this.dropdownVisible;
 		if (this.innerValue)
 			this.updateDateTimeControls(this.innerValue);

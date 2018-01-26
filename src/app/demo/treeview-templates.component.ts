@@ -8,7 +8,7 @@ import { TreeViewNodeTemplateComponent } from '../../lib/treeview/treeview-node-
 `
 })
 export class RoomNodeTemplateComponent extends TreeViewNodeTemplateComponent {
-	protected processID() {
+	processID() {
 		alert(this.node.dataItem.id);
 	}
 }

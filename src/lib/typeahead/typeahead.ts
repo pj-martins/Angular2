@@ -33,7 +33,7 @@ export class Typeahead {
 
 	constructor(private parserService: ParserService) { }
 
-	protected loading = false;
+	loading = false;
 
 	items: Array<any> = [];
 

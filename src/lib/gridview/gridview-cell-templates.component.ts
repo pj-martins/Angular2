@@ -15,5 +15,5 @@ export class GridViewTextAreaCellComponent implements IGridViewCellTemplateCompo
 	@Input() parentGridViewComponent: GridViewComponent;
 	@Input() parentGridView: GridView;
 
-	protected self = this;
+	self = this;
 }

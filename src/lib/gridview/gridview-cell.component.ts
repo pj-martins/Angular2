@@ -54,7 +54,7 @@ export class GridViewCellComponent {
 
 	protected fieldType = FieldType;
 
-	protected get editing(): boolean {
+	get editing(): boolean {
 		return this.parentGridViewComponent.editingRows[this.row[this.parentGridViewComponent.grid.keyFieldName]];
 	}
 

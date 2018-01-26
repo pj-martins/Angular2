@@ -1,17 +1,16 @@
 ﻿import { forwardRef, Component, Input, Output, OnInit, EventEmitter, ViewChild } from '@angular/core';
-import { GridViewComponent } from './gridview.component';
-import { DataColumn, GridView, DetailGridView, RowArguments } from './gridview';
+import { DataColumn, GridView, DetailGridView, RowArguments, IGridViewComponent, IDetailGridViewComponent } from './gridview';
 
 @Component({
 	selector: 'detail-gridview',
-	template: "<gridview [grid]='detailGridViewInstance'></gridview>",
+	template: "<gridview #gridViewComponent [grid]='detailGridViewInstance'></gridview>",
 })
-export class DetailGridViewComponent implements OnInit {
-	@Input() parentGridViewComponent: GridViewComponent;
+export class DetailGridViewComponent implements OnInit, IDetailGridViewComponent {
+	@Input() parentGridViewComponent: IGridViewComponent;
 	@Input() detailGridView: DetailGridView;
 	@Input() row: any;
 
-	@ViewChild(GridViewComponent) gridViewComponent: GridViewComponent;
+	@ViewChild("gridViewComponent") gridViewComponent: IGridViewComponent;
 
 	detailGridViewInstance: DetailGridView;
 	private _expanded: boolean;
@@ -28,6 +27,10 @@ export class DetailGridViewComponent implements OnInit {
 		}
 	}
 
+	get isExpanded() {
+		return this._expanded;
+	}
+
 	ngOnInit() {
 		this.detailGridViewInstance = this.detailGridView.createInstance(this.row);
 		if (this.detailGridView.allowEdit && this.parentGridViewComponent.grid.allowEdit) {
@@ -36,10 +39,6 @@ export class DetailGridViewComponent implements OnInit {
 			this.detailGridViewInstance.rowCreate.subscribe((args: RowArguments) => this.editParent(args));
 		}
 		this.parentGridViewComponent.detailGridViewComponents[this.row[this.parentKeyFieldName]] = this;
-	}
-
-	isExpanded() {
-		return this._expanded;
 	}
 
 	expandCollapse() {

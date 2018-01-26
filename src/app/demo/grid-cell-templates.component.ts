@@ -46,7 +46,7 @@ declare var EVENTS: Array<Event>;
 `
 })
 export class CustomerCellEditTemplateComponent extends GridViewCellTemplateComponent {
-	protected customers = new Array<Customer>();
+	customers = new Array<Customer>();
 	constructor() {
 		super();
 		for (let e of EVENTS) {

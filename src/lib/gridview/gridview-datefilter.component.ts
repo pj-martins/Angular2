@@ -79,7 +79,7 @@ export class DateFilterComponent implements IGridViewFilterCellTemplateComponent
 		return true;
 	}
 
-	protected filterChanged() {
+	filterChanged() {
 		this.parentFilterCellComponent.filterChanged();
 	}
 }
