@@ -5,11 +5,10 @@ import { TreeViewNode } from '../../lib/treeview/treeview';
 import { TreeViewComponent } from '../../lib/treeview/treeview.component';
 import { RoomNodeTemplateComponent } from './treeview-templates.component';
 import { Observable } from 'rxjs/Observable';
-import * as moment_ from 'moment';
-
-const moment = moment_;
+import moment from 'moment-es6';
 
 declare var EVENTS: Array<Event>;
+
 
 @Component({
 	selector: 'demo-tree',

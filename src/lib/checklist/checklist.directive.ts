@@ -1,6 +1,5 @@
 ﻿//import { Directive, ViewContainerRef, ComponentFactoryResolver, TemplateRef, Input, Output, ComponentRef, ElementRef, EventEmitter, AfterViewInit } from '@angular/core';
 //import { CheckListComponent } from './checklist.component';
-//import * as moment_ from 'moment'
 
 //@Directive({
 //	selector: '[checkList]',

@@ -1,9 +1,7 @@
 ﻿import { Directive, ViewContainerRef, OnInit, ComponentFactoryResolver, TemplateRef, Input, Output, ComponentRef, ElementRef, EventEmitter, OnChanges, forwardRef } from '@angular/core';
 import { Validator, AbstractControl, NG_VALIDATORS } from '@angular/forms';
 import { DateTimePickerComponent } from './datetime-picker.component';
-import * as moment_ from 'moment'
-
-const moment = moment_;
+import moment from 'moment-es6';
 
 export const MAX_MIN_VALIDATOR: any = {
 	provide: NG_VALIDATORS,

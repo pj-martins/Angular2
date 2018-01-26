@@ -1,9 +1,6 @@
 ﻿import { Directive, ViewContainerRef, ComponentFactoryResolver, TemplateRef, Input, Output, OnInit, ComponentRef, ElementRef, EventEmitter, OnChanges } from '@angular/core';
 import { TypeaheadComponent } from './typeahead.component';
 import { ParserService } from '../services/parser.service';
-import * as moment_ from 'moment'
-
-const moment = moment_;
 
 @Directive({
 	selector: '[typeahead][ngModel]',

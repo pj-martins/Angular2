@@ -4,9 +4,7 @@ import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import { SortDirection } from '../shared';
-import * as moment_ from 'moment';
-
-const moment = moment_;
+import moment from 'moment-es6';
 
 @Injectable()
 export class DataService {
