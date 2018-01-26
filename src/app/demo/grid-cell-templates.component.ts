@@ -1,5 +1,7 @@
 ﻿import { Component, OnInit } from '@angular/core';
-import { GridView, DataColumn, FilterMode, FieldType } from '../../lib/gridview/gridview';
+import { GridView } from '../../lib/gridview/gridview';
+import { DataColumn } from '../../lib/gridview/gridview-columns';
+import { FilterMode, FieldType } from '../../lib/gridview/gridview-enums';
 import { GridViewCellTemplateComponent, GridViewFilterCellTemplateComponent } from '../../lib/gridview/gridview-templates.component';
 import { Event, Customer } from './classes';
 

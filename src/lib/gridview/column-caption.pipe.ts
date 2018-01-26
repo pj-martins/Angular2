@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { DataColumn } from './gridview';
+import { DataColumn } from './gridview-columns';
 
 @Pipe({ name: 'columnCaption' })
 export class ColumnCaptionPipe implements PipeTransform {

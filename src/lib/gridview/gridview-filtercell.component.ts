@@ -1,5 +1,8 @@
 ﻿import { Component, Input, OnInit, ElementRef } from '@angular/core';
-import { DataColumn, FilterMode, GridView, IGridViewFilterCellComponent, FieldType } from './gridview';
+import { GridView } from './gridview';
+import { DataColumn } from './gridview-columns';
+import { FilterMode, FieldType } from './gridview-enums';
+import { IGridViewFilterCellComponent } from './gridview-interfaces';
 import { GridViewComponent } from './gridview.component';
 import { CheckListModule } from '../checklist/checklist.module';
 

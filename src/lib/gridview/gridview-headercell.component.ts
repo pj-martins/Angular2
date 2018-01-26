@@ -1,5 +1,8 @@
 ﻿import { Component, Input, Output, EventEmitter, ElementRef, NgZone, AfterViewInit } from '@angular/core';
-import { GridView, DataColumn, FieldType, ColumnBase, IGridViewComponent } from './gridview';
+import { GridView } from './gridview';
+import { DataColumn, ColumnBase } from './gridview-columns';
+import { IGridViewComponent } from './gridview-interfaces';
+import { FieldType } from './gridview-enums';
 import { SortDirection } from '../shared';
 import { PipesModule } from '../pipes/pipes.module';
 import { ParserService } from '../services/parser.service';

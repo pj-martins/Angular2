@@ -1,6 +1,8 @@
 ﻿import { Component, Input } from '@angular/core';
-import { IGridViewCellTemplateComponent, DataColumn, GridView } from './gridview';
 import { GridViewComponent } from './gridview.component';
+import { GridView } from './gridview';
+import { DataColumn } from './gridview-columns';
+import { IGridViewCellTemplateComponent } from './gridview-interfaces';
 
 @Component({
 	selector: 'gridview-textarea-cell',

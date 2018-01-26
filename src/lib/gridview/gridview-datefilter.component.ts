@@ -1,5 +1,8 @@
 ﻿import { Component, Input } from '@angular/core';
-import { IGridViewFilterCellTemplateComponent, DataColumn, IGridViewFilterCellComponent, GridView, FieldType } from './gridview';
+import { GridView } from './gridview';
+import { DataColumn } from './gridview-columns';
+import { IGridViewFilterCellTemplateComponent, IGridViewFilterCellComponent } from './gridview-interfaces';
+import { FieldType } from './gridview-enums';
 
 // could be reusable
 @Component({
@@ -7,12 +10,11 @@ import { IGridViewFilterCellTemplateComponent, DataColumn, IGridViewFilterCellCo
 	styleUrls: ['../assets/css/styles.css', '../assets/css/icons.css', '../assets/css/buttons.css', 'gridview-datefilter.css'],
 	template: `
 <div class='date-filter-picker'>
-	<div class='col-md-12 date-filter-from'>
-		<input type="text" class='date-filter-picker' dateTimePicker [hideTime]="true" placeholder="From" [(ngModel)]='fromDate' (ngModelChange)='filterChanged()' [selectOnCalendarClick]="true" />
+	<div class='date-filter-from'>
+		<input type="text" style='width:100%' dateTimePicker [hideTime]="true" placeholder="From" [(ngModel)]='fromDate' (ngModelChange)='filterChanged()' [selectOnCalendarClick]="true" />
 	</div>
-	<br />
-	<div class='col-md-12 date-filter-to'>
-		<input type="text" class='date-filter-picker' dateTimePicker [hideTime]="true" placeholder="To" [(ngModel)]='toDate' (ngModelChange)='filterChanged()' [selectOnCalendarClick]="true" />
+	<div class='date-filter-to'>
+		<input type="text" style='width:100%' dateTimePicker [hideTime]="true" placeholder="To" [(ngModel)]='toDate' (ngModelChange)='filterChanged()' [selectOnCalendarClick]="true" />
 	</div>
 </div>
 `

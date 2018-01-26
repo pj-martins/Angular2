@@ -1,5 +1,6 @@
 ﻿import { Component, Input, ViewChild } from '@angular/core';
-import { GridView, ColumnBase, DataColumn } from './gridview';
+import { GridView } from './gridview';
+import { ColumnBase, DataColumn } from './gridview-columns';
 import { ModalDialogComponent } from '../modal-dialog/modal-dialog.component';
 
 @Component({

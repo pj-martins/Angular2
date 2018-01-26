@@ -1,5 +1,7 @@
 ﻿import { Component, Input } from '@angular/core';
-import { GridView, DataColumn, FieldType } from './gridview';
+import { GridView } from './gridview';
+import { DataColumn } from './gridview-columns';
+import { FieldType } from './gridview-enums';
 import { GridViewComponent } from './gridview.component';
 import { PipesModule } from '../pipes/pipes.module';
 import { ParserService } from '../services/parser.service';
@@ -24,7 +26,7 @@ import { ParserService } from '../services/parser.service';
 		<input type="checkbox" *ngIf="(parentGridView.allowEdit || parentGridView.allowAdd) && !column.readonly && editing" [(ngModel)]="row[column.fieldName]" (ngModelChange)="parentGridView.cellValueChanged.emit(self)" />
 	</div>
 	<div *ngIf="column.click">
-		<button class="{{column.class}}" (click)="column.click.emit(row)">{{getObjectValue('')}}</button>
+		<button class="{{column.class}}" (click)="column.click.emit(row)">{{column.text || getObjectValue('')}}</button>
 	</div>
 	<!-- TODO: should we allow links to above items? duplication here too -->
 	<div *ngIf="column.fieldType != fieldType.Date && column.fieldType != fieldType.Boolean && !column.format && !column.click">

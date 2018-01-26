@@ -1,5 +1,8 @@
 ﻿import { Component, Input, Compiler, ViewContainerRef, ViewChild, Injectable, OnInit, Directive, ComponentFactoryResolver, ComponentRef, ElementRef } from '@angular/core';
-import { GridView, DataColumn, FieldType, IGridViewFilterCellComponent, IGridViewFilterCellTemplateComponent } from './gridview';
+import { GridView } from './gridview';
+import { DataColumn } from './gridview-columns';
+import { IGridViewFilterCellComponent, IGridViewFilterCellTemplateComponent } from './gridview-interfaces';
+import { FieldType } from './gridview-enums';
 import { GridViewFilterCellComponent } from './gridview-filtercell.component';
 import { PipesModule } from '../pipes/pipes.module';
 

@@ -1,8 +1,11 @@
-﻿import { EventEmitter, PipeTransform, Type } from '@angular/core';
+﻿import { EventEmitter, Type } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { ColumnBase, DataColumn } from './gridview-columns';
+import { SelectMode, PagingType, FilterMode, FieldType } from './gridview-enums';
+import { IGridViewRowTemplateComponent } from './gridview-interfaces';
 import { ParserService } from '../services/parser.service';
 import { OrderByPipe } from '../pipes/order-by.pipe';
-import { Observable } from 'rxjs/Observable';
-import { SortDirection, Utils } from '../shared';
+import { Utils, SortDirection } from '../shared';
 
 export const TEMP_KEY_FIELD: string = "_tmp_key_field";
 
@@ -306,121 +309,7 @@ export class GridView {
 		}
 	}
 }
-export enum FilterMode {
-	None,
-	BeginsWith,
-	Contains,
-	Equals,
-	NotEqual,
-	DistinctList,
-	DynamicList,
-	DateRange
-}
-export enum PagingType {
-	Auto,
-	Manual,
-	Disabled
-}
-export enum SelectMode {
-	None,
-	Single,
-	Multi
-}
-export class ColumnBase {
-	visible: boolean = true;
-	width: string;
-	name: string;
-	columnIndex: number = 0;
-	allowSizing: boolean;
-	getRowCellClass: (row: any) => string;
-	dataChanged = new EventEmitter<any[]>();
-	customProps: { [name: string]: any; } = {};
 
-	constructor(public caption?: string) { }
-
-	getIdentifier(): string {
-		if (!this.name)
-			this.name = Utils.newGuid();
-		return this.name;
-	}
-}
-export class DataColumn extends ColumnBase {
-	fieldType: FieldType = FieldType.String;
-	columnPipe: ColumnPipe;
-	sortIndex: number = 0;
-	filterValue: any;
-	format: string;
-	sortable: boolean;
-	disableWrapping: boolean;
-	filterMode: FilterMode = FilterMode.None;
-	template: Type<IGridViewCellTemplateComponent>;
-	editTemplate: Type<IGridViewCellTemplateComponent>;
-	templateInit = new EventEmitter<IGridViewCellTemplateComponent>();
-	filterTemplate: Type<IGridViewFilterCellTemplateComponent>;
-	filterDelayMilliseconds = 0;
-	sortDirection: SortDirection = SortDirection.None;
-	customSort: (obj1: any, obj2: any) => number;
-	customFilter: (obj: any) => boolean;
-	required = false;
-	readonly: boolean;
-
-	private _filterOptions: any[];
-	get filterOptions(): any[] {
-		return this._filterOptions;
-	}
-
-	set filterOptions(v: any[]) {
-		this._filterOptions = v;
-		this.filterOptionsChanged.emit(v);
-	}
-
-	filterOptionsChanged: EventEmitter<any> = new EventEmitter<any>();
-
-	constructor(public fieldName?: string, public caption?: string) {
-		super(caption);
-		this.dataChanged.subscribe((d: any[]) => {
-
-		});
-	}
-
-	getCaption(): string {
-		if (this.caption) return this.caption;
-		let parsedFieldName = this.fieldName;
-		if (!parsedFieldName || parsedFieldName == '') return '';
-		if (parsedFieldName.lastIndexOf('.') > 0) {
-			parsedFieldName = parsedFieldName.substring(parsedFieldName.lastIndexOf('.') + 1, parsedFieldName.length);
-		}
-		return parsedFieldName.replace(/([A-Z])/g, ' $1').replace(/^./, function (str) {
-			return str.toUpperCase();
-		});
-	}
-
-	getIdentifier(): string {
-		if (this.name) return this.name;
-		if (this.fieldName) return this.fieldName;
-		return this.caption;
-	}
-}
-export class NumericColumn extends DataColumn {
-	decimalPlaces = 0;
-}
-export class ButtonColumn extends DataColumn {
-	click = new EventEmitter<any>();
-	class: string;
-	constructor(public fieldName?: string, public caption?: string) {
-		super(fieldName, caption);
-	}
-}
-export class ColumnPipe {
-	constructor(public pipe: PipeTransform, public args?: any) { }
-}
-export enum FieldType {
-	String,
-	Boolean,
-	Numeric,
-	Date,
-	Html
-}
 export class DetailGridView extends GridView {
 
 	getChildData: (parent: any) => Observable<Array<any>>;
@@ -460,45 +349,4 @@ export class RowArguments {
 export class CellArguments {
 	row: any;
 	column: ColumnBase;
-}
-export interface IGridViewFilterCellTemplateComponent {
-	column: DataColumn;
-	parentGridView: GridView;
-	parentFilterCellComponent: IGridViewFilterCellComponent;
-}
-
-export interface IGridViewCellTemplateComponent {
-	row: any;
-	column: DataColumn;
-	parentGridView: GridView;
-	parentGridViewComponent: IGridViewComponent;
-}
-
-export interface IGridViewRowTemplateComponent {
-	parentGridView: GridView;
-	row: any;
-	parentGridViewComponent: IGridViewComponent;
-}
-
-export interface IGridViewComponent {
-	unpagedData: Array<any>;
-	displayData: Array<any>;
-	resetDisplayData();
-	grid: GridView;
-	editingRows: { [tempKeyValue: string]: any };
-	editRow(row: any);
-	detailGridViewComponents: { [tempKeyValue: string]: IDetailGridViewComponent };
-	saveEdit(row: any);
-	cancelEdit(row: any);
-}
-
-export interface IDetailGridViewComponent {
-	isExpanded: boolean;
-	expandCollapse(): void;
-	detailGridViewInstance: DetailGridView;
-	gridViewComponent: IGridViewComponent;
-}
-
-export interface IGridViewFilterCellComponent {
-	filterChanged(): void;
 }

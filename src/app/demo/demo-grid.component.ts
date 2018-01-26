@@ -1,6 +1,8 @@
 ﻿import { Component, OnInit, Type } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { GridView, DataColumn, FilterMode, FieldType, DetailGridView } from '../../lib/gridview/gridview';
+import { GridView, DetailGridView } from '../../lib/gridview/gridview';
+import { DataColumn } from '../../lib/gridview/gridview-columns';
+import { FilterMode, FieldType } from '../../lib/gridview/gridview-enums';
 import { SortDirection } from '../../lib/shared';
 import { TypeaheadModule } from '../../lib/typeahead/typeahead.module';
 import { MultiTextboxModule } from '../../lib/multi-textbox/multi-textbox.module';
@@ -10,6 +12,7 @@ import {
 } from './grid-cell-templates.component';
 import { RoomComponent } from './room.component';
 import { Observable } from 'rxjs/Observable';
+import { ButtonColumn } from '../../lib/index';
 
 declare var EVENTS: Array<Event>;
 
@@ -104,6 +107,10 @@ export class DemoGridComponent implements OnInit {
 			let cancelledCol = new DataColumn("cancelled");
 			cancelledCol.fieldType = FieldType.Boolean;
 			this.gridDemo.columns.push(cancelledCol);
+
+			let buttonCol = new ButtonColumn();
+			buttonCol.text = "DUMMY";
+			this.gridDemo.columns.push(buttonCol);
 		}
 		else {
 			this.gridDemo.name = "autoGridDemo";

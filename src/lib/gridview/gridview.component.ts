@@ -1,5 +1,8 @@
 ﻿import { Component, Input, Output, EventEmitter, NgZone, AfterViewInit, ViewChild, ViewChildren, QueryList, ElementRef } from '@angular/core';
-import { GridView, DataColumn, FilterMode, PagingType, FieldType, SelectMode, ColumnBase, GridState, RowArguments, IDetailGridViewComponent, TEMP_KEY_FIELD } from './gridview';
+import { GridView, GridState, RowArguments, TEMP_KEY_FIELD } from './gridview';
+import { DataColumn, ColumnBase } from './gridview-columns'
+import { IDetailGridViewComponent } from './gridview-interfaces'
+import { SelectMode, FilterMode, PagingType, FieldType } from './gridview-enums'
 import { SortDirection } from '../shared';
 import { GridViewPagerComponent } from './gridview-pager.component';
 import { GridViewHeaderCellComponent } from './gridview-headercell.component';

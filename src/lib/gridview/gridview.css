@@ -93,11 +93,6 @@
 	background-color: #C2F0F0 !important;
 }
 
-
-.gridview th:not(:first-child) {
-	/*border-left: 1px solid #fff;*/
-}
-
 .float-right {
 	float: right;
 }

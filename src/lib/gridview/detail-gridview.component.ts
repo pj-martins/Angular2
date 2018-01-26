@@ -1,5 +1,6 @@
 ﻿import { forwardRef, Component, Input, Output, OnInit, EventEmitter, ViewChild } from '@angular/core';
-import { DataColumn, GridView, DetailGridView, RowArguments, IGridViewComponent, IDetailGridViewComponent } from './gridview';
+import { GridView, DetailGridView, RowArguments } from './gridview';
+import { IGridViewComponent, IDetailGridViewComponent } from './gridview-interfaces';
 
 @Component({
 	selector: 'detail-gridview',
