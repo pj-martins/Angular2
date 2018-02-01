@@ -44,4 +44,14 @@ export class DemoEditorsComponent {
 		let rooms = this.getRooms(partial);
 		return Observable.create(o => o.next(rooms));
 	}
+
+	prevDate() {
+		let dt = new Date(this.selectedDateTime);
+		dt.setDate(dt.getDate() - 1);
+		this.selectedDateTime = dt;
+	}
+
+	nextDate() {
+		this.selectedDateTime.setDate(this.selectedDateTime.getDate() + 1);
+	}
 }

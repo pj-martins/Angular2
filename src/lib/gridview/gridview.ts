@@ -32,6 +32,7 @@ export class GridView {
 	rowCreate = new EventEmitter<RowArguments>();
 	rowDelete = new EventEmitter<RowArguments>();
 	cellValueChanged = new EventEmitter<CellArguments>();
+	rowInvalidated = new EventEmitter<DataColumn[]>();
 	rowTemplate: Type<IGridViewRowTemplateComponent>;
 	customProps: { [name: string]: any; } = {};
 	customEvents: any = {};

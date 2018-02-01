@@ -52,6 +52,11 @@ export class DemoGridComponent implements OnInit {
 		this.gridDemo.allowColumnOrdering = true;
 		this.gridDemo.saveGridStateToStorage = true;
 		this.gridDemo.allowColumnCustomization = true;
+		this.gridDemo.rowInvalidated.subscribe(((columns: DataColumn[]) => {
+			for (let c of columns) {
+				alert(c.fieldName);
+			}
+		}));
 
 		if (!this.route.snapshot.params['auto']) {
 			this.gridDemo.name = "gridDemo";
@@ -61,6 +66,7 @@ export class DemoGridComponent implements OnInit {
 			custCol.allowSizing = true;
 			custCol.template = CustomerCellTemplateComponent;
 			custCol.editTemplate = CustomerCellEditTemplateComponent;
+			custCol.required = true;
 			this.gridDemo.columns.push(custCol);
 
 			let startCol = new DataColumn("eventStartDT", "Start");

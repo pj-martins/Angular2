@@ -10,9 +10,9 @@ export class CheckListItem {
 @Component({
 	selector: 'checklist',
 	template: `
-	<button (click)='dropdownVisible = !dropdownVisible' class="{{class}} checklist-button id_{{uniqueId}}">
+	<button (click)='dropdownVisible = !dropdownVisible' [style.textAlign]="textAlign" class="{{class}} checklist-button id_{{uniqueId}}">
 		<div class="checklist-button-text">{{selectedText}}</div>
-		<div class="drop-down-image icon-x-small checklist-button-image id_{{uniqueId}} {{ allSelected || !showFilterIcon ? 'icon-arrow-down-black' : 'icon-filter-black'}}"></div>
+		<div class="drop-down-image icon-x-small checklist-button-image id_{{uniqueId}} {{ allSelected || selectedItems.length < 1 || !showFilterIcon ? 'icon-arrow-down-black' : 'icon-filter-black'}}"></div>
 	</button>
 	<div class='checklist'>
 		<div class='checklist-dropdown' [hidden]='!dropdownVisible'>
@@ -50,6 +50,7 @@ export class CheckListComponent implements OnInit {
 	displayItems: Array<CheckListItem> = [];
 	allSelected = false;
 	selectedText: string;
+	textAlign = "left";
 	dropdownVisible: boolean;
 	uniqueId = Utils.newGuid();
 	private currentonclick: any;
@@ -113,12 +114,15 @@ export class CheckListComponent implements OnInit {
 				}
 			}
 
-			if (this.showMultiplesEllipses && this.selectedItems.length > 1)
+			if (this.showMultiplesEllipses && this.selectedItems.length > 1) {
 				this.selectedText = "(...)";
+				this.textAlign = "center";
+			}
 			else {
 				for (let i = 0; i < this.selectedItems.length; i++) {
 					this.selectedText += (i == 0 ? "" : ", ") + (this.displayMember ? this.selectedItems[i][this.displayMember] : this.selectedItems[i]);
 				}
+				this.textAlign = "left";
 			}
 		}
 	}

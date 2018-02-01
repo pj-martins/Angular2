@@ -17,7 +17,7 @@ import { CheckListModule } from '../checklist/checklist.module';
 		</div>
 		<div *ngIf='!column.filterTemplate'>
 			<div *ngIf='column.filterMode == filterMode.DistinctList || column.filterMode == filterMode.DynamicList || column.filterOptions'>
-				<checklist type='text' name='filtcheck' [showFilterIcon]='true' [dataSource]='checklistItems' [selectedItems]='column.filterValue' (selectionChanged)='filterChanged()'  class='filter-check-list filtercell-textbox'></checklist>
+				<checklist type='text' name='filtcheck' [showMultiplesEllipses]='true' [showFilterIcon]='true' [dataSource]='checklistItems' [selectedItems]='column.filterValue' (selectionChanged)='filterChanged()'  class='filter-check-list filtercell-textbox'></checklist>
 			</div>
 			<div *ngIf='column.filterMode == filterMode.DateRange'>
 				<datefilter [column]='column' [parentFilterCellComponent]="self" [parentGridView]="parentGridView"></datefilter>
@@ -50,25 +50,13 @@ export class GridViewFilterCellComponent implements OnInit, IGridViewFilterCellC
 	ngOnInit() {
 		if (this.column.filterMode == FilterMode.DistinctList || this.column.filterMode == FilterMode.DynamicList || this.column.filterOptions) {
 			this.checklistItems = this.column.filterOptions || [];
-			let copy = [];
-			if (this.checklistItems) {
-				for (let ci of this.checklistItems) {
-					copy.push(ci);
-				}
-			}
-			if (!this.column.filterValue || this.column.filterValue.length == 0)
-				this.column.filterValue = copy;
+			if (!this.column.filterValue)
+				this.column.filterValue = [];
 
 			this.column.filterOptionsChanged.subscribe(() => {
 				this.checklistItems = this.column.filterOptions;
-				let copy2 = [];
-				if (this.checklistItems) {
-					for (let ci of this.checklistItems) {
-						copy2.push(ci);
-					}
-				}
-				if (!this.column.filterValue || this.column.filterValue.length == 0)
-					this.column.filterValue = copy2;
+				if (!this.column.filterValue)
+					this.column.filterValue = [];
 			});
 
 			if (!this.column.width)

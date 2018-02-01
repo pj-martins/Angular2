@@ -597,11 +597,17 @@ export class GridViewComponent implements AfterViewInit {
 
 	saveEdit(row: any) {
 		delete this.showRequired[(row[this.grid.keyFieldName])];
+		const invalids = new Array<DataColumn>();
 		for (let col of this.grid.getDataColumns()) {
 			if (col.fieldName && col.required && !this.parserService.getObjectValue(col.fieldName, row)) {
 				this.showRequired[(row[this.grid.keyFieldName])] = true;
-				return;
+				invalids.push(col);
 			}
+		}
+
+		if (invalids.length > 0) {
+			this.grid.rowInvalidated.emit(invalids);
+			return;
 		}
 
 		if (this.grid.detailGridView) {
