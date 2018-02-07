@@ -10,10 +10,13 @@ import { ParserService } from '../services/parser.service';
 	selector: 'gridview-cell',
 	styleUrls: ['gridview.css'],
 	template: `
+<div *ngIf="!editing && column.render">
+	{{column.render(row)}}
+</div>
 <div *ngIf="!editing && column.template">
 	<div [gridviewCellTemplate]="column.template" [column]="column" [row]="row" [parentGridViewComponent]="parentGridViewComponent" [parentGridView]="parentGridView"></div>
 </div>
-<div *ngIf="!column.template && (!editing || !column.editTemplate)">
+<div *ngIf="!column.template && !column.render && (!editing || !column.editTemplate)">
 	<div *ngIf="column.fieldType == fieldType.Date">
 		<div *ngIf="!editing || column.readonly" 
 				[innerHTML]="getObjectValue() == null ? '' : getObjectValue() | moment:(column.format ? column.format : 'MM/DD/YYYY')"></div>

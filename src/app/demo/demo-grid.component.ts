@@ -22,6 +22,8 @@ declare var EVENTS: Array<Event>;
 <gridview [grid]='gridDemo' (pageChanged)='pageChanged()'></gridview>
 <br /><br /><br /><br />
 <input type="checkbox" [(ngModel)]='gridDemo.allowEdit' />Allow Edit
+<input type="checkbox" [(ngModel)]='gridDemo.visible' />Grid Visible
+<input type="checkbox" [(ngModel)]='gridDemo.hideEditDeleteButtons' />Hide Edit Delete
 <br />
 Height: <input type="text" [(ngModel)]='gridDemo.height' />
 `
@@ -101,6 +103,7 @@ export class DemoGridComponent implements OnInit {
 			evtTypeCol.filterValue = [];
 			evtTypeCol.filterTemplate = EventTypeFilterCellTemplateComponent;
 			evtTypeCol.allowSizing = true;
+			evtTypeCol.render = (row: any) => `The event type is ${row.hallEventType.eventTypeName}`;
 			this.gridDemo.columns.push(evtTypeCol);
 
 			let requestedByCol = new DataColumn("requestedBy");

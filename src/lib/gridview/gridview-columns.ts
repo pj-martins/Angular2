@@ -10,6 +10,7 @@ export class ColumnBase {
 	columnIndex: number = 0;
 	allowSizing: boolean;
 	getRowCellClass: (row: any) => string;
+	render: (row: any) => string;
 	dataChanged = new EventEmitter<any[]>();
 	customProps: { [name: string]: any; } = {};
 

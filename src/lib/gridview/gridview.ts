@@ -18,11 +18,13 @@ export class GridView {
 	totalRecords: number;
 	columns: Array<ColumnBase> = [];
 	showHeader: boolean = true;
+	visible = true;
 	detailGridView: DetailGridView;
 	keyFieldName: string;
 	selectMode: SelectMode;
 	disableAutoSort: boolean;
 	disableAutoFilter: boolean;
+	hideEditDeleteButtons: boolean;
 	pagingType: PagingType = PagingType.Auto;
 	height: string;
 	width: string;

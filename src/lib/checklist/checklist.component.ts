@@ -32,6 +32,10 @@ export class CheckListComponent implements OnInit {
 	@Input()
 	displayMember: string;
 
+	// TODO:
+	// @Input()
+	// valueMember: string;
+
 	@Input()
 	class: string;
 
@@ -119,6 +123,13 @@ export class CheckListComponent implements OnInit {
 				this.textAlign = "center";
 			}
 			else {
+				this.selectedItems.sort((a, b) => {
+					const vala = this.displayMember ? a[this.displayMember] : a;
+					const valb = this.displayMember ? b[this.displayMember] : b;
+					if (vala > valb) return 1;
+					if (vala < valb) return -1;
+					return 0;
+				})
 				for (let i = 0; i < this.selectedItems.length; i++) {
 					this.selectedText += (i == 0 ? "" : ", ") + (this.displayMember ? this.selectedItems[i][this.displayMember] : this.selectedItems[i]);
 				}
@@ -129,6 +140,12 @@ export class CheckListComponent implements OnInit {
 
 	// TODO: share
 	private equals(x, y) {
+		if (x === null || x === undefined || y === null || y === undefined)
+			return false;
+
+		if (this.displayMember) {
+			return x[this.displayMember] == y[this.displayMember];
+		}
 		if (x === y)
 			return true;
 		// if both x and y are null or undefined and exactly the same

@@ -14,7 +14,7 @@ import { Observable } from 'rxjs/Observable';
 	selector: 'gridview',
 	styleUrls: ['../assets/css/styles.css', '../assets/css/icons.css', '../assets/css/buttons.css', 'gridview.css'],
 	template: `
-<div *ngIf="grid" class='gridview component' (window:resize)="updateDimensions()" [style.width]="grid.width">
+<div *ngIf="grid && grid.visible" class='gridview component' (window:resize)="updateDimensions()" [style.width]="grid.width">
 	<div class='header-button' *ngIf='hasFilterRow()' (click)='toggleFilter()'><div class='icon-filter-black icon-small'></div><strong>&nbsp;&nbsp;Filter</strong></div>
     <div class='header-button' *ngIf='hasFilterRow()' style='padding-right:5px'><input type='checkbox' (click)='toggleFilter()' [checked]='grid.filterVisible' /></div>
     <div class='header-button' *ngIf='grid.detailGridView' (click)='collapseAll()' style='margin-bottom:2px'><div class='icon-minus-black icon-small'></div><strong>&nbsp;&nbsp;Collapse All</strong></div>
@@ -64,7 +64,7 @@ import { Observable } from 'rxjs/Observable';
                     <td *ngFor="let col of grid.getVisibleColumns(true) | orderBy:['columnIndex'];let last = last; let first = first; let j = index" id="cell_{{j}}_{{i}}_{{uniqueId}}" [ngClass]="col.getRowCellClass ? col.getRowCellClass(row) : (col.disableWrapping ? 'no-wrap' : '')" [style.width]="col.width">
 						<gridview-cell [column]="col" [row]="row" [last]='last' [first]='first' [index]='i' [parentGridViewComponent]="self" [parentGridView]="grid"></gridview-cell>
 					</td>
-					<td *ngIf='grid.allowAdd || grid.allowEdit || grid.allowDelete' class='edit-td'>
+					<td *ngIf='(grid.allowAdd || grid.allowEdit || grid.allowDelete) && !grid.hideEditDeleteButtons' class='edit-td'>
 						<button *ngIf="grid.allowEdit && !editing(row) && !promptConfirm[row[grid.keyFieldName]]" class="icon-pencil-black icon-small icon-button" (click)="editRow(row)"></button>
 						<button *ngIf="grid.allowDelete && !editing(row) && !promptConfirm[row[grid.keyFieldName]]" class="icon-remove-black icon-small icon-button" (click)="confirmDelete(row)"></button>
 						<button *ngIf="editing(row)" class="icon-check-black icon-small icon-button" (click)="saveEdit(row)"></button>
