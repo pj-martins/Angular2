@@ -1,5 +1,6 @@
 .gridview {
 	position: relative;
+	font-size: 12px;
 }
 
 	.gridview table {
@@ -16,7 +17,7 @@
 	}
 
 	.gridview td, .gridview th {
-		padding: 6px;
+		padding: 4px;
 	}
 
 .filter-td {
