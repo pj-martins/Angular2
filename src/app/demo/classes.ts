@@ -11,10 +11,16 @@ export class HallRequestRoom {
 export class Event {
 	customer: Customer;
 	hallRequestRooms: Array<HallRequestRoom>;
+	hallEventType: EventType;
 	eventStartDT: Date;
 	eventEndDT: Date;
 	requestedBy: string;
 	cancelled: boolean;
+}
+
+export class EventType {
+	eventTypeName: string;
+	id: number;
 }
 
 export class Room {

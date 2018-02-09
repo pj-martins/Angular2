@@ -7,7 +7,6 @@ import { GridViewFilterCellComponent } from './gridview-filtercell.component';
 import { GridViewFilterCellTemplateDirective } from './gridview-filtercell-template.directive';
 import { GridViewCellComponent } from './gridview-cell.component';
 import { GridViewCellTemplateDirective } from './gridview-cell-template.directive';
-import { GridViewTextAreaCellComponent } from './gridview-cell-templates.component';
 import { GridViewRowTemplateDirective } from './gridview-row-template.directive';
 import { GridViewHeaderCellComponent } from './gridview-headercell.component';
 import { GridViewPagerComponent } from './gridview-pager.component';
@@ -38,7 +37,6 @@ import { ColumnCaptionPipe }  from './column-caption.pipe';
 		GridViewPagerComponent,
 		GridViewSettingsComponent,
 		GridViewHeaderCellComponent,
-		GridViewTextAreaCellComponent,
 		GridViewRowTemplateDirective,
 		GridViewCellTemplateDirective,
 		GridViewFilterCellTemplateDirective,
@@ -50,7 +48,6 @@ import { ColumnCaptionPipe }  from './column-caption.pipe';
         GridViewComponent,
         GridViewCellComponent,
 		GridViewFilterCellComponent,
-		GridViewTextAreaCellComponent,
 		GridViewRowTemplateDirective,
 		GridViewCellTemplateDirective,
 		GridViewFilterCellTemplateDirective

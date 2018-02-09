@@ -350,6 +350,7 @@ export class RowArguments {
 	observable: Observable<any>;
 }
 export class CellArguments {
+	parentGridView: GridView;
 	row: any;
 	column: ColumnBase;
 }

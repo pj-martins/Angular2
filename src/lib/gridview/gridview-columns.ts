@@ -93,3 +93,13 @@ export class ButtonColumn extends DataColumn {
 export class ColumnPipe {
 	constructor(public pipe: PipeTransform, public args?: any) { }
 }
+
+export class TextAreaColumn extends DataColumn {
+	rows: number = 5;
+}
+
+export class SelectColumn extends DataColumn {
+	selectOptions: Array<any> = [];
+	displayMember: string;
+	valueMember: string;
+}

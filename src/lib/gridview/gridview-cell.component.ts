@@ -5,18 +5,16 @@ import { FieldType } from './gridview-enums';
 import { GridViewComponent } from './gridview.component';
 import { PipesModule } from '../pipes/pipes.module';
 import { ParserService } from '../services/parser.service';
+import { SelectColumn } from '../index';
 
 @Component({
 	selector: 'gridview-cell',
 	styleUrls: ['gridview.css'],
 	template: `
-<div *ngIf="!editing && column.render">
-	{{column.render(row)}}
-</div>
 <div *ngIf="!editing && column.template">
 	<div [gridviewCellTemplate]="column.template" [column]="column" [row]="row" [parentGridViewComponent]="parentGridViewComponent" [parentGridView]="parentGridView"></div>
 </div>
-<div *ngIf="!column.template && !column.render && (!editing || !column.editTemplate)">
+<div *ngIf="!column.template && (!editing || !column.editTemplate)">
 	<div *ngIf="column.fieldType == fieldType.Date">
 		<div *ngIf="!editing || column.readonly" 
 				[innerHTML]="getObjectValue() == null ? '' : getObjectValue() | moment:(column.format ? column.format : 'MM/DD/YYYY')"></div>
@@ -33,9 +31,17 @@ import { ParserService } from '../services/parser.service';
 	</div>
 	<!-- TODO: should we allow links to above items? duplication here too -->
 	<div *ngIf="column.fieldType != fieldType.Date && column.fieldType != fieldType.Boolean && !column.format && !column.click">
-		<div *ngIf="!editing || column.readonly" [innerHTML]="getObjectValue('')"></div>
-		<input type="text" style="width:100%" *ngIf="(parentGridView.allowEdit || parentGridView.allowAdd) && !column.readonly && editing && column.fieldType != fieldType.Numeric" [(ngModel)]="row[column.fieldName]" (ngModelChange)="parentGridView.cellValueChanged.emit(self)" />
-		<input type="number" style="width:100%" *ngIf="(parentGridView.allowEdit || parentGridView.allowAdd) && !column.readonly && editing && column.fieldType == fieldType.Numeric" [(ngModel)]="row[column.fieldName]" (ngModelChange)="parentGridView.cellValueChanged.emit(self)" />
+		<div *ngIf="(!editing || column.readonly) && !column.render" [innerHTML]="getObjectValue('')"></div>
+		<div *ngIf="editing && !column.readonly && (parentGridView.allowEdit || parentGridView.allowAdd)" style="width:100%">
+			<input type="text" style="width:100%" *ngIf="column.fieldType != fieldType.Numeric && !column.rows && !column.selectOptions" [(ngModel)]="row[column.fieldName]" (ngModelChange)="parentGridView.cellValueChanged.emit(self)" />
+			<textarea style="width:100%" rows="{{column.rows}}" *ngIf="column.rows" [(ngModel)]="row[column.fieldName]" (ngModelChange)="parentGridView.cellValueChanged.emit(self)"></textarea>
+			<select style="width:100%" [compareWith]="compareSelectOption" [(ngModel)]="row[column.fieldName]" (ngModelChange)="parentGridView.cellValueChanged.emit(self)" *ngIf="column.selectOptions">
+				<option *ngFor="let o of column.selectOptions" [ngValue]="column.valueMember ? o[column.valueMember] : o">
+					{{column.displayMember ? o[column.displayMember] : o}}
+				</option>
+			</select>
+			<input type="number" style="width:100%" *ngIf="column.fieldType == fieldType.Numeric" [(ngModel)]="row[column.fieldName]" (ngModelChange)="parentGridView.cellValueChanged.emit(self)" />
+		</div>
 		<div class="error-label" *ngIf="!row[column.fieldName] && showRequired">{{column.caption}} is required!</div>
 	</div>
 </div>
@@ -75,6 +81,29 @@ export class GridViewCellComponent {
 		if (this.column.columnPipe) {
 			val = this.column.columnPipe.pipe.transform(val, this.column.columnPipe.args);
 		}
+		else if (this.column instanceof SelectColumn) {
+			const col = <SelectColumn>this.column;
+			if (col.valueMember) {
+				const opt = col.selectOptions.find(o => o[col.valueMember] == val);
+				if (opt) {
+					return col.displayMember ? opt[col.displayMember] : opt;
+				}
+			}
+			else if (col.displayMember) {
+				const opt = col.selectOptions.find(o => o[col.displayMember] == val[col.displayMember]);
+				if (opt) {
+					return opt[col.displayMember];
+				}
+			}
+		}
 		return val;
+	}
+
+	compareSelectOption = (a, b) => {
+		const col = <SelectColumn>this.column;
+		if (!col.valueMember && col.displayMember) {
+			return (a && b && a[col.displayMember] == b[col.displayMember]);
+		}
+		return a == b;
 	}
 }

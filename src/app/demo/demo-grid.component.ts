@@ -12,10 +12,9 @@ import {
 } from './grid-cell-templates.component';
 import { RoomComponent } from './room.component';
 import { Observable } from 'rxjs/Observable';
-import { ButtonColumn } from '../../lib/index';
+import { ButtonColumn, TextAreaColumn, SelectColumn, NumericColumn, CellArguments } from '../../lib/index';
 
 declare var EVENTS: Array<Event>;
-
 @Component({
 	selector: 'demo-grid',
 	template: `
@@ -31,6 +30,13 @@ Height: <input type="text" [(ngModel)]='gridDemo.height' />
 export class DemoGridComponent implements OnInit {
 	gridDemo: GridView;
 	private _coordinatorColumn: DataColumn;
+	private _selOptions = [
+		{ id: 0, display: "TEST ZERO" },
+		{ id: 1, display: "TEST ONE" },
+		{ id: 2, display: "TEST TWO" },
+		{ id: 3, display: "TEST THREE" },
+	];
+	
 
 	constructor(private route: ActivatedRoute) {
 		this.initGrid();
@@ -38,6 +44,10 @@ export class DemoGridComponent implements OnInit {
 
 	ngOnInit() {
 		this.gridDemo.data = EVENTS;
+		for (let i = 0; i < this.gridDemo.data.length; i++) {
+			this.gridDemo.data[i].test = this._selOptions[i % 4];
+			this.gridDemo.data[i].testId = this.gridDemo.data[i].test.id;
+		}
 		if (this._coordinatorColumn)
 			this._coordinatorColumn.customProps["coordinators"] = this.gridDemo.getDistinctValues(this._coordinatorColumn);
 
@@ -54,6 +64,7 @@ export class DemoGridComponent implements OnInit {
 		this.gridDemo.allowColumnOrdering = true;
 		this.gridDemo.saveGridStateToStorage = true;
 		this.gridDemo.allowColumnCustomization = true;
+		this.gridDemo.allowEdit = true;
 		this.gridDemo.rowInvalidated.subscribe(((columns: DataColumn[]) => {
 			for (let c of columns) {
 				alert(c.fieldName);
@@ -98,28 +109,63 @@ export class DemoGridComponent implements OnInit {
 			phoneNumberCol.filterMode = FilterMode.Contains;
 			this.gridDemo.columns.push(phoneNumberCol);
 
-			let evtTypeCol = new DataColumn("hallEventType.eventTypeName", "Event Type");
+			let evtTypeCol = new SelectColumn("hallEventType", "Event Type");
 			evtTypeCol.filterMode = FilterMode.DynamicList;
 			evtTypeCol.filterValue = [];
 			evtTypeCol.filterTemplate = EventTypeFilterCellTemplateComponent;
+			const eventTypes = [];
+			for (let e of EVENTS) {
+				if (e.hallEventType && !eventTypes.find(et => et.id == e.hallEventType.id)) eventTypes.push(Object.assign({}, e.hallEventType));
+			}
+			evtTypeCol.selectOptions = eventTypes;
 			evtTypeCol.allowSizing = true;
+			evtTypeCol.displayMember = "eventTypeName";
 			evtTypeCol.render = (row: any) => `The event type is ${row.hallEventType.eventTypeName}`;
 			this.gridDemo.columns.push(evtTypeCol);
 
-			let requestedByCol = new DataColumn("requestedBy");
-			requestedByCol.filterMode = FilterMode.DistinctList;
-			requestedByCol.filterValue = [];
-			//requestedByCol.filterTemplate = RequestedByFilterCellTemplateComponent;
-			requestedByCol.sortable = true;
-			this.gridDemo.columns.push(requestedByCol);
+			// let requestedByCol = new DataColumn("requestedBy");
+			// requestedByCol.filterMode = FilterMode.DistinctList;
+			// requestedByCol.filterValue = [];
+			// //requestedByCol.filterTemplate = RequestedByFilterCellTemplateComponent;
+			// requestedByCol.sortable = true;
+			// this.gridDemo.columns.push(requestedByCol);
 
-			let cancelledCol = new DataColumn("cancelled");
-			cancelledCol.fieldType = FieldType.Boolean;
-			this.gridDemo.columns.push(cancelledCol);
+			// let commentsCol = new TextAreaColumn("comments");
+			// this.gridDemo.columns.push(commentsCol);
 
-			let buttonCol = new ButtonColumn();
-			buttonCol.text = "DUMMY";
-			this.gridDemo.columns.push(buttonCol);
+			// let cancelledCol = new DataColumn("cancelled");
+			// cancelledCol.fieldType = FieldType.Boolean;
+			// this.gridDemo.columns.push(cancelledCol);
+
+			// let buttonCol = new ButtonColumn();
+			// buttonCol.text = "DUMMY";
+			// this.gridDemo.columns.push(buttonCol);
+
+			let testCol = new SelectColumn("testId", "Test Sel");
+			testCol.name = "testSelCol";
+			testCol.selectOptions = this._selOptions;
+			testCol.displayMember = "display";
+			testCol.valueMember = "id";
+			this.gridDemo.columns.push(testCol);
+
+			let testColObj = new SelectColumn("test", "Test Sel Obj");
+			testColObj.name = "testSelObjCol";
+			testColObj.selectOptions = this._selOptions;
+			testColObj.displayMember = "display";
+			this.gridDemo.columns.push(testColObj);
+
+			const test2Col = new NumericColumn("testId");
+			test2Col.name = "testIdCol";
+			this.gridDemo.columns.push(test2Col);
+
+			this.gridDemo.cellValueChanged.subscribe((args: CellArguments) => {
+				if (args.column.name == testCol.name || args.column.name == test2Col.name) {
+					args.row.test = this._selOptions.find(o => o.id == args.row.testId);
+				}
+				else if (args.column.name == testColObj.name) {
+					args.row.testId = args.row.test.id;
+				}
+			})
 		}
 		else {
 			this.gridDemo.name = "autoGridDemo";
