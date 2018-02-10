@@ -1,6 +1,6 @@
 ﻿import { Component, Input, Output, EventEmitter, NgZone, AfterViewInit, ViewChild, ViewChildren, QueryList, ElementRef } from '@angular/core';
 import { GridView, GridState, RowArguments, TEMP_KEY_FIELD } from './gridview';
-import { DataColumn, ColumnBase } from './gridview-columns'
+import { DataColumn, ColumnBase, SelectColumn } from './gridview-columns'
 import { IDetailGridViewComponent } from './gridview-interfaces'
 import { SelectMode, FilterMode, PagingType, FieldType } from './gridview-enums'
 import { SortDirection } from '../shared';
@@ -366,6 +366,26 @@ export class GridViewComponent implements AfterViewInit {
 				let aval = this.parserService.getObjectValue(curr.fieldName, a);
 				let bval = this.parserService.getObjectValue(curr.fieldName, b);
 
+				if (aval != null && aval !== undefined && bval != null && bval != undefined && sorts[i] instanceof SelectColumn) {
+					const col = <SelectColumn>sorts[i];
+					if (col.valueMember && col.displayMember) {
+						const opta = col.selectOptions.find(o => o[col.valueMember] == aval);
+						const optb = col.selectOptions.find(o => o[col.valueMember] == bval);
+						if (opta && optb) {
+							aval = opta[col.displayMember];
+							bval = optb[col.displayMember];
+						}
+					}
+					else if (col.displayMember) {
+						const opta = col.selectOptions.find(o => o[col.displayMember] == aval[col.displayMember]);
+						const optb = col.selectOptions.find(o => o[col.displayMember] == bval[col.displayMember]);
+						if (opta && optb) {
+							aval = opta[col.displayMember];
+							bval = optb[col.displayMember];
+						}
+					}
+				}
+
 				if (curr.customSort) {
 					var s = curr.customSort(aval, bval);
 					if (s != 0)
@@ -449,6 +469,24 @@ export class GridViewComponent implements AfterViewInit {
 			}
 			if (col.filterMode != FilterMode.None && col.filterValue != null) {
 				let itemVal = this.parserService.getObjectValue(col.fieldName, row);
+
+				if (col instanceof SelectColumn) {
+					const sc = <SelectColumn>col;
+					if (sc.valueMember && sc.displayMember) {
+						const opt = sc.selectOptions.find(o => o[sc.valueMember] == itemVal);
+						if (opt) {
+							itemVal = opt[col.displayMember];
+						}
+					}
+					else if (col.displayMember) {
+						const opt = col.selectOptions.find(o => o[sc.displayMember] == itemVal[sc.displayMember]);
+						if (opt) {
+							itemVal = opt[col.displayMember];
+						}
+					}
+				}
+
+
 				switch (col.filterMode) {
 					case FilterMode.BeginsWith:
 						if (!itemVal || itemVal.toLowerCase().indexOf(col.filterValue.toLowerCase()) != 0)

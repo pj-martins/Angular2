@@ -1,18 +1,17 @@
 ﻿import { Component, OnInit, Type } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { GridView, DetailGridView } from '../../lib/gridview/gridview';
-import { DataColumn } from '../../lib/gridview/gridview-columns';
+import { GridView, DetailGridView, CellArguments } from '../../lib/gridview/gridview';
+import { DataColumn, ButtonColumn, TextAreaColumn, SelectColumn, NumericColumn } from '../../lib/gridview/gridview-columns';
 import { FilterMode, FieldType } from '../../lib/gridview/gridview-enums';
 import { SortDirection } from '../../lib/shared';
-import { TypeaheadModule } from '../../lib/typeahead/typeahead.module';
-import { MultiTextboxModule } from '../../lib/multi-textbox/multi-textbox.module';
+import { TypeaheadModule } from '../../lib/typeahead';
+import { MultiTextboxModule } from '../../lib/multi-textbox';
 import { Event } from './classes';
 import {
 	CustomerCellTemplateComponent, CoordinatorFilterCellTemplateComponent, EventTypeFilterCellTemplateComponent, RequestedByFilterCellTemplateComponent, CustomerCellEditTemplateComponent
 } from './grid-cell-templates.component';
 import { RoomComponent } from './room.component';
 import { Observable } from 'rxjs/Observable';
-import { ButtonColumn, TextAreaColumn, SelectColumn, NumericColumn, CellArguments } from '../../lib/index';
 
 declare var EVENTS: Array<Event>;
 @Component({
@@ -145,13 +144,17 @@ export class DemoGridComponent implements OnInit {
 			testCol.name = "testSelCol";
 			testCol.selectOptions = this._selOptions;
 			testCol.displayMember = "display";
+			testCol.sortable = true;
+			testCol.filterMode = FilterMode.Contains;
 			testCol.valueMember = "id";
 			this.gridDemo.columns.push(testCol);
 
 			let testColObj = new SelectColumn("test", "Test Sel Obj");
 			testColObj.name = "testSelObjCol";
+			testColObj.sortable = true;
 			testColObj.selectOptions = this._selOptions;
 			testColObj.displayMember = "display";
+			testColObj.filterMode = FilterMode.Contains;
 			this.gridDemo.columns.push(testColObj);
 
 			const test2Col = new NumericColumn("testId");

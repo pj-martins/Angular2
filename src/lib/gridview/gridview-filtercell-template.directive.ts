@@ -4,7 +4,7 @@ import { DataColumn } from './gridview-columns';
 import { IGridViewFilterCellComponent, IGridViewFilterCellTemplateComponent } from './gridview-interfaces';
 import { FieldType } from './gridview-enums';
 import { GridViewFilterCellComponent } from './gridview-filtercell.component';
-import { PipesModule } from '../pipes/pipes.module';
+import { PipesModule } from '../pipes';
 
 @Directive({
 	selector: '[gridviewFilterCellTemplate]'

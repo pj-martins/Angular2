@@ -1,11 +1,10 @@
 ﻿import { Component, Input } from '@angular/core';
 import { GridView } from './gridview';
-import { DataColumn } from './gridview-columns';
+import { DataColumn, SelectColumn } from './gridview-columns';
 import { FieldType } from './gridview-enums';
 import { GridViewComponent } from './gridview.component';
-import { PipesModule } from '../pipes/pipes.module';
+import { PipesModule } from '../pipes';
 import { ParserService } from '../services/parser.service';
-import { SelectColumn } from '../index';
 
 @Component({
 	selector: 'gridview-cell',

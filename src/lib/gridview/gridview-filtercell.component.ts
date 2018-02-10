@@ -4,7 +4,7 @@ import { DataColumn } from './gridview-columns';
 import { FilterMode, FieldType } from './gridview-enums';
 import { IGridViewFilterCellComponent } from './gridview-interfaces';
 import { GridViewComponent } from './gridview.component';
-import { CheckListModule } from '../checklist/checklist.module';
+import { CheckListModule } from '../checklist';
 
 @Component({
 	selector: 'gridview-filtercell',

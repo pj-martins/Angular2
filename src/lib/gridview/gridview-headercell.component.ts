@@ -4,7 +4,7 @@ import { DataColumn, ColumnBase } from './gridview-columns';
 import { IGridViewComponent } from './gridview-interfaces';
 import { FieldType } from './gridview-enums';
 import { SortDirection } from '../shared';
-import { PipesModule } from '../pipes/pipes.module';
+import { PipesModule } from '../pipes';
 import { ParserService } from '../services/parser.service';
 
 @Component({

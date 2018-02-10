@@ -4,7 +4,7 @@ import { DataColumn } from './gridview-columns';
 import { IGridViewComponent, IGridViewRowTemplateComponent } from './gridview-interfaces';
 import { FieldType } from './gridview-enums';
 import { GridViewComponent } from './gridview.component';
-import { PipesModule } from '../pipes/pipes.module';
+import { PipesModule } from '../pipes';
 
 @Directive({
 	selector: '[gridviewRowTemplate]'
