@@ -72,22 +72,23 @@ export class DataService {
 	}
 
 	private handleError(error: any) {
-		let errMessage = 'Error occured!';
-		if (error) {
-			if (!error.exceptionMessage && !error.message && error._body) {
-				try {
-					let parsed = JSON.parse(error._body);
-					if (parsed.exceptionMessage || parsed.message)
-						error = parsed;
-				}
-				catch (e) {
-					// not valid JSON
-				}
-			}
-			errMessage = error.exceptionMessage || error.message || error._body || error;
-		}
-		console.error(errMessage);
-		return Observable.throw(errMessage);
+		// let errMessage = 'Error occured!';
+		// if (error) {
+		// 	if (!error.exceptionMessage && !error.message && error._body) {
+		// 		try {
+		// 			let parsed = JSON.parse(error._body);
+		// 			if (parsed.exceptionMessage || parsed.message)
+		// 				error = parsed;
+		// 		}
+		// 		catch (e) {
+		// 			// not valid JSON
+		// 		}
+		// 	}
+		// 	errMessage = error.exceptionMessage || error.message || error._body || error;
+		// }
+		// console.error(errMessage);
+		// return Observable.throw(errMessage);
+		return Observable.throw(error);
 	}
 }
 
