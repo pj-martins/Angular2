@@ -10,10 +10,13 @@ import { ParserService } from '../services/parser.service';
 	selector: 'gridview-cell',
 	styleUrls: ['gridview.css'],
 	template: `
-<div *ngIf="!editing && column.template">
+<div *ngIf="!editing && column.template && !column.render">
 	<div [gridviewCellTemplate]="column.template" [column]="column" [row]="row" [parentGridViewComponent]="parentGridViewComponent" [parentGridView]="parentGridView"></div>
 </div>
-<div *ngIf="!column.template && (!editing || !column.editTemplate)">
+<div *ngIf="!editing && column.render">
+	<div>{{column.render(row)}}</div>
+</div>
+<div *ngIf="!column.template && !column.render && (!editing || !column.editTemplate)">
 	<div *ngIf="column.fieldType == fieldType.Date">
 		<div *ngIf="!editing || column.readonly" 
 				[innerHTML]="getObjectValue() == null ? '' : getObjectValue() | moment:(column.format ? column.format : 'MM/DD/YYYY')"></div>
@@ -92,6 +95,13 @@ export class GridViewCellComponent {
 				const opt = col.selectOptions.find(o => o[col.displayMember] == val[col.displayMember]);
 				if (opt) {
 					return opt[col.displayMember];
+				}
+			}
+
+			// option not found
+			if (col.valueMember && col.displayMember && col.parentField) {
+				if (this.row[col.parentField] && this.row[col.parentField][col.valueMember] == val) {
+					return this.row[col.parentField][col.displayMember];
 				}
 			}
 		}

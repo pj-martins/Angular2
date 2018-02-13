@@ -102,4 +102,5 @@ export class SelectColumn extends DataColumn {
 	selectOptions: Array<any> = [];
 	displayMember: string;
 	valueMember: string;
+	parentField: string;
 }
