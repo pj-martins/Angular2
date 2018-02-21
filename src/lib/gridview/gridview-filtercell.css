@@ -19,3 +19,8 @@
 .filtercell-textbox {
 	width: 100%;
 }
+
+.gridview-filtercell select,
+.gridview-filtercell input {
+    height: 20.51px;
+}

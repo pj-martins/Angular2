@@ -35,7 +35,7 @@ export class DemoGridComponent implements OnInit {
 		{ id: 2, display: "TEST TWO" },
 		{ id: 3, display: "TEST THREE" },
 	];
-	
+
 
 	constructor(private route: ActivatedRoute) {
 		this.initGrid();
@@ -103,7 +103,7 @@ export class DemoGridComponent implements OnInit {
 			this._coordinatorColumn.allowSizing = true;
 			this.gridDemo.columns.push(this._coordinatorColumn);
 
-			this.gridDemo.columns.push(new DataColumn("phoneNumber").SetWidth("160px").SetFilterMode(FilterMode.Contains));
+			this.gridDemo.columns.push(new DataColumn("phoneNumber").setWidth("160px").setFilterMode(FilterMode.Contains));
 
 			let evtTypeCol = new SelectColumn("hallEventType", "Event Type");
 			evtTypeCol.filterMode = FilterMode.DynamicList;
@@ -144,6 +144,7 @@ export class DemoGridComponent implements OnInit {
 			testCol.sortable = true;
 			testCol.filterMode = FilterMode.Contains;
 			testCol.valueMember = "id";
+			testCol.getRowCellStyle = (row: any) => { return { 'fontWeight': 'bold' } };
 			this.gridDemo.columns.push(testCol);
 
 			let testColObj = new SelectColumn("test", "Test Sel Obj");
@@ -156,7 +157,7 @@ export class DemoGridComponent implements OnInit {
 
 			const test2Col = new NumericColumn("testId");
 			test2Col.name = "testIdCol";
-			this.gridDemo.columns.push( new NumericColumn("testId"));
+			this.gridDemo.columns.push(new NumericColumn("testId"));
 
 			this.gridDemo.cellValueChanged.subscribe((args: CellArguments) => {
 				if (args.column.name == testCol.name || args.column.name == test2Col.name) {

@@ -10,6 +10,7 @@ export class ColumnBase {
 	columnIndex: number = 0;
 	allowSizing: boolean;
 	getRowCellClass: (row: any) => string;
+	getRowCellStyle: (row: any) => any;
 	render: (row: any) => string;
 	dataChanged = new EventEmitter<any[]>();
 	customProps: { [name: string]: any; } = {};
@@ -79,33 +80,43 @@ export class DataColumn extends ColumnBase {
 		return this.caption;
 	}
 
-	SetSort(sortDirection: SortDirection) : DataColumn {
+	setSortDirection(sortDirection: SortDirection) : DataColumn {
 		this.sortDirection = sortDirection;
 		return this;
 	}
 
-	SetFilterMode(filterMode: FilterMode) : DataColumn {
+	setFilterMode(filterMode: FilterMode) : DataColumn {
 		this.filterMode = filterMode;
 		return this;
 	}
 
-	SetName(name: string) : DataColumn {
+	setName(name: string) : DataColumn {
 		this.name = name;
 		return this;
 	}
 
-	SetWidth(width: string) : DataColumn {
+	setWidth(width: string) : DataColumn {
 		this.width = width;
 		return this;
 	}
 
-	SetFieldType(fieldType: FieldType) : DataColumn {
+	setFieldType(fieldType: FieldType) : DataColumn {
 		this.fieldType = fieldType;
 		return this;
 	}
 
-	SetSortable() : DataColumn {
+	setSortable() : DataColumn {
 		this.sortable = true;
+		return this;
+	}
+
+	setRequired() : DataColumn {
+		this.required = true;
+		return this;
+	}
+
+	setReadOnly() : DataColumn {
+		this.readonly = true;
 		return this;
 	}
 }

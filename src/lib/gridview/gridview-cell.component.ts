@@ -22,7 +22,7 @@ import { ParserService } from '../services/parser.service';
 				[innerHTML]="getObjectValue() == null ? '' : getObjectValue() | moment:(column.format ? column.format : 'MM/DD/YYYY')"></div>
 		<!-- TODO: determine when to hide time/date -->
 		<input type="text" dateTimePicker [hideTime]="true" style="width:100%" *ngIf="(parentGridView.allowEdit || parentGridView.allowAdd) && !column.readonly &&  editing" [(ngModel)]="row[column.fieldName]" (ngModelChange)="parentGridView.cellValueChanged.emit(self)" />
-		<div class="error-label" *ngIf="!row[column.fieldName] && showRequired">{{column.caption}} is required!</div>
+		<div class="error-label" *ngIf="!row[column.fieldName] && column.required && showRequired">{{column.caption}} is required!</div>
 	</div>
 	<div *ngIf="!column.format && column.fieldType == fieldType.Boolean">
 		<div *ngIf="!editing || column.readonly" [ngClass]="{ 'icon-small icon-check-black' : getObjectValue(false) == true }"></div>
@@ -44,7 +44,7 @@ import { ParserService } from '../services/parser.service';
 			</select>
 			<input type="number" style="width:100%" *ngIf="column.fieldType == fieldType.Numeric" [(ngModel)]="row[column.fieldName]" (ngModelChange)="parentGridView.cellValueChanged.emit(self)" />
 		</div>
-		<div class="error-label" *ngIf="!row[column.fieldName] && showRequired">{{column.caption}} is required!</div>
+		<div class="error-label" *ngIf="!row[column.fieldName] && column.required && showRequired">{{column.caption}} is required!</div>
 	</div>
 </div>
 <div *ngIf="editing && column.editTemplate">

@@ -61,7 +61,7 @@ import { Observable } from 'rxjs/Observable';
                     <td *ngIf='grid.detailGridView && !grid.detailGridView.hideExpandButton'>
 						<button class="{{detailGridViewComponents[row[grid.keyFieldName]] && detailGridViewComponents[row[grid.keyFieldName]].isExpanded ? 'icon-minus-black' : 'icon-plus-black'}} icon-small icon-button" (click)="expandCollapse(row[grid.keyFieldName])"></button>
 					</td>
-                    <td *ngFor="let col of grid.getVisibleColumns(true) | orderBy:['columnIndex'];let last = last; let first = first; let j = index" id="cell_{{j}}_{{i}}_{{uniqueId}}" [ngClass]="col.getRowCellClass ? col.getRowCellClass(row) : (col.disableWrapping ? 'no-wrap' : '')" [style.width]="col.width">
+                    <td *ngFor="let col of grid.getVisibleColumns(true) | orderBy:['columnIndex'];let last = last; let first = first; let j = index" id="cell_{{j}}_{{i}}_{{uniqueId}}"  [ngStyle]="col.getRowCellStyle ? col.getRowCellStyle(row) : null" [ngClass]="col.getRowCellClass ? col.getRowCellClass(row) : (col.disableWrapping ? 'no-wrap' : '')" [style.width]="col.width">
 						<gridview-cell [column]="col" [row]="row" [last]='last' [first]='first' [index]='i' [parentGridViewComponent]="self" [parentGridView]="grid"></gridview-cell>
 					</td>
 					<td *ngIf='(grid.allowAdd || grid.allowEdit || grid.allowDelete) && !grid.hideEditDeleteButtons' class='edit-td'>

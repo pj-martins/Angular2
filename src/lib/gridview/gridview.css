@@ -121,3 +121,8 @@
 	transform: translate(-50%,-50%);
 	z-index: 1001;
 }
+
+gridview-cell select,
+gridview-cell input {
+    height: 20.51px;
+}
