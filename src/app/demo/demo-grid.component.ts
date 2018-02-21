@@ -103,10 +103,7 @@ export class DemoGridComponent implements OnInit {
 			this._coordinatorColumn.allowSizing = true;
 			this.gridDemo.columns.push(this._coordinatorColumn);
 
-			let phoneNumberCol = new DataColumn("phoneNumber");
-			phoneNumberCol.width = "160px";
-			phoneNumberCol.filterMode = FilterMode.Contains;
-			this.gridDemo.columns.push(phoneNumberCol);
+			this.gridDemo.columns.push(new DataColumn("phoneNumber").SetWidth("160px").SetFilterMode(FilterMode.Contains));
 
 			let evtTypeCol = new SelectColumn("hallEventType", "Event Type");
 			evtTypeCol.filterMode = FilterMode.DynamicList;
@@ -159,7 +156,7 @@ export class DemoGridComponent implements OnInit {
 
 			const test2Col = new NumericColumn("testId");
 			test2Col.name = "testIdCol";
-			this.gridDemo.columns.push(test2Col);
+			this.gridDemo.columns.push( new NumericColumn("testId"));
 
 			this.gridDemo.cellValueChanged.subscribe((args: CellArguments) => {
 				if (args.column.name == testCol.name || args.column.name == test2Col.name) {

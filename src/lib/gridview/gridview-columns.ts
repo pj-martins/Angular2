@@ -78,6 +78,36 @@ export class DataColumn extends ColumnBase {
 		if (this.fieldName) return this.fieldName;
 		return this.caption;
 	}
+
+	SetSort(sortDirection: SortDirection) : DataColumn {
+		this.sortDirection = sortDirection;
+		return this;
+	}
+
+	SetFilterMode(filterMode: FilterMode) : DataColumn {
+		this.filterMode = filterMode;
+		return this;
+	}
+
+	SetName(name: string) : DataColumn {
+		this.name = name;
+		return this;
+	}
+
+	SetWidth(width: string) : DataColumn {
+		this.width = width;
+		return this;
+	}
+
+	SetFieldType(fieldType: FieldType) : DataColumn {
+		this.fieldType = fieldType;
+		return this;
+	}
+
+	SetSortable() : DataColumn {
+		this.sortable = true;
+		return this;
+	}
 }
 export class NumericColumn extends DataColumn {
 	decimalPlaces = 0;
