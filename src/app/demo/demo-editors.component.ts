@@ -10,6 +10,7 @@ declare var ROOMS: Array<Room>;
 })
 export class DemoEditorsComponent {
 	selectedDateTime: Date;
+	selectedDateTimeNoTimezone: Date;
 	hideDate: boolean;
 	hideTime: boolean;
 	selectOnCalendarClick: boolean;

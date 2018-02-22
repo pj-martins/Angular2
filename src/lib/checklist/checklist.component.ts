@@ -12,7 +12,7 @@ export class CheckListItem {
 	template: `
 	<button (click)='dropdownVisible = !dropdownVisible' class="{{class}} checklist-button id_{{uniqueId}}">
 		<div class="checklist-button-text">{{selectedText}}</div>
-		<div class="drop-down-image icon-x-small checklist-button-image id_{{uniqueId}} {{ allSelected || selectedItems.length < 1 || !showFilterIcon ? 'icon-arrow-down-black' : 'icon-filter-black'}}"></div>
+		<div class="drop-down-image icon-xx-small checklist-button-image id_{{uniqueId}} {{ allSelected || selectedItems.length < 1 || !showFilterIcon ? 'icon-arrow-down-black' : 'icon-filter-black'}}"></div>
 	</button>
 	<div class='checklist'>
 		<div class='checklist-dropdown' [hidden]='!dropdownVisible'>

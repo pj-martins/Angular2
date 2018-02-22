@@ -19,6 +19,14 @@
 	</div>
 	<br />
 	<div class="row">
+		<div class="col-md-1">No Time Zone:{{selectedDateTimeNoTimezone}}</div>
+		<div class="col-md-3">
+			<input type="text" [ignoreTimezone]="true" dateTimePicker placeholder="No Timezone" [(ngModel)]='selectedDateTimeNoTimezone' [selectOnCalendarClick]="true"
+			/>
+		</div>
+	</div>
+	<br />
+	<div class="row">
 		<div class="col-md-1"></div>
 		<div class="col-md-3">
 			<input type="checkbox" [(ngModel)]="hideDate" />&nbsp;Hide Date

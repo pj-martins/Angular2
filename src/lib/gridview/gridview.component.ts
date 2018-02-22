@@ -9,6 +9,7 @@ import { GridViewHeaderCellComponent } from './gridview-headercell.component';
 import { ParserService } from '../services/parser.service';
 import { Utils } from '../shared';
 import { Observable } from 'rxjs/Observable';
+import { CellArguments } from '../index';
 
 @Component({
 	selector: 'gridview',
@@ -29,6 +30,9 @@ import { Observable } from 'rxjs/Observable';
                 </th>
 				<th *ngIf='grid.allowAdd || grid.allowEdit || grid.allowDelete' style='width:45px' id="header_edit_{{uniqueId}}" class="edit-th">
 					<button *ngIf='grid.allowAdd && (!newRow || isDetailGridViewComponent)' (click)='addRow()' class='icon-plus-white icon-small icon-button'></button>
+					<button *ngIf="grid.showEditAll && grid.allowEdit && !editingAll" class="icon-pencil-black icon-small icon-button" (click)="editAll()"></button>
+					<button *ngIf="editingAll && !isDetailGridViewComponent" class="icon-check-black icon-small icon-button" (click)="saveAll()"></button>
+					<button *ngIf="editingAll" class="icon-cancel-black icon-small icon-button" (click)="cancelAll()"></button>
 				</th>
             </tr>
             <tr *ngIf='grid.filterVisible && hasFilterRow()'>
@@ -59,23 +63,23 @@ import { Observable } from 'rxjs/Observable';
             <ng-template ngFor let-row [ngForOf]="displayData" let-i="index">
                 <tr *ngIf='!grid.loading && !grid.rowTemplate' [ngClass]="(grid.getRowClass ? grid.getRowClass(row) : '') + (i % 2 != 0 ? ' gridview-alternate-row' : '') + (grid.selectMode > 0 ? ' selectable-row' : '') + (selectedKeys[row[grid.keyFieldName]] ? ' selected-row' : '')" (click)='rowClick(row)'>
                     <td *ngIf='grid.detailGridView && !grid.detailGridView.hideExpandButton'>
-						<button class="{{detailGridViewComponents[row[grid.keyFieldName]] && detailGridViewComponents[row[grid.keyFieldName]].isExpanded ? 'icon-minus-black' : 'icon-plus-black'}} icon-small icon-button" (click)="expandCollapse(row[grid.keyFieldName])"></button>
+						<button class="{{detailGridViewComponents[row[grid.keyFieldName]] && detailGridViewComponents[row[grid.keyFieldName]].isExpanded ? 'icon-minus-black' : 'icon-plus-black'}} icon-x-small icon-button" (click)="expandCollapse(row[grid.keyFieldName])"></button>
 					</td>
                     <td *ngFor="let col of grid.getVisibleColumns(true) | orderBy:['columnIndex'];let last = last; let first = first; let j = index" id="cell_{{j}}_{{i}}_{{uniqueId}}"  [ngStyle]="col.getRowCellStyle ? col.getRowCellStyle(row) : null" [ngClass]="col.getRowCellClass ? col.getRowCellClass(row) : (col.disableWrapping ? 'no-wrap' : '')" [style.width]="col.width" [style.maxWidth]="col.width">
 						<gridview-cell [column]="col" [row]="row" [last]='last' [first]='first' [index]='i' [parentGridViewComponent]="self" [parentGridView]="grid"></gridview-cell>
 					</td>
 					<td *ngIf='(grid.allowAdd || grid.allowEdit || grid.allowDelete) && !grid.hideEditDeleteButtons' class='edit-td'>
-						<button *ngIf="grid.allowEdit && !editing(row) && !promptConfirm[row[grid.keyFieldName]]" class="icon-pencil-black icon-small icon-button" (click)="editRow(row)"></button>
-						<button *ngIf="grid.allowDelete && !editing(row) && !promptConfirm[row[grid.keyFieldName]]" class="icon-remove-black icon-small icon-button" (click)="confirmDelete(row)"></button>
-						<button *ngIf="editing(row) && !isDetailGridViewComponent" class="icon-check-black icon-small icon-button" (click)="saveEdit(row)"></button>
-						<button *ngIf="editing(row)" class="icon-cancel-black icon-small icon-button" (click)="cancelEdit(row)"></button>
+						<button *ngIf="grid.allowEdit && !editing(row) && !promptConfirm[row[grid.keyFieldName]] && !editingAll" class="icon-pencil-black icon-x-small icon-button" (click)="editRow(row)"></button>
+						<button *ngIf="grid.allowDelete && !editing(row) && !promptConfirm[row[grid.keyFieldName]] && !editingAll" class="icon-remove-black icon-x-small icon-button" (click)="confirmDelete(row)"></button>
+						<button *ngIf="editing(row) && !isDetailGridViewComponent && !editingAll" class="icon-check-black icon-x-small icon-button" (click)="saveEdit(row)"></button>
+						<button *ngIf="editing(row) && !editingAll" class="icon-cancel-black icon-x-small icon-button" (click)="cancelEdit(row)"></button>
 					</td>
                 </tr>
 				<tr *ngIf='promptConfirm[row[grid.keyFieldName]]'>
                     <td [attr.colspan]="getVisibleColumnCount() + 1" class="prompt-confirm-td">
 						Are you sure?&nbsp;&nbsp;
-						<button class="icon-button" (click)="deleteRow(row)"><span class="icon-check-black icon-small"></span> Yes</button>&nbsp;&nbsp;
-						<button class="icon-button" (click)="cancelDelete(row)"><span class="icon-cancel-black icon-small"></span> No</button>&nbsp;&nbsp;
+						<button class="icon-button" (click)="deleteRow(row)"><span class="icon-check-black icon-x-small"></span> Yes</button>&nbsp;&nbsp;
+						<button class="icon-button" (click)="cancelDelete(row)"><span class="icon-cancel-black icon-x-small"></span> No</button>&nbsp;&nbsp;
 					</td>
                 </tr>
                 <tr *ngIf='!grid.loading && grid.rowTemplate'>
@@ -194,6 +198,8 @@ export class GridViewComponent implements AfterViewInit {
 	newRow: any;
 
 	editingRows: { [tempKeyValue: string]: any } = {};
+	changedRows: { [tempKeyValue: string]: any } = {};
+	editingAll = false;
 	detailGridViewComponents: { [tempKeyValue: string]: IDetailGridViewComponent } = {};
 	showRequired: { [tempKeyValue: string]: boolean } = {};
 
@@ -564,20 +570,21 @@ export class GridViewComponent implements AfterViewInit {
 
 	addRow() {
 		let args = new RowArguments();
-		args.row = {};
+		const row = {};
 		if (this._grid.keyFieldName == TEMP_KEY_FIELD) {
-			args.row[TEMP_KEY_FIELD] = Utils.newGuid();
+			row[TEMP_KEY_FIELD] = Utils.newGuid();
 		}
 		args.grid = this.grid;
+		args.rows = [row];
 		this.grid.rowCreate.emit(args);
 		if (!args.cancel) {
-			this._displayData.splice(0, 0, args.row);
-			this.grid.data.splice(0, 0, args.row);
-			this.editingRows[args.row[this.grid.keyFieldName]] = args.row;
-			this.newRow = args.row;
+			this._displayData.splice(0, 0, row);
+			this.grid.data.splice(0, 0, row);
+			this.editingRows[row[this.grid.keyFieldName]] = row;
+			this.newRow = row;
 			if (this.grid.detailGridView) {
 				window.setTimeout(() => {
-					let dgvc = this.detailGridViewComponents[args.row[this.grid.keyFieldName]];
+					let dgvc = this.detailGridViewComponents[row[this.grid.keyFieldName]];
 					dgvc.expandCollapse();
 				}, 100)
 
@@ -587,7 +594,7 @@ export class GridViewComponent implements AfterViewInit {
 
 	editRow(row: any) {
 		let args = new RowArguments();
-		args.row = row;
+		args.rows = [row];
 		args.grid = this.grid;
 
 		if (this.grid.detailGridView) {
@@ -604,6 +611,71 @@ export class GridViewComponent implements AfterViewInit {
 		}
 	}
 
+	editAll() {
+		this.editingAll = true;
+		for (let row of this.displayData) {
+			this.editRow(row);
+		}
+	}
+
+	saveAll() {
+		let valid = true;
+		for (let row of this.displayData) {
+			if (this.validate(row).length > 0) valid = false;
+		}
+
+		if (!valid)
+			return;
+
+		// TODO:
+		// if (this.grid.detailGridView) {
+		// 	let dgvc = this.detailGridViewComponents[row[this.grid.keyFieldName]];
+		// 	if (dgvc) {
+		// 		for (let row of dgvc.detailGridViewInstance.data) {
+		// 			dgvc.gridViewComponent.saveEdit(row);
+		// 		}
+		// 	}
+		// }
+
+		let args = new RowArguments();
+		args.grid = this.grid;
+		args.rows = Object.keys(this.changedRows).map(k => this.changedRows[k]);
+
+		this.grid.rowSaveAll.emit(args);
+		if (!args.cancel) {
+			for (let row of this.displayData) {
+				delete this.editingRows[row[this.grid.keyFieldName]];
+				delete this.changedRows[row[this.grid.keyFieldName]];
+			}
+			// TODO:
+			// if (!args.observable) {
+			// 	delete this.editingRows[row[this.grid.keyFieldName]];
+			// 	if (row == this.newRow) this.newRow = null;
+			// }
+			// else {
+			// 	args.observable.subscribe(() => {
+			// 		delete this.editingRows[row[this.grid.keyFieldName]];
+			// 		if (row == this.newRow) {
+			// 			this.newRow = null;
+			// 		}
+			// 	});
+			// }
+		}
+	}
+
+	cancelAll() {
+		for (let row of this.displayData) {
+			this.cancelEdit(row);
+		}
+		this.editingAll = false;
+	}
+
+	cellValueChanged(args: CellArguments) {
+		this.changedRows[args.row[this.grid.keyFieldName]] = {};
+		Object.assign(args.row, this.changedRows[args.row[this.grid.keyFieldName]]);
+		this.grid.cellValueChanged.emit(args);
+	}
+
 	protected confirmDelete(row: any) {
 		this.promptConfirm[row[this.grid.keyFieldName]] = true;
 	}
@@ -615,13 +687,14 @@ export class GridViewComponent implements AfterViewInit {
 	private deleteSuccess(row: any) {
 		this.removeRowFromGrid(row);
 		delete this.editingRows[row[this.grid.keyFieldName]];
+		delete this.changedRows[row[this.grid.keyFieldName]];
 		this.newRow = null;
 		delete this.promptConfirm[row[this.grid.keyFieldName]];
 	}
 
 	deleteRow(row: any) {
 		let args = new RowArguments();
-		args.row = row;
+		args.rows = [row];
 		args.grid = this.grid;
 
 		this.grid.rowDelete.emit(args);
@@ -672,18 +745,20 @@ export class GridViewComponent implements AfterViewInit {
 		}
 
 		let args = new RowArguments();
-		args.row = row;
+		args.rows = [row];
 		args.grid = this.grid;
 
 		this.grid.rowSave.emit(args);
 		if (!args.cancel) {
 			if (!args.observable) {
 				delete this.editingRows[row[this.grid.keyFieldName]];
+				delete this.changedRows[row[this.grid.keyFieldName]];
 				if (row == this.newRow) this.newRow = null;
 			}
 			else {
 				args.observable.subscribe(() => {
 					delete this.editingRows[row[this.grid.keyFieldName]];
+					delete this.changedRows[row[this.grid.keyFieldName]];
 					if (row == this.newRow) {
 						this.newRow = null;
 					}
@@ -709,6 +784,7 @@ export class GridViewComponent implements AfterViewInit {
 		else
 			Object.assign(row, this.editingRows[row[this.grid.keyFieldName]]);
 		delete this.editingRows[row[this.grid.keyFieldName]];
+		delete this.changedRows[row[this.grid.keyFieldName]];
 	}
 
 	refreshDataSource() {

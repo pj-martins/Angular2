@@ -16,6 +16,12 @@
 	height: 10px;
 }
 
+.icon-xx-small {
+	background-size: 7px 7px !important;
+	width: 7px;
+	height: 7px;
+}
+
 .icon-medium {
 	background-size: 20px 20px !important;
 	width: 20px;

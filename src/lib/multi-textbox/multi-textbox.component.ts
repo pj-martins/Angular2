@@ -4,7 +4,7 @@ export const MULTITEXTBOX_TEMPLATE = `
 <div class='multi-textbox'>
 	<div class='input-button-container component' [style.display]="currText ? 'inline' : 'none'">
 		<div class='multi-textbox-add'>
-			<button class='icon-plus-black icon-x-small icon-button' (click)='addItem()' tabindex="-1">
+			<button class='icon-plus-black icon-xx-small icon-button' (click)='addItem()' tabindex="-1">
 			</button>
 		</div>
 	</div>

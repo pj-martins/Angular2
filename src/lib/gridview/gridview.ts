@@ -31,6 +31,7 @@ export class GridView {
 	dataChanged: EventEmitter<any> = new EventEmitter<any>();
 	rowEdit = new EventEmitter<RowArguments>();
 	rowSave = new EventEmitter<RowArguments>();
+	rowSaveAll = new EventEmitter<RowArguments>();
 	rowCreate = new EventEmitter<RowArguments>();
 	rowDelete = new EventEmitter<RowArguments>();
 	cellValueChanged = new EventEmitter<CellArguments>();
@@ -345,9 +346,12 @@ export class GridColumnState {
 }
 export class RowArguments {
 	grid: GridView;
-	row: any;
+	rows: any[];
 	cancel: boolean;
 	observable: Observable<any>;
+	get row(): any {
+		return this.rows.length > 0 ? this.rows[0] : null;
+	}
 }
 export class CellArguments {
 	parentGridView: GridView;
