@@ -24,17 +24,17 @@ import { Observable } from 'rxjs/Observable';
             <tr>
                 <th *ngIf='grid.detailGridView && !grid.detailGridView.hideExpandButton' style='width:20px' id="header_expand_{{uniqueId}}"></th>
                 <th *ngIf='grid.allowRowSelect' style='width:1%' id="header_select_{{uniqueId}}"></th>
-                <th *ngFor="let col of grid.getVisibleColumns() | orderBy:['columnIndex'];let i = index;let last = last; let first = first" id="header_{{i}}_{{uniqueId}}" [style.width]="col.width" [ngClass]="!last ? 'resize-border' : ''">
+                <th *ngFor="let col of grid.getVisibleColumns() | orderBy:['columnIndex'];let i = index;let last = last; let first = first" id="header_{{i}}_{{uniqueId}}" [style.width]="col.width" [style.maxWidth]="col.width" [ngClass]="!last ? 'resize-border' : ''">
                     <gridview-headercell (sortChanged)='handleSortChanged($event)' [first]='first' [last]='last' [columnIndex]='i' [column]='col' [parentGridView]="grid" [parentGridViewComponent]="self"></gridview-headercell>
                 </th>
 				<th *ngIf='grid.allowAdd || grid.allowEdit || grid.allowDelete' style='width:45px' id="header_edit_{{uniqueId}}" class="edit-th">
-					<button *ngIf='grid.allowAdd && !newRow' (click)='addRow()' class='icon-plus-white icon-small icon-button'></button>
+					<button *ngIf='grid.allowAdd && (!newRow || isDetailGridViewComponent)' (click)='addRow()' class='icon-plus-white icon-small icon-button'></button>
 				</th>
             </tr>
             <tr *ngIf='grid.filterVisible && hasFilterRow()'>
                 <td class="filter-td" *ngIf='grid.detailGridView && !grid.detailGridView.hideExpandButton' style='width:20px'></td>
                 <td class="filter-td" *ngIf='grid.allowRowSelect'></td>
-                <td class="filter-td" *ngFor="let col of grid.getVisibleColumns() | orderBy:['columnIndex']" id="filter_{{i}}_{{uniqueId}}">
+                <td class="filter-td" *ngFor="let col of grid.getVisibleColumns() | orderBy:['columnIndex']" id="filter_{{i}}_{{uniqueId}}" [style.width]="col.width" [style.maxWidth]="col.width">
 					<gridview-filtercell *ngIf="(col.filterMode && col.filterMode != 0) || col.filterTemplate" [parentGridView]="grid" [parentGridViewComponent]="self" [column]='col'>
 					</gridview-filtercell>
 				</td>
@@ -61,13 +61,13 @@ import { Observable } from 'rxjs/Observable';
                     <td *ngIf='grid.detailGridView && !grid.detailGridView.hideExpandButton'>
 						<button class="{{detailGridViewComponents[row[grid.keyFieldName]] && detailGridViewComponents[row[grid.keyFieldName]].isExpanded ? 'icon-minus-black' : 'icon-plus-black'}} icon-small icon-button" (click)="expandCollapse(row[grid.keyFieldName])"></button>
 					</td>
-                    <td *ngFor="let col of grid.getVisibleColumns(true) | orderBy:['columnIndex'];let last = last; let first = first; let j = index" id="cell_{{j}}_{{i}}_{{uniqueId}}"  [ngStyle]="col.getRowCellStyle ? col.getRowCellStyle(row) : null" [ngClass]="col.getRowCellClass ? col.getRowCellClass(row) : (col.disableWrapping ? 'no-wrap' : '')" [style.width]="col.width">
+                    <td *ngFor="let col of grid.getVisibleColumns(true) | orderBy:['columnIndex'];let last = last; let first = first; let j = index" id="cell_{{j}}_{{i}}_{{uniqueId}}"  [ngStyle]="col.getRowCellStyle ? col.getRowCellStyle(row) : null" [ngClass]="col.getRowCellClass ? col.getRowCellClass(row) : (col.disableWrapping ? 'no-wrap' : '')" [style.width]="col.width" [style.maxWidth]="col.width">
 						<gridview-cell [column]="col" [row]="row" [last]='last' [first]='first' [index]='i' [parentGridViewComponent]="self" [parentGridView]="grid"></gridview-cell>
 					</td>
 					<td *ngIf='(grid.allowAdd || grid.allowEdit || grid.allowDelete) && !grid.hideEditDeleteButtons' class='edit-td'>
 						<button *ngIf="grid.allowEdit && !editing(row) && !promptConfirm[row[grid.keyFieldName]]" class="icon-pencil-black icon-small icon-button" (click)="editRow(row)"></button>
 						<button *ngIf="grid.allowDelete && !editing(row) && !promptConfirm[row[grid.keyFieldName]]" class="icon-remove-black icon-small icon-button" (click)="confirmDelete(row)"></button>
-						<button *ngIf="editing(row)" class="icon-check-black icon-small icon-button" (click)="saveEdit(row)"></button>
+						<button *ngIf="editing(row) && !isDetailGridViewComponent" class="icon-check-black icon-small icon-button" (click)="saveEdit(row)"></button>
 						<button *ngIf="editing(row)" class="icon-cancel-black icon-small icon-button" (click)="cancelEdit(row)"></button>
 					</td>
                 </tr>
@@ -81,7 +81,7 @@ import { Observable } from 'rxjs/Observable';
                 <tr *ngIf='!grid.loading && grid.rowTemplate'>
                     <td [attr.colspan]="getVisibleColumnCount() + (grid.allowAdd || grid.allowEdit || grid.allowDelete ? 1 : 0)"><div gridviewRowTemplate [parentGridView]="grid" [parentGridViewComponent]="self" [row]="row"></div></td>
                 </tr>
-                <tr [hidden]='grid.loading' *ngIf='grid.detailGridView' class="detail-gridview-row" [hidden]='!detailGridViewComponents[row[grid.keyFieldName]] || !detailGridViewComponents[row[grid.keyFieldName]].isExpanded'>
+                <tr *ngIf='grid.detailGridView' class="detail-gridview-row" [hidden]='grid.loading || !detailGridViewComponents[row[grid.keyFieldName]] || !detailGridViewComponents[row[grid.keyFieldName]].isExpanded'>
                     <td *ngIf="!grid.detailGridView.hideExpandButton"></td>
                     <td [attr.colspan]="getVisibleColumnCount() + (grid.allowAdd || grid.allowEdit || grid.allowDelete ? 1 : 0)" class='detailgrid-container'><detail-gridview [parentGridViewComponent]="self" [detailGridView]="grid.detailGridView" [row]="row"></detail-gridview></td>
                 </tr>
@@ -120,6 +120,9 @@ export class GridViewComponent implements AfterViewInit {
 	protected selectedKeys: { [keyFieldValue: string]: boolean } = {};
 
 	protected uniqueId = Utils.newGuid();
+
+	@Input()
+	isDetailGridViewComponent = false;
 
 	@Input() get grid(): GridView {
 		return this._grid;
@@ -633,9 +636,9 @@ export class GridViewComponent implements AfterViewInit {
 		}
 	}
 
-	saveEdit(row: any) {
+	validate(row: any): Array<DataColumn> {
 		delete this.showRequired[(row[this.grid.keyFieldName])];
-		const invalids = new Array<DataColumn>();
+		let invalids = new Array<DataColumn>();
 		for (let col of this.grid.getDataColumns()) {
 			if (col.fieldName && col.required && !this.parserService.getObjectValue(col.fieldName, row)) {
 				this.showRequired[(row[this.grid.keyFieldName])] = true;
@@ -643,10 +646,21 @@ export class GridViewComponent implements AfterViewInit {
 			}
 		}
 
+		let dgvc = this.detailGridViewComponents[row[this.grid.keyFieldName]];
+		if (dgvc) {
+			for (let drow of dgvc.detailGridViewInstance.data) {
+				invalids = invalids.concat(dgvc.gridViewComponent.validate(drow));
+			}
+		}
+
 		if (invalids.length > 0) {
 			this.grid.rowInvalidated.emit(invalids);
-			return;
 		}
+		return invalids;
+	}
+
+	saveEdit(row: any) {
+		if (this.validate(row).length > 0) return false;
 
 		if (this.grid.detailGridView) {
 			let dgvc = this.detailGridViewComponents[row[this.grid.keyFieldName]];
@@ -672,7 +686,6 @@ export class GridViewComponent implements AfterViewInit {
 					delete this.editingRows[row[this.grid.keyFieldName]];
 					if (row == this.newRow) {
 						this.newRow = null;
-						console.log('isnew');
 					}
 				});
 			}

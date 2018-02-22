@@ -20,6 +20,10 @@
 
 .checklist-button-text {
 	display: inline-block;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+	width: 100%;
 }
 
 .checklist-button-image {

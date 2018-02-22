@@ -30,6 +30,7 @@ export interface IGridViewComponent {
 	detailGridViewComponents: { [tempKeyValue: string]: IDetailGridViewComponent };
 	saveEdit(row: any);
 	cancelEdit(row: any);
+	validate(row: any);
 }
 
 export interface IDetailGridViewComponent {

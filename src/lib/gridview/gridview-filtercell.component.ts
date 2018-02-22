@@ -17,7 +17,7 @@ import { CheckListModule } from '../checklist';
 		</div>
 		<div *ngIf='!column.filterTemplate'>
 			<div *ngIf='column.filterMode == filterMode.DistinctList || column.filterMode == filterMode.DynamicList || column.filterOptions'>
-				<checklist type='text' name='filtcheck' [showMultiplesEllipses]='true' [showFilterIcon]='true' [dataSource]='checklistItems' [selectedItems]='column.filterValue' (selectionChanged)='filterChanged()'  class='filter-check-list filtercell-textbox'></checklist>
+				<checklist type='text' name='filtcheck' [showFilterIcon]='true' [dataSource]='checklistItems' [selectedItems]='column.filterValue' (selectionChanged)='filterChanged()'  class='filter-check-list filtercell-textbox'></checklist>
 			</div>
 			<div *ngIf='column.filterMode == filterMode.DateRange'>
 				<datefilter [column]='column' [parentFilterCellComponent]="self" [parentGridView]="parentGridView"></datefilter>

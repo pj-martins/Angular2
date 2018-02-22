@@ -74,10 +74,11 @@ export class DemoGridComponent implements OnInit {
 			this.gridDemo.name = "gridDemo";
 			let custCol = new DataColumn("customer.customerName");
 			custCol.filterMode = FilterMode.DistinctList;
+			custCol.width = "320px";
 			custCol.sortable = true;
-			custCol.allowSizing = true;
-			custCol.template = CustomerCellTemplateComponent;
-			custCol.editTemplate = CustomerCellEditTemplateComponent;
+			// custCol.allowSizing = true;
+			// custCol.template = CustomerCellTemplateComponent;
+			// custCol.editTemplate = CustomerCellEditTemplateComponent;
 			custCol.required = true;
 			this.gridDemo.columns.push(custCol);
 

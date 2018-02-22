@@ -122,6 +122,10 @@ export class DataColumn extends ColumnBase {
 }
 export class NumericColumn extends DataColumn {
 	decimalPlaces = 0;
+	constructor(public fieldName?: string, public caption?: string) {
+		super(fieldName, caption);
+		this.fieldType = FieldType.Numeric;
+	}
 }
 export class ButtonColumn extends DataColumn {
 	click = new EventEmitter<any>();

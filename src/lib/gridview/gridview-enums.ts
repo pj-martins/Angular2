@@ -23,5 +23,6 @@ export enum FieldType {
 	Boolean,
 	Numeric,
 	Date,
-	Html
+	Html,
+	Time
 }

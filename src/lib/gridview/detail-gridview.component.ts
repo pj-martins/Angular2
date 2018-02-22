@@ -4,7 +4,7 @@ import { IGridViewComponent, IDetailGridViewComponent } from './gridview-interfa
 
 @Component({
 	selector: 'detail-gridview',
-	template: "<gridview #gridViewComponent [grid]='detailGridViewInstance'></gridview>",
+	template: "<gridview #gridViewComponent [grid]='detailGridViewInstance' [isDetailGridViewComponent]='true'></gridview>",
 })
 export class DetailGridViewComponent implements OnInit, IDetailGridViewComponent {
 	@Input() parentGridViewComponent: IGridViewComponent;
