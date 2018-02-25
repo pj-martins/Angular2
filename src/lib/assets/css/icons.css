@@ -1,5 +1,5 @@
 ﻿
-.icon-small, .icon-medium, .icon-arrow {
+.icon-small, .icon-medium, .icon-arrow, .icon-x-small, .icon-xx-small {
 	background-repeat: no-repeat !important;
 	display: inline-block;
 }
@@ -11,9 +11,9 @@
 }
 
 .icon-x-small {
-	background-size: 10px 10px !important;
-	width: 10px;
-	height: 10px;
+	background-size: 11px 11px !important;
+	width: 11px;
+	height: 11px;
 }
 
 .icon-xx-small {

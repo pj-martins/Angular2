@@ -5,6 +5,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import { SortDirection } from '../shared';
 import moment from 'moment-es6';
+import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 
 @Injectable()
 export class DataService {
@@ -22,7 +23,7 @@ export class DataService {
 					return null;
 				return res.json();
 			})
-			.catch(this.handleError);
+			.catch(e => this.handleError(e));
 	}
 
 	put<TObject>(url: string, body: TObject): Observable<TObject> {
@@ -32,7 +33,7 @@ export class DataService {
 					return null;
 				return res.json();
 			})
-			.catch(this.handleError);
+			.catch(e => this.handleError(e));
 	}
 
 	delete(url: string): Observable<boolean> {
@@ -42,7 +43,7 @@ export class DataService {
 					return null;
 				return res.json();
 			})
-			.catch(this.handleError);
+			.catch(e => this.handleError(e));
 	}
 
 	getItems<TObject>(url: string, args?: GetArguments): Observable<Items<TObject>> {
@@ -60,7 +61,7 @@ export class DataService {
 			.map((res: Response) => {
 				return res.json();
 			})
-			.catch(this.handleError);
+			.catch(e => this.handleError(e));
 	}
 
 	getItem<TObject>(url: string): Observable<TObject> {
@@ -68,10 +69,10 @@ export class DataService {
 			.map((res: Response) => {
 				return res.json();
 			})
-			.catch(this.handleError);
+			.catch(e => this.handleError(e));
 	}
 
-	private handleError(error: any) {
+	handleError(error: any): ErrorObservable {
 		// let errMessage = 'Error occured!';
 		// if (error) {
 		// 	if (!error.exceptionMessage && !error.message && error._body) {

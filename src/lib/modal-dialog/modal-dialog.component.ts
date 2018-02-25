@@ -6,7 +6,7 @@ import { Utils } from '../shared';
 	selector: 'modal-dialog',
 	template: `
 <div class="modal-dialog-container component" *ngIf='shown' [style.left]="overrideLeft" [style.top]="overrideTop" id="id_{{uniqueId}}">
-	<div class="modal-dialog-header" *ngIf="showFooter">
+	<div class="modal-dialog-header" *ngIf="showHeader">
 		<button class="icon-remove-black icon-small icon-button modal-close-button" *ngIf="!hideCloseButton"  (click)="hide()">
         </button>
         <div class="modal-title"><strong>{{headerText}}</strong></div>

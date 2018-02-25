@@ -31,7 +31,7 @@ import { CellArguments } from '../index';
 				<th *ngIf='grid.allowAdd || grid.allowEdit || grid.allowDelete' style='width:45px' id="header_edit_{{uniqueId}}" class="edit-th">
 					<button *ngIf='grid.allowAdd && (!newRow || isDetailGridViewComponent)' (click)='addRow()' class='icon-plus-white icon-small icon-button'></button>
 					<button *ngIf="grid.showEditAll && grid.allowEdit && !editingAll" class="icon-pencil-black icon-small icon-button" (click)="editAll()"></button>
-					<button *ngIf="editingAll && !isDetailGridViewComponent" class="icon-check-black icon-small icon-button" (click)="saveAll()"></button>
+					<button *ngIf="editingAll && !grid.hideSaveButton" class="icon-check-black icon-small icon-button" (click)="saveAll()"></button>
 					<button *ngIf="editingAll" class="icon-cancel-black icon-small icon-button" (click)="cancelAll()"></button>
 				</th>
             </tr>
@@ -71,7 +71,7 @@ import { CellArguments } from '../index';
 					<td *ngIf='(grid.allowAdd || grid.allowEdit || grid.allowDelete) && !grid.hideEditDeleteButtons' class='edit-td'>
 						<button *ngIf="grid.allowEdit && !editing(row) && !promptConfirm[row[grid.keyFieldName]] && !editingAll" class="icon-pencil-black icon-x-small icon-button" (click)="editRow(row)"></button>
 						<button *ngIf="grid.allowDelete && !editing(row) && !promptConfirm[row[grid.keyFieldName]] && !editingAll" class="icon-remove-black icon-x-small icon-button" (click)="confirmDelete(row)"></button>
-						<button *ngIf="editing(row) && !isDetailGridViewComponent && !editingAll" class="icon-check-black icon-x-small icon-button" (click)="saveEdit(row)"></button>
+						<button *ngIf="editing(row) && !grid.hideSaveButton && !editingAll" class="icon-check-black icon-x-small icon-button" (click)="saveEdit(row)"></button>
 						<button *ngIf="editing(row) && !editingAll" class="icon-cancel-black icon-x-small icon-button" (click)="cancelEdit(row)"></button>
 					</td>
                 </tr>

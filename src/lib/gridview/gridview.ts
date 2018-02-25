@@ -18,6 +18,7 @@ export class GridView {
 	totalRecords: number;
 	columns: Array<ColumnBase> = [];
 	showHeader: boolean = true;
+	hideSaveButton: boolean = false;
 	visible = true;
 	detailGridView: DetailGridView;
 	keyFieldName: string;
