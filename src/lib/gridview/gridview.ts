@@ -52,6 +52,7 @@ export class GridView {
 	allowEdit = false;
 	allowDelete = false;
 	autoPopulateColumns = false;
+	showEditAll = false;
 	name: string;
 
 	getRowClass: (row: any) => string;

@@ -10,7 +10,7 @@ declare var ROOMS: Array<Room>;
 })
 export class DemoEditorsComponent {
 	selectedDateTime: Date;
-	selectedDateTimeNoTimezone: Date;
+	selectedDateTimeNoTimezone: Date = new Date("1900-01-01 8:00 AM");
 	hideDate: boolean;
 	hideTime: boolean;
 	selectOnCalendarClick: boolean;

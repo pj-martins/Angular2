@@ -73,7 +73,7 @@ export class GridViewCellComponent {
 	protected fieldType = FieldType;
 
 	get editing(): boolean {
-		return this.parentGridViewComponent.editingRows[this.row[this.parentGridViewComponent.grid.keyFieldName]];
+		return this.parentGridViewComponent.editingAll || this.parentGridViewComponent.editingRows[this.row[this.parentGridViewComponent.grid.keyFieldName]];
 	}
 
 	protected get showRequired(): boolean {

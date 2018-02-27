@@ -30,9 +30,9 @@ import { CellArguments } from '../index';
                 </th>
 				<th *ngIf='grid.allowAdd || grid.allowEdit || grid.allowDelete' style='width:45px' id="header_edit_{{uniqueId}}" class="edit-th">
 					<button *ngIf='grid.allowAdd && (!newRow || isDetailGridViewComponent)' (click)='addRow()' class='icon-plus-white icon-small icon-button'></button>
-					<button *ngIf="grid.showEditAll && grid.allowEdit && !editingAll" class="icon-pencil-black icon-small icon-button" (click)="editAll()"></button>
-					<button *ngIf="editingAll && !grid.hideSaveButton" class="icon-check-black icon-small icon-button" (click)="saveAll()"></button>
-					<button *ngIf="editingAll" class="icon-cancel-black icon-small icon-button" (click)="cancelAll()"></button>
+					<button *ngIf="grid.showEditAll && grid.allowEdit && !editingAll" class="icon-pencil-white icon-small icon-button" (click)="editAll()"></button>
+					<button *ngIf="editingAll && !grid.hideSaveButton" class="icon-check-white icon-small icon-button" (click)="saveAll()"></button>
+					<button *ngIf="editingAll" class="icon-cancel-white icon-small icon-button" (click)="cancelAll()"></button>
 				</th>
             </tr>
             <tr *ngIf='grid.filterVisible && hasFilterRow()'>
@@ -613,9 +613,9 @@ export class GridViewComponent implements AfterViewInit {
 
 	editAll() {
 		this.editingAll = true;
-		for (let row of this.displayData) {
-			this.editRow(row);
-		}
+		// for (let row of this.displayData) {
+		// 	this.editRow(row);
+		// }
 	}
 
 	saveAll() {
@@ -643,23 +643,20 @@ export class GridViewComponent implements AfterViewInit {
 
 		this.grid.rowSaveAll.emit(args);
 		if (!args.cancel) {
-			for (let row of this.displayData) {
-				delete this.editingRows[row[this.grid.keyFieldName]];
-				delete this.changedRows[row[this.grid.keyFieldName]];
+			if (!args.observable) {
+				this.editingAll = false;
+				for (let row in args.rows) {
+					delete this.changedRows[row[this.grid.keyFieldName]];
+				}
 			}
-			// TODO:
-			// if (!args.observable) {
-			// 	delete this.editingRows[row[this.grid.keyFieldName]];
-			// 	if (row == this.newRow) this.newRow = null;
-			// }
-			// else {
-			// 	args.observable.subscribe(() => {
-			// 		delete this.editingRows[row[this.grid.keyFieldName]];
-			// 		if (row == this.newRow) {
-			// 			this.newRow = null;
-			// 		}
-			// 	});
-			// }
+			else {
+				args.observable.subscribe(() => {
+					this.editingAll = false;
+					for (let row in args.rows) {
+						delete this.changedRows[row[this.grid.keyFieldName]];
+					}
+				});
+			}
 		}
 	}
 
@@ -671,8 +668,7 @@ export class GridViewComponent implements AfterViewInit {
 	}
 
 	cellValueChanged(args: CellArguments) {
-		this.changedRows[args.row[this.grid.keyFieldName]] = {};
-		Object.assign(args.row, this.changedRows[args.row[this.grid.keyFieldName]]);
+		this.changedRows[args.row[this.grid.keyFieldName]] = Object.assign({}, args.row);
 		this.grid.cellValueChanged.emit(args);
 	}
 
