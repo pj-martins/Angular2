@@ -108,11 +108,11 @@ export class CheckListComponent implements OnInit {
 
 		// TODO: validate all is in items
 		if (this.selectedItems) {
-			if (this.dataSource) {
-				if (this.selectedItems.length >= this.dataSource.length) {
-					return;
-				}
-			}
+			// if (this.dataSource) {
+			// 	if (this.selectedItems.length >= this.dataSource.length) {
+			// 		return;
+			// 	}
+			// }
 
 			this.selectedItems.sort((a, b) => {
 				const vala = this.displayMember ? a[this.displayMember] : a;
