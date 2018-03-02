@@ -1,6 +1,6 @@
 {
   "name": "pajama-angular",
-  "version": "0.1.40",
+  "version": "0.1.42",
   "license": "PJ",
   "scripts": {
     "ng": "ng",

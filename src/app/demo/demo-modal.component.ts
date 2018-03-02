@@ -11,7 +11,7 @@ import { ModalDialogComponent, DialogResult, Button } from '../../lib/modal-dial
 
 <button (click)='showYesNoModal()'>Yes No Modal</button>
 <modal-dialog #yesNoModal [hideCloseButton]='true' [showBackdrop]='true' headerText='Yes No Modal'>
-	<div style="padding:15px:">
+	<div style="padding:15px">
 		<strong>This is a yes no modal</strong>
 	</div>
 </modal-dialog>

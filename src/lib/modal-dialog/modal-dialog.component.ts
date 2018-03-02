@@ -1,11 +1,11 @@
-﻿import { Component, Input, Output, ElementRef, EventEmitter, NgZone } from '@angular/core'
+﻿import { Component, Input, Output, ElementRef, EventEmitter, NgZone, ViewChild } from '@angular/core'
 import { Observable } from 'rxjs/Observable';
 import { Utils } from '../shared';
 
 @Component({
 	selector: 'modal-dialog',
 	template: `
-<div class="modal-dialog-container component" *ngIf='shown' [style.left]="overrideLeft" [style.top]="overrideTop" id="id_{{uniqueId}}">
+<div class="modal-dialog-container component" *ngIf='shown' #dialog [style.left]="overrideLeft" [style.top]="overrideTop" id="id_{{uniqueId}}">
 	<div class="modal-dialog-header" *ngIf="showHeader">
 		<button class="icon-remove-black icon-small icon-button modal-close-button" *ngIf="!hideCloseButton"  (click)="hide()">
         </button>
@@ -61,6 +61,11 @@ export class ModalDialogComponent {
 	@Output()
 	closing = new EventEmitter<ClosingArgs>();
 
+	@ViewChild("dialog")
+	dialog: any;
+
+	tag: any;
+
 	private currentonclick: any;
 	protected uniqueId = Utils.newGuid();
 
@@ -115,17 +120,9 @@ export class ModalDialogComponent {
 				if (this.currentonclick) this.currentonclick(event);
 
 				if (self.shown && event.target && !self.hideCloseButton) {
-					let isInModal = false;
-					let curr = 3;
-					let el = event.target;
-					while (curr-- > 0 && el != null) {
-						if (el.id == `id_${this.uniqueId}`) {
-							isInModal = true;
-							break;
-						}
-						el = el.offsetParent;
-					}
-					if (!isInModal)
+					const rect = self.dialog.nativeElement.getBoundingClientRect();
+					
+					if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom)
 						self.zone.run(() => self._hide());
 				}
 			};
