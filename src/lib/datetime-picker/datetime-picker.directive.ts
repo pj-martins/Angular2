@@ -94,6 +94,7 @@ export class DateTimePickerDirective implements OnInit, OnChanges, Validator {
 		// blank it first so we can format the text without flickering unformatted
 		this.elementRef.nativeElement.style.color = this.elementRef.nativeElement.style.backgroundColor || "white";
 		this.elementRef.nativeElement.style.width = "100%";
+		moment['suppressDeprecationWarnings'] = true;
 	}
 
 	ngOnInit() {
@@ -112,7 +113,7 @@ export class DateTimePickerDirective implements OnInit, OnChanges, Validator {
 		}
 
 		if (this.ngModel && !this.ngModel.getTime) {
-			this.ngModel = new Date(this.ngModel);
+			this.ngModel = moment(this.ngModel).toDate();
 			if (isNaN(this.ngModel.getTime()))
 				this.ngModel = null;
 		}
@@ -125,17 +126,16 @@ export class DateTimePickerDirective implements OnInit, OnChanges, Validator {
 		this.inputChanged = false;
 		let formattedDate = this.elementRef.nativeElement.value;
 		if (formattedDate) {
-			let date = new Date(formattedDate);
-			if (isNaN(date.getTime())) {
+			let date = moment(formattedDate);
+			if (!date.isValid()) {
 				// might be just a time string
 				let valid = false;
-				let curr = new Date(this.ngModel);
-				if (isNaN(curr.getTime()))
-					curr = new Date(1900, 1, 1);
+				let curr = moment(this.ngModel);
+				if (!curr.isValid())
+					curr = moment("1900-01-01");
 				let datePart = this.ngModel ? moment(curr).format('YYYY/MM/DD') : '1900/01/01';
-				date = new Date(datePart + ' ' + formattedDate);
-				valid = !isNaN(date.getTime());
-				if (!valid) {
+				date = moment(datePart + ' ' + formattedDate);
+				if (!date.isValid()) {
 					//this.ngModel = null;
 					//this.formatDate(this.ngModel);
 					this.ngModelChange.emit(null);
@@ -143,7 +143,7 @@ export class DateTimePickerDirective implements OnInit, OnChanges, Validator {
 				}
 			}
 
-			this._component.instance.updateDateTimeControls(date);
+			this._component.instance.updateDateTimeControls(date.toDate());
 			this._component.instance.persistDate(true);
 		}
 	}
@@ -171,7 +171,7 @@ export class DateTimePickerDirective implements OnInit, OnChanges, Validator {
 		if (!date)
 			formattedDate = "";
 		else
-			formattedDate = moment(new Date(date)).format(this.dateFormat);
+			formattedDate = moment(date).format(this.dateFormat);
 		window.setTimeout(() => {
 			this.elementRef.nativeElement.value = formattedDate;
 			this.elementRef.nativeElement.style.color = this._initialColor;
@@ -183,8 +183,8 @@ export class DateTimePickerDirective implements OnInit, OnChanges, Validator {
 		if (this.elementRef.nativeElement == document.activeElement) return null;
 
 		if (c.value && this.maxDate) {
-			let dt = new Date(c.value);
-			if (!isNaN(dt.getTime()) && dt > this.maxDate) {
+			let dt = moment(c.value);
+			if (dt.isValid() && dt.isAfter(this.maxDate)) {
 				return {
 					max: true
 				};
@@ -192,8 +192,8 @@ export class DateTimePickerDirective implements OnInit, OnChanges, Validator {
 		}
 
 		if (c.value && this.minDate) {
-			let dt = new Date(c.value);
-			if (!isNaN(dt.getTime()) && dt < this.minDate) {
+			let dt = moment(c.value);
+			if (dt.isValid() && dt.isBefore(this.minDate)) {
 				return {
 					min: true
 				};

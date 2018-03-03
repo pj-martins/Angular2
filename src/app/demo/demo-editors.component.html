@@ -19,9 +19,9 @@
 	</div>
 	<br />
 	<div class="row">
-		<div class="col-md-1">Initial value:{{selectedDateTimeNoTimezone}}</div>
+		<div class="col-md-1">Initial value:{{timeZoneFormatted}}</div>
 		<div class="col-md-3">
-			<input type="text" dateTimePicker placeholder="No Timezone" [hideDate]="true" [(ngModel)]='selectedDateTimeNoTimezone' [selectOnCalendarClick]="true"
+			<input type="text" dateTimePicker placeholder="Timezone" [hideTime]="true" [(ngModel)]='timeZone' [selectOnCalendarClick]="true"
 			/>
 		</div>
 	</div>

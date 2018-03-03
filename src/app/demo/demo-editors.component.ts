@@ -1,6 +1,7 @@
 ﻿import { Component } from '@angular/core';
 import { Room } from './classes';
 import { Observable } from 'rxjs/Rx';
+import moment from 'moment-es6';
 
 declare var ROOMS: Array<Room>;
 
@@ -10,7 +11,7 @@ declare var ROOMS: Array<Room>;
 })
 export class DemoEditorsComponent {
 	selectedDateTime: Date;
-	selectedDateTimeNoTimezone: Date = new Date("1900-01-01 8:00 AM");
+	timeZone: any = "2018-01-01";
 	hideDate: boolean;
 	hideTime: boolean;
 	selectOnCalendarClick: boolean;
@@ -54,5 +55,9 @@ export class DemoEditorsComponent {
 
 	nextDate() {
 		this.selectedDateTime.setDate(this.selectedDateTime.getDate() + 1);
+	}
+
+	get timeZoneFormatted() {
+		return moment(this.timeZone, moment.ISO_8601).format("L");
 	}
 }
