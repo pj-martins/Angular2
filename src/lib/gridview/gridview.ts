@@ -18,14 +18,13 @@ export class GridView {
 	totalRecords: number;
 	columns: Array<ColumnBase> = [];
 	showHeader: boolean = true;
-	hideSaveButton: boolean = false;
 	visible = true;
 	detailGridView: DetailGridView;
 	keyFieldName: string;
 	selectMode: SelectMode;
 	disableAutoSort: boolean;
 	disableAutoFilter: boolean;
-	hideEditDeleteButtons: boolean;
+	disableDelete: boolean;
 	pagingType: PagingType = PagingType.Auto;
 	height: string;
 	width: string;
@@ -52,7 +51,7 @@ export class GridView {
 	allowEdit = false;
 	allowDelete = false;
 	autoPopulateColumns = false;
-	showEditAll = false;
+	allowMultiEdit = false;
 	name: string;
 
 	getRowClass: (row: any) => string;
@@ -200,6 +199,8 @@ export class GridView {
 	setTempKeyField() {
 		this.keyFieldName = TEMP_KEY_FIELD;
 		this.populateTempKey();
+		if (this.detailGridView)
+			this.detailGridView.setTempKeyField();
 	}
 
 	private populateTempKey() {
@@ -326,6 +327,7 @@ export class DetailGridView extends GridView {
 		let grid = new DetailGridView();
 		Object.assign(grid, this);
 		grid.parentRow = parentRow;
+		grid.showNoResults = false;
 		return grid;
 	}
 }

@@ -26,11 +26,13 @@ export interface IGridViewComponent {
 	resetDisplayData();
 	grid: GridView;
 	editingRows: { [tempKeyValue: string]: any };
+	deletedRows: { [tempKeyValue: string]: any };
 	editRow(row: any);
 	detailGridViewComponents: { [tempKeyValue: string]: IDetailGridViewComponent };
 	saveEdit(row: any);
 	cancelEdit(row: any);
 	validate(row: any);
+	editAll();
 }
 
 export interface IDetailGridViewComponent {
@@ -38,6 +40,7 @@ export interface IDetailGridViewComponent {
 	expandCollapse(): void;
 	detailGridViewInstance: DetailGridView;
 	gridViewComponent: IGridViewComponent;
+	parentGridViewComponent: IGridViewComponent;
 }
 
 export interface IGridViewFilterCellComponent {

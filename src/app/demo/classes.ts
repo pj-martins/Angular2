@@ -6,11 +6,13 @@
 export class HallRequestRoom {
 	hallRoom: Room;
 	isPrimaryChoice: boolean;
+	hallRoomId: number;
 }
 
 export class Event {
 	customer: Customer;
-	hallRequestRooms: Array<HallRequestRoom>;
+	customerId: number;
+	hallRequestRooms: Array<HallRequestRoom> = [];
 	hallEventType: EventType;
 	eventStartDT: Date;
 	eventEndDT: Date;

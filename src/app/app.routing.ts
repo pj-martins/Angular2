@@ -4,6 +4,7 @@ import { DemoGridComponent } from './demo/demo-grid.component';
 import { DemoTreeComponent } from './demo/demo-tree.component';
 import { DemoEditorsComponent } from './demo/demo-editors.component';
 import { DemoModalComponent } from './demo/demo-modal.component';
+import { DemoGridBasicComponent } from './demo/demo-grid-basic.component';
 
 const appRoutes: Routes = [
 	{
@@ -21,6 +22,10 @@ const appRoutes: Routes = [
 	{
 		path: 'modal',
 		component: DemoModalComponent
+	},
+	{
+		path: 'gridbasic',
+		component: DemoGridBasicComponent
 	},
 	{
 		path: '',
