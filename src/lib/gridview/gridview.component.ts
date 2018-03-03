@@ -1,7 +1,7 @@
 ﻿import { Component, Input, Output, EventEmitter, NgZone, AfterViewInit, ViewChild, ViewChildren, QueryList, ElementRef } from '@angular/core';
 import { GridView, GridState, RowArguments, TEMP_KEY_FIELD } from './gridview';
 import { DataColumn, ColumnBase, SelectColumn } from './gridview-columns'
-import { IDetailGridViewComponent } from './gridview-interfaces'
+import { IDetailGridViewComponent, IGridViewComponent } from './gridview-interfaces'
 import { SelectMode, FilterMode, PagingType, FieldType } from './gridview-enums'
 import { SortDirection } from '../shared';
 import { GridViewPagerComponent } from './gridview-pager.component';
@@ -28,11 +28,14 @@ import { CellArguments } from '../index';
                 <th *ngFor="let col of grid.getVisibleColumns() | orderBy:['columnIndex'];let i = index;let last = last; let first = first" id="header_{{i}}_{{uniqueId}}" [style.width]="col.width" [style.maxWidth]="col.width" [ngClass]="!last ? 'resize-border' : ''">
                     <gridview-headercell (sortChanged)='handleSortChanged($event)' [first]='first' [last]='last' [columnIndex]='i' [column]='col' [parentGridView]="grid" [parentGridViewComponent]="self"></gridview-headercell>
                 </th>
-				<th *ngIf='grid.allowAdd || grid.allowEdit || grid.allowDelete' style='width:45px' id="header_edit_{{uniqueId}}" class="edit-th">
-					<button *ngIf='grid.allowAdd && (!newRow || isDetailGridViewComponent)' (click)='addRow()' class='icon-plus-white icon-small icon-button'></button>
-					<button *ngIf="grid.showEditAll && grid.allowEdit && !editingAll" class="icon-pencil-white icon-small icon-button" (click)="editAll()"></button>
-					<button *ngIf="editingAll && !grid.hideSaveButton" class="icon-check-white icon-small icon-button" (click)="saveAll()"></button>
-					<button *ngIf="editingAll" class="icon-cancel-white icon-small icon-button" (click)="cancelAll()"></button>
+				<th *ngIf='!parentGridViewComponent && (grid.allowAdd || grid.allowEdit || grid.allowDelete)' style='width:45px' id="header_edit_{{uniqueId}}" class="edit-th">
+					<button *ngIf='grid.allowAdd && (!editing || grid.allowMultiEdit)' (click)='addRow()' class='icon-plus-white icon-small icon-button'></button>
+					<button *ngIf="grid.allowMultiEdit && grid.allowEdit" class="icon-pencil-white icon-small icon-button" (click)="editAll()"></button>
+					<button *ngIf="grid.allowMultiEdit && editing" class="icon-check-white icon-small icon-button" (click)="saveAll()"></button>
+					<button *ngIf="grid.allowMultiEdit && editing" class="icon-cancel-white icon-small icon-button" (click)="cancelAll()"></button>
+				</th>
+				<th *ngIf='parentGridViewComponent && parentGridViewComponent.editing' style='width:45px' id="header_edit_{{uniqueId}}" class="edit-th">
+					<button (click)='addRow()' class='icon-plus-white icon-small icon-button'></button>
 				</th>
             </tr>
             <tr *ngIf='grid.filterVisible && hasFilterRow()'>
@@ -68,11 +71,14 @@ import { CellArguments } from '../index';
                     <td *ngFor="let col of grid.getVisibleColumns(true) | orderBy:['columnIndex'];let last = last; let first = first; let j = index" id="cell_{{j}}_{{i}}_{{uniqueId}}"  [ngStyle]="col.getRowCellStyle ? col.getRowCellStyle(row) : null" [ngClass]="col.getRowCellClass ? col.getRowCellClass(row) : (col.disableWrapping ? 'no-wrap' : '')" [style.width]="col.width" [style.maxWidth]="col.width">
 						<gridview-cell [column]="col" [row]="row" [last]='last' [first]='first' [index]='i' [parentGridViewComponent]="self" [parentGridView]="grid"></gridview-cell>
 					</td>
-					<td *ngIf='(grid.allowAdd || grid.allowEdit || grid.allowDelete) && !grid.hideEditDeleteButtons' class='edit-td'>
-						<button *ngIf="grid.allowEdit && !editing(row) && !promptConfirm[row[grid.keyFieldName]] && !editingAll" class="icon-pencil-black icon-x-small icon-button" (click)="editRow(row)"></button>
-						<button *ngIf="grid.allowDelete && !editing(row) && !promptConfirm[row[grid.keyFieldName]] && !editingAll" class="icon-remove-black icon-x-small icon-button" (click)="confirmDelete(row)"></button>
-						<button *ngIf="editing(row) && !grid.hideSaveButton && !editingAll" class="icon-check-black icon-x-small icon-button" (click)="saveEdit(row)"></button>
-						<button *ngIf="editing(row) && !editingAll" class="icon-cancel-black icon-x-small icon-button" (click)="cancelEdit(row)"></button>
+					<td *ngIf='!parentGridViewComponent && (grid.allowAdd || grid.allowEdit || grid.allowDelete)' class='edit-td'>
+						<button *ngIf="grid.allowEdit && !editingRow(row) && !promptConfirm[row[grid.keyFieldName]]" class="icon-pencil-black icon-x-small icon-button" (click)="editRow(row)"></button>
+						<button *ngIf="grid.allowDelete && !editingRow(row) && !promptConfirm[row[grid.keyFieldName]] && !grid.disableDelete" class="icon-remove-black icon-x-small icon-button" (click)="confirmDelete(row)"></button>
+						<button *ngIf="editingRow(row)" class="icon-check-black icon-x-small icon-button" (click)="saveEdit(row)"></button>
+						<button *ngIf="editingRow(row)" class="icon-cancel-black icon-x-small icon-button" (click)="cancelEdit(row)"></button>
+					</td>
+					<td *ngIf="parentGridViewComponent && parentGridViewComponent.editing && !grid.disableDelete">
+						<button class="icon-remove-black icon-x-small icon-button" (click)="deleteRow(row)"></button>
 					</td>
                 </tr>
 				<tr *ngIf='promptConfirm[row[grid.keyFieldName]]'>
@@ -118,7 +124,7 @@ import { CellArguments } from '../index';
     </div>
 </div>`
 })
-export class GridViewComponent implements AfterViewInit {
+export class GridViewComponent implements AfterViewInit, IGridViewComponent {
 	private _grid: GridView;
 
 	protected selectedKeys: { [keyFieldValue: string]: boolean } = {};
@@ -126,7 +132,7 @@ export class GridViewComponent implements AfterViewInit {
 	protected uniqueId = Utils.newGuid();
 
 	@Input()
-	isDetailGridViewComponent = false;
+	parentGridViewComponent: GridViewComponent;
 
 	@Input() get grid(): GridView {
 		return this._grid;
@@ -195,11 +201,10 @@ export class GridViewComponent implements AfterViewInit {
 	@Output() selectionChanged = new EventEmitter<any[]>();
 	constructor(public parserService: ParserService, private zone: NgZone, public elementRef: ElementRef) { }
 
-	newRow: any;
-
+	newRows: { [tempKeyValue: string]: any } = {};
 	editingRows: { [tempKeyValue: string]: any } = {};
 	changedRows: { [tempKeyValue: string]: any } = {};
-	editingAll = false;
+	deletedRows: { [tempKeyValue: string]: any } = {};
 	detailGridViewComponents: { [tempKeyValue: string]: IDetailGridViewComponent } = {};
 	showRequired: { [tempKeyValue: string]: boolean } = {};
 
@@ -266,8 +271,16 @@ export class GridViewComponent implements AfterViewInit {
 		return false;
 	}
 
-	protected editing(row: any) {
+	protected editingRow(row: any) {
 		return this.editingRows[row[this.grid.keyFieldName]];
+	}
+
+	protected get editing() {
+		return this.adding || Object.keys(this.editingRows).length > 0;
+	}
+
+	protected get adding() {
+		return Object.keys(this.newRows).length > 0;
 	}
 
 	private _indexWidthInited = false;
@@ -581,7 +594,8 @@ export class GridViewComponent implements AfterViewInit {
 			this._displayData.splice(0, 0, row);
 			this.grid.data.splice(0, 0, row);
 			this.editingRows[row[this.grid.keyFieldName]] = row;
-			this.newRow = row;
+			this.newRows[row[this.grid.keyFieldName]] = row;
+			this.changedRows[row[this.grid.keyFieldName]] = row;
 			if (this.grid.detailGridView) {
 				window.setTimeout(() => {
 					let dgvc = this.detailGridViewComponents[row[this.grid.keyFieldName]];
@@ -601,7 +615,7 @@ export class GridViewComponent implements AfterViewInit {
 			let dgvc = this.detailGridViewComponents[row[this.grid.keyFieldName]];
 			if (!dgvc.isExpanded)
 				dgvc.expandCollapse();
-
+			dgvc.gridViewComponent.editAll();
 		}
 
 		this.grid.rowEdit.emit(args);
@@ -612,15 +626,18 @@ export class GridViewComponent implements AfterViewInit {
 	}
 
 	editAll() {
-		this.editingAll = true;
-		// for (let row of this.displayData) {
-		// 	this.editRow(row);
-		// }
+		for (let row of this.displayData) {
+			this.editRow(row);
+		}
 	}
 
 	saveAll() {
+		let args = new RowArguments();
+		args.grid = this.grid;
+		args.rows = Object.keys(this.changedRows).map(k => this.changedRows[k]);
+
 		let valid = true;
-		for (let row of this.displayData) {
+		for (let row of args.rows) {
 			if (this.validate(row).length > 0) valid = false;
 		}
 
@@ -637,23 +654,23 @@ export class GridViewComponent implements AfterViewInit {
 		// 	}
 		// }
 
-		let args = new RowArguments();
-		args.grid = this.grid;
-		args.rows = Object.keys(this.changedRows).map(k => this.changedRows[k]);
-
 		this.grid.rowSaveAll.emit(args);
 		if (!args.cancel) {
 			if (!args.observable) {
-				this.editingAll = false;
 				for (let row in args.rows) {
 					delete this.changedRows[row[this.grid.keyFieldName]];
+					delete this.editingRows[row[this.grid.keyFieldName]];
+					delete this.newRows[row[this.grid.keyFieldName]];
+					delete this.deletedRows[row[this.grid.keyFieldName]];
 				}
 			}
 			else {
 				args.observable.subscribe(() => {
-					this.editingAll = false;
 					for (let row in args.rows) {
 						delete this.changedRows[row[this.grid.keyFieldName]];
+						delete this.editingRows[row[this.grid.keyFieldName]];
+						delete this.newRows[row[this.grid.keyFieldName]];
+						delete this.deletedRows[row[this.grid.keyFieldName]];
 					}
 				});
 			}
@@ -661,10 +678,10 @@ export class GridViewComponent implements AfterViewInit {
 	}
 
 	cancelAll() {
-		for (let row of this.displayData) {
+		for (let i = this.displayData.length - 1; i >= 0; i--) {
+			const row = this.displayData[i];
 			this.cancelEdit(row);
 		}
-		this.editingAll = false;
 	}
 
 	cellValueChanged(args: CellArguments) {
@@ -684,7 +701,10 @@ export class GridViewComponent implements AfterViewInit {
 		this.removeRowFromGrid(row);
 		delete this.editingRows[row[this.grid.keyFieldName]];
 		delete this.changedRows[row[this.grid.keyFieldName]];
-		this.newRow = null;
+		delete this.newRows[row[this.grid.keyFieldName]];
+		if (this.parentGridViewComponent) {
+			this.deletedRows[row[this.grid.keyFieldName]] = row;
+		}
 		delete this.promptConfirm[row[this.grid.keyFieldName]];
 	}
 
@@ -749,15 +769,15 @@ export class GridViewComponent implements AfterViewInit {
 			if (!args.observable) {
 				delete this.editingRows[row[this.grid.keyFieldName]];
 				delete this.changedRows[row[this.grid.keyFieldName]];
-				if (row == this.newRow) this.newRow = null;
+				delete this.newRows[row[this.grid.keyFieldName]];
+				delete this.deletedRows[row[this.grid.keyFieldName]];
 			}
 			else {
 				args.observable.subscribe(() => {
 					delete this.editingRows[row[this.grid.keyFieldName]];
 					delete this.changedRows[row[this.grid.keyFieldName]];
-					if (row == this.newRow) {
-						this.newRow = null;
-					}
+					delete this.newRows[row[this.grid.keyFieldName]];
+					delete this.deletedRows[row[this.grid.keyFieldName]];
 				});
 			}
 		}
@@ -766,21 +786,34 @@ export class GridViewComponent implements AfterViewInit {
 	cancelEdit(row: any) {
 		if (this.grid.detailGridView) {
 			let dgvc = this.detailGridViewComponents[row[this.grid.keyFieldName]];
-			if (dgvc) {
-				for (let row of dgvc.detailGridViewInstance.data) {
-					dgvc.gridViewComponent.cancelEdit(row);
+			if (dgvc && dgvc.detailGridViewInstance.data) {
+				for (let i = dgvc.detailGridViewInstance.data.length - 1; i >= 0; i--) {
+					const row2 = dgvc.detailGridViewInstance.data[i];
+					dgvc.gridViewComponent.cancelEdit(row2);
 				}
+				for (let k of Object.keys(dgvc.gridViewComponent.deletedRows)) {
+					const deleted = dgvc.gridViewComponent.deletedRows[k];
+					const existing = dgvc.detailGridViewInstance.data.find(d => 
+						d[dgvc.detailGridViewInstance.keyFieldName] == deleted[dgvc.detailGridViewInstance.keyFieldName]);
+					if (!existing) {
+						dgvc.detailGridViewInstance.data.push(deleted);
+					}
+				}
+				dgvc.gridViewComponent.deletedRows = {};
+				dgvc.gridViewComponent.resetDisplayData();
 			}
 		}
 
-		if (row == this.newRow) {
+		if (this.newRows[row[this.grid.keyFieldName]]) {
 			this.removeRowFromGrid(row);
-			this.newRow = null;
+			delete this.newRows[row[this.grid.keyFieldName]];
 		}
 		else
 			Object.assign(row, this.editingRows[row[this.grid.keyFieldName]]);
+
 		delete this.editingRows[row[this.grid.keyFieldName]];
 		delete this.changedRows[row[this.grid.keyFieldName]];
+		delete this.deletedRows[row[this.grid.keyFieldName]];
 	}
 
 	refreshDataSource() {

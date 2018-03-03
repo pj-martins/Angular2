@@ -4,7 +4,7 @@ import { IGridViewComponent, IDetailGridViewComponent } from './gridview-interfa
 
 @Component({
 	selector: 'detail-gridview',
-	template: "<gridview #gridViewComponent [grid]='detailGridViewInstance' [isDetailGridViewComponent]='true'></gridview>",
+	template: `<gridview #gridViewComponent [parentGridViewComponent]="parentGridViewComponent" [grid]='detailGridViewInstance'></gridview>`,
 })
 export class DetailGridViewComponent implements OnInit, IDetailGridViewComponent {
 	@Input() parentGridViewComponent: IGridViewComponent;
@@ -46,7 +46,12 @@ export class DetailGridViewComponent implements OnInit, IDetailGridViewComponent
 		this._expanded = !this._expanded;
 		if (!this._inited) {
 			this._inited = true;
-			this.detailGridView.getChildData(this.row).subscribe(d => this.detailGridViewInstance.data = d);
+			this.detailGridView.getChildData(this.row).subscribe(d => {
+				this.detailGridViewInstance.data = d;
+				if (this.parentGridViewComponent.editingRows[this.row[this.parentGridViewComponent.grid.keyFieldName]]) {
+					this.gridViewComponent.editAll();
+				}
+			});
 		}
 	}
 }

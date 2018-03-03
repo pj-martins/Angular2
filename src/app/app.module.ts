@@ -23,6 +23,7 @@ import { DemoModalComponent } from './demo/demo-modal.component';
 import { CoordinatorFilterCellTemplateComponent, CustomerCellTemplateComponent, EventTypeFilterCellTemplateComponent, RequestedByFilterCellTemplateComponent, CustomerCellEditTemplateComponent } from './demo/grid-cell-templates.component';
 import { RoomNodeTemplateComponent } from './demo/treeview-templates.component';
 import { RoomComponent } from './demo/room.component';
+import { DemoGridBasicComponent } from './demo/demo-grid-basic.component';
 
 @NgModule({
 	imports: [
@@ -49,6 +50,7 @@ import { RoomComponent } from './demo/room.component';
 		DemoTreeComponent,
 		DemoEditorsComponent,
 		DemoModalComponent,
+		DemoGridBasicComponent,
 
 		CoordinatorFilterCellTemplateComponent,
 		CustomerCellTemplateComponent,
