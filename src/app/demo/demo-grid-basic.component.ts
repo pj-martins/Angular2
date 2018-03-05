@@ -1,6 +1,6 @@
 ﻿import { Component, OnInit, Type } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { GridView, DetailGridView, CellArguments } from '../../lib/gridview/gridview';
+import { GridView, DetailGridView, CellArguments, RowArguments } from '../../lib/gridview/gridview';
 import { DataColumn, ButtonColumn, TextAreaColumn, SelectColumn, NumericColumn } from '../../lib/gridview/gridview-columns';
 import { FilterMode, FieldType, PagingType } from '../../lib/gridview/gridview-enums';
 import { SortDirection } from '../../lib/shared';
@@ -12,6 +12,7 @@ import {
 } from './grid-cell-templates.component';
 import { RoomComponent } from './room.component';
 import { Observable } from 'rxjs/Observable';
+import moment from 'moment-es6';
 
 declare var EVENTS: Array<Event>;
 @Component({
@@ -28,6 +29,7 @@ export class DemoGridBasicComponent implements OnInit {
 	}
 
 	ngOnInit() {
+		let i = 0;
 		for (let e of EVENTS) {
 			if (e.customer) e.customerId = e.customer.id;
 			if (e.hallRequestRooms) {
@@ -35,6 +37,9 @@ export class DemoGridBasicComponent implements OnInit {
 					r.hallRoomId = r.hallRoom.id;
 				}
 			}
+			if (i % 5 == 0)
+				e.eventStartDate = moment(e.eventStartDT.toString().substring(0, 10)).toDate();
+			i++;
 		}
 		this.gridDemo.data = EVENTS;
 	}
@@ -54,6 +59,8 @@ export class DemoGridBasicComponent implements OnInit {
 		custCol.width = "320px";
 		custCol.required = true;
 		this.gridDemo.columns.push(custCol);
+
+		this.gridDemo.columns.push(new DataColumn("eventStartDate", "Start Date").setFieldType(FieldType.Date).setSortable());
 
 		let startCol = new DataColumn("eventStartDT", "Start");
 		startCol.fieldType = FieldType.Date;

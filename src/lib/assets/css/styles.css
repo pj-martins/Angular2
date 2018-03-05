@@ -51,3 +51,20 @@ input.component {
 .large-modal-dialog-body {
 	width: 1000px;
 }
+
+@media print {
+	body * {
+		visibility: hidden;
+	}
+
+	.printarea, .printarea * {
+		visibility: visible;
+	}
+
+	.printarea {
+		position: absolute;
+		left: 0;
+		top: 0;
+		width:100%;
+	}
+}

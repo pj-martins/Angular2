@@ -1,8 +1,8 @@
 ﻿import { EventEmitter, Type } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { ColumnBase, DataColumn } from './gridview-columns';
-import { SelectMode, PagingType, FilterMode, FieldType } from './gridview-enums';
-import { IGridViewRowTemplateComponent } from './gridview-interfaces';
+import { SelectMode, PagingType, FilterMode, FieldType, PrintOrientation } from './gridview-enums';
+import { IGridViewRowTemplateComponent, IGridViewComponent } from './gridview-interfaces';
 import { ParserService } from '../services/parser.service';
 import { OrderByPipe } from '../pipes/order-by.pipe';
 import { Utils, SortDirection } from '../shared';
@@ -53,8 +53,10 @@ export class GridView {
 	autoPopulateColumns = false;
 	allowMultiEdit = false;
 	name: string;
-
+	gridViewComponent: IGridViewComponent;
 	getRowClass: (row: any) => string;
+	printing = false;
+	printSettings = new PrintSettings();
 
 	getDataColumns(): Array<DataColumn> {
 		let cols: Array<DataColumn> = [];
@@ -70,7 +72,7 @@ export class GridView {
 
 		let cols = new Array<ColumnBase>();
 		for (let c of this.columns) {
-			if (c.visible && (!hideRowTemplate || !this.rowTemplate))
+			if (((this.printing && c.printVisible) || (!this.printing && c.visible)) && (!hideRowTemplate || !this.rowTemplate))
 				cols.push(c);
 		}
 		return cols;
@@ -315,6 +317,32 @@ export class GridView {
 			}
 		}
 	}
+
+	addRow() {
+		this.gridViewComponent.addRow();
+	}
+
+	printGrid() {
+		this.printing = true;
+		let style = document.createElement('style');
+		style.type = 'text/css';
+		style.innerHTML = `
+		@media print {
+			@page {
+				size: ${this.printSettings.orientation == PrintOrientation.Portrait ? 'portrait' : 'landscape'}
+			}
+		}
+		`;
+		document.getElementsByTagName('head')[0].appendChild(style);
+
+		window.setTimeout(() => {
+			window.print();
+			window.setTimeout(() => {
+				document.getElementsByTagName('head')[0].removeChild(style);
+				this.printing = false;
+			}, 50)
+		}, 100);
+	}
 }
 
 export class DetailGridView extends GridView {
@@ -351,6 +379,7 @@ export class GridColumnState {
 export class RowArguments {
 	grid: GridView;
 	rows: any[];
+	deletedRows: any[];
 	cancel: boolean;
 	observable: Observable<any>;
 	get row(): any {
@@ -361,4 +390,9 @@ export class CellArguments {
 	parentGridView: GridView;
 	row: any;
 	column: ColumnBase;
+}
+export class PrintSettings {
+	orientation = PrintOrientation.Portrait;
+	fontSize = "12px";
+	cellPadding: string;
 }

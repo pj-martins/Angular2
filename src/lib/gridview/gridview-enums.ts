@@ -26,3 +26,7 @@ export enum FieldType {
 	Html,
 	Time
 }
+export enum PrintOrientation {
+	Portrait,
+	Landscape
+}

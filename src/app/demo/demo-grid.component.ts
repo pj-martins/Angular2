@@ -2,7 +2,7 @@
 import { ActivatedRoute } from '@angular/router';
 import { GridView, DetailGridView, CellArguments } from '../../lib/gridview/gridview';
 import { DataColumn, ButtonColumn, TextAreaColumn, SelectColumn, NumericColumn } from '../../lib/gridview/gridview-columns';
-import { FilterMode, FieldType } from '../../lib/gridview/gridview-enums';
+import { FilterMode, FieldType, PrintOrientation } from '../../lib/gridview/gridview-enums';
 import { SortDirection } from '../../lib/shared';
 import { TypeaheadModule } from '../../lib/typeahead';
 import { MultiTextboxModule } from '../../lib/multi-textbox';
@@ -24,6 +24,7 @@ declare var EVENTS: Array<Event>;
 <input type="checkbox" [(ngModel)]='gridDemo.hideEditDeleteButtons' />Hide Edit Delete
 <br />
 Height: <input type="text" [(ngModel)]='gridDemo.height' />
+<button (click)="gridDemo.printGrid()">Print</button>
 `
 })
 export class DemoGridComponent implements OnInit {
@@ -61,9 +62,12 @@ export class DemoGridComponent implements OnInit {
 		this.gridDemo.pageSize = 20;
 		this.gridDemo.filterVisible = true;
 		this.gridDemo.allowColumnOrdering = true;
-		this.gridDemo.saveGridStateToStorage = true;
+		// this.gridDemo.saveGridStateToStorage = true;
 		this.gridDemo.allowColumnCustomization = true;
 		this.gridDemo.allowEdit = true;
+		this.gridDemo.printSettings.orientation = PrintOrientation.Landscape;
+		this.gridDemo.printSettings.fontSize = "10px";
+		this.gridDemo.printSettings.cellPadding = "20px";
 		this.gridDemo.rowInvalidated.subscribe(((columns: DataColumn[]) => {
 			for (let c of columns) {
 				alert(c.fieldName);
@@ -87,6 +91,8 @@ export class DemoGridComponent implements OnInit {
 			startCol.sortable = true;
 			startCol.sortDirection = SortDirection.Desc;
 			startCol.width = "110px";
+			startCol.printWidth = "90px";
+			
 			startCol.filterMode = FilterMode.DateRange;
 			this.gridDemo.columns.push(startCol);
 
@@ -94,6 +100,7 @@ export class DemoGridComponent implements OnInit {
 			endCol.fieldType = FieldType.Date;
 			endCol.width = "110px";
 			endCol.filterMode = FilterMode.DateRange;
+			endCol.printVisible = false;
 			this.gridDemo.columns.push(endCol);
 
 			this._coordinatorColumn = new DataColumn("coordinator");
@@ -104,7 +111,9 @@ export class DemoGridComponent implements OnInit {
 			this._coordinatorColumn.allowSizing = true;
 			this.gridDemo.columns.push(this._coordinatorColumn);
 
-			this.gridDemo.columns.push(new DataColumn("phoneNumber").setWidth("160px").setFilterMode(FilterMode.Contains));
+			const phoneNumCol = new DataColumn("phoneNumber").setWidth("160px").setFilterMode(FilterMode.Contains);
+			phoneNumCol.printWidth = "100px";
+			this.gridDemo.columns.push(phoneNumCol);
 
 			let evtTypeCol = new SelectColumn("hallEventType", "Event Type");
 			evtTypeCol.filterMode = FilterMode.DynamicList;
@@ -145,7 +154,7 @@ export class DemoGridComponent implements OnInit {
 			testCol.sortable = true;
 			testCol.filterMode = FilterMode.Contains;
 			testCol.valueMember = "id";
-			testCol.getRowCellStyle = (row: any) => { return { 'fontWeight': 'bold' } };
+			testCol.getRowCellStyle = (row: any) => { return { 'fontWeight': 'bold', 'color': 'white', 'backgroundColor': 'red' } };
 			this.gridDemo.columns.push(testCol);
 
 			let testColObj = new SelectColumn("test", "Test Sel Obj");
@@ -154,11 +163,14 @@ export class DemoGridComponent implements OnInit {
 			testColObj.selectOptions = this._selOptions;
 			testColObj.displayMember = "display";
 			testColObj.filterMode = FilterMode.Contains;
+			testColObj.printVisible = false;
 			this.gridDemo.columns.push(testColObj);
 
 			const test2Col = new NumericColumn("testId");
 			test2Col.name = "testIdCol";
-			this.gridDemo.columns.push(new NumericColumn("testId"));
+			test2Col.printVisible = false;
+			test2Col.visible = false;
+			this.gridDemo.columns.push(test2Col);
 
 			this.gridDemo.cellValueChanged.subscribe((args: CellArguments) => {
 				if (args.column.name == testCol.name || args.column.name == test2Col.name) {

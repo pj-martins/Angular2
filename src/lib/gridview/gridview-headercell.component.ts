@@ -11,18 +11,18 @@ import { ParserService } from '../services/parser.service';
 	selector: 'gridview-headercell',
 	styleUrls: ['../assets/css/styles.css', '../assets/css/icons.css', '../assets/css/buttons.css', 'gridview-headercell.css'],
 	template: `
-<div class="sort-header" (click)='setSort(column, $event)' [id]='column.getIdentifier()' draggable="true" (dragover)="dragOver($event)" (dragstart)="dragStart($event)" (drop)="drop($event)">
-	<div class='header-caption' [style.width]="column.fieldName && column.sortable ? '' : '100%'">
+<div class="header-cell" (click)='setSort(column, $event)' [id]='column.getIdentifier()' draggable="true" (dragover)="dragOver($event)" (dragstart)="dragStart($event)" (drop)="drop($event)">
+	<div [ngClass]="column.fieldName && column.sortable ? 'sortable-header' : 'non-sortable-header'">
 		<div [innerHTML]="column.getCaption()"></div>
 	</div>
-	<div [ngClass]="{ 'header-caption sort-arrows' : column.fieldName && column.sortable }" *ngIf='column.fieldName && column.sortable'>
-		<div [ngClass]="'top-empty spinner-arrows' + (column.sortDirection == sortDirection.None ? ' icon-arrow-up-white' : '') + ' sort-arrow'"></div>
-		<div [ngClass]="'bottom-empty spinner-arrows' + (column.sortDirection == sortDirection.None ? ' icon-arrow-down-white' : '') + ' sort-arrow'"></div>
-		<div [ngClass]="'sort-arrow spinner-arrows' + (column.sortDirection == sortDirection.Desc ? ' icon-arrow-up-white' : '')"></div>
-		<div [ngClass]="'sort-arrow spinner-arrows' + (column.sortDirection == sortDirection.Asc ? ' icon-arrow-down-white' : '')"></div>
+	<div *ngIf='!parentGridView.printing && column.fieldName && column.sortable' [style.width]="'15px'">
+		<div [ngClass]="'sort-arrow top-empty' + (column.sortDirection == sortDirection.None ? ' icon-xx-small icon-arrow-up-white' : '')"></div>
+		<div [ngClass]="'sort-arrow bottom-empty' + (column.sortDirection == sortDirection.None ? ' icon-xx-small icon-arrow-down-white' : '')"></div>
+		<div [ngClass]="'sort-arrow' + (column.sortDirection == sortDirection.Desc ? ' icon-xx-small icon-arrow-up-white' : '')"></div>
+		<div [ngClass]="'sort-arrow' + (column.sortDirection == sortDirection.Asc ? ' icon-xx-small icon-arrow-down-white' : '')"></div>
 	</div>
+	<div class='resize-div' *ngIf='!parentGridView.printing && column.allowSizing && !last' (mousedown)='startResize($event)'>|</div>
 </div>
-<div class='resize-div' *ngIf='column.allowSizing && !last' (mousedown)='startResize($event)'>|</div>
 `
 })
 export class GridViewHeaderCellComponent implements AfterViewInit {
@@ -32,6 +32,7 @@ export class GridViewHeaderCellComponent implements AfterViewInit {
 	@Input() columnIndex: number;
 	@Input() first: boolean;
 	@Input() last: boolean;
+	@Input() printing: boolean;
 	@Output() sortChanged = new EventEmitter<DataColumn>();
 	@Output() widthChanged = new EventEmitter<DataColumn>();
 
@@ -94,6 +95,8 @@ export class GridViewHeaderCellComponent implements AfterViewInit {
 		if (this.elementRef.nativeElement.parentElement.nextElementSibling == null)
 			return;
 
+		if (this.parentGridView.printing) return;
+
 		this.elementRef.nativeElement.draggable = false;
 		this._origX = evt.clientX;
 		this._origMove = window.onmousemove;
@@ -135,6 +138,8 @@ export class GridViewHeaderCellComponent implements AfterViewInit {
 
 	// TODO: test test test
 	protected endResize() {
+		if (this.parentGridView.printing) return;
+
 		window.onmousemove = this._origMove;
 		window.onmouseup = this._origUp;
 		this._origX = 0;

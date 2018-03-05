@@ -15,7 +15,9 @@ export class Event {
 	hallRequestRooms: Array<HallRequestRoom> = [];
 	hallEventType: EventType;
 	eventStartDT: Date;
+	eventStartDate: Date;
 	eventEndDT: Date;
+	endDate: Date;
 	requestedBy: string;
 	cancelled: boolean;
 }

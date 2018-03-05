@@ -18,6 +18,11 @@
 
 	.gridview td, .gridview th {
 		padding: 4px;
+		text-align: left;
+	}
+
+	.gridview tr {
+		grid-auto-rows: min-content;
 	}
 
 .filter-td {
@@ -125,4 +130,47 @@
 gridview-cell select,
 gridview-cell input {
     height: 20.51px;
+}
+
+@media print {
+	body * {
+		visibility: hidden;
+	}
+
+	.printarea, .printarea * {
+		visibility: visible;
+	}
+
+	.printarea {
+		position: absolute;
+		left: 0;
+		top: 0;
+		width:100%; 
+	table-layout: fixed;
+	border: 1px solid rgb(182, 182, 182) !important;
+	}
+
+	.printarea th {
+		font-weight: bold;
+		color: black !important;
+	}
+
+	.printarea th, .printarea td {
+		border: 1px solid rgb(182, 182, 182);
+		padding: 6px;
+		page-break-inside: avoid;
+		color: black !important;
+		
+	}
+
+	.printarea td { 
+		page-break-inside:avoid;
+		page-break-after:auto;
+		font-weight: normal !important;
+	}
+	
+	.printarea table { page-break-after:auto }
+	.printarea tr    { page-break-inside:avoid; page-break-after:auto }
+	.printarea thead { display:table-header-group }
+	.printarea tfoot { display:table-footer-group }
 }

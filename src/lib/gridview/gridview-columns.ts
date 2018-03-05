@@ -5,7 +5,9 @@ import { IGridViewCellTemplateComponent, IGridViewFilterCellTemplateComponent } 
 
 export class ColumnBase {
 	visible: boolean = true;
+	printVisible: boolean = true;
 	width: string;
+	printWidth: string;
 	name: string;
 	columnIndex: number = 0;
 	allowSizing: boolean;

@@ -34,11 +34,6 @@ export class DetailGridViewComponent implements OnInit, IDetailGridViewComponent
 
 	ngOnInit() {
 		this.detailGridViewInstance = this.detailGridView.createInstance(this.row);
-		if (this.detailGridView.allowEdit && this.parentGridViewComponent.grid.allowEdit) {
-			this.detailGridViewInstance.rowEdit.subscribe((args: RowArguments) => this.editParent(args));
-			this.detailGridViewInstance.rowDelete.subscribe((args: RowArguments) => this.editParent(args));
-			this.detailGridViewInstance.rowCreate.subscribe((args: RowArguments) => this.editParent(args));
-		}
 		this.parentGridViewComponent.detailGridViewComponents[this.row[this.parentKeyFieldName]] = this;
 	}
 
