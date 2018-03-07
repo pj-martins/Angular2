@@ -655,6 +655,12 @@ export class GridViewComponent implements AfterViewInit, IGridViewComponent {
 
 	saveEdit(row: any) {
 		if (this.validate(row).length > 0) return false;
+		let args = new RowArguments();
+		args.rows = [row];
+		args.grid = this.grid;
+
+		this.grid.rowSave.emit(args);
+		if (args.cancel) return;
 
 		if (this.grid.detailGridView) {
 			let dgvc = this.detailGridViewComponents[row[this.grid.keyFieldName]];
@@ -666,26 +672,19 @@ export class GridViewComponent implements AfterViewInit, IGridViewComponent {
 			}
 		}
 
-		let args = new RowArguments();
-		args.rows = [row];
-		args.grid = this.grid;
-
-		this.grid.rowSave.emit(args);
-		if (!args.cancel) {
-			if (!args.observable) {
+		if (!args.observable) {
+			delete this.editingRows[row[this.grid.keyFieldName]];
+			delete this.changedRows[row[this.grid.keyFieldName]];
+			delete this.newRows[row[this.grid.keyFieldName]];
+			delete this.deletedRows[row[this.grid.keyFieldName]];
+		}
+		else {
+			args.observable.subscribe(() => {
 				delete this.editingRows[row[this.grid.keyFieldName]];
 				delete this.changedRows[row[this.grid.keyFieldName]];
 				delete this.newRows[row[this.grid.keyFieldName]];
 				delete this.deletedRows[row[this.grid.keyFieldName]];
-			}
-			else {
-				args.observable.subscribe(() => {
-					delete this.editingRows[row[this.grid.keyFieldName]];
-					delete this.changedRows[row[this.grid.keyFieldName]];
-					delete this.newRows[row[this.grid.keyFieldName]];
-					delete this.deletedRows[row[this.grid.keyFieldName]];
-				});
-			}
+			});
 		}
 	}
 

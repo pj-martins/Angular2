@@ -114,6 +114,16 @@ export class DemoGridBasicComponent implements OnInit {
 			return Observable.create(o => o.next(evt.hallRequestRooms));
 		}
 		this.gridDemo.detailGridView = roomsDetailGridView;
+
+		this.gridDemo.rowSave.subscribe((r: RowArguments) => {
+			for (let rm of r.row.hallRequestRooms) {
+				console.log("R:", r.row);
+				if (rm.hallRoomId == 1) {
+					r.cancel = true;
+					alert('nope');
+				}
+			}
+		})
 	}
 
 	pageChanged() {
