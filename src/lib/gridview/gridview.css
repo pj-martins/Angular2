@@ -18,6 +18,9 @@
 
 	.gridview td, .gridview th {
 		padding: 4px;
+	}
+
+	.gridview th {
 		text-align: left;
 	}
 

@@ -588,9 +588,12 @@ export class GridViewComponent implements AfterViewInit, IGridViewComponent {
 		delete this.showRequired[(row[this.grid.keyFieldName])];
 		let invalids = new Array<DataColumn>();
 		for (let col of this.grid.getDataColumns()) {
-			if (col.fieldName && col.required && !this.parserService.getObjectValue(col.fieldName, row)) {
-				this.showRequired[(row[this.grid.keyFieldName])] = true;
-				invalids.push(col);
+			if (col.fieldName && col.required) {
+				const val = this.parserService.getObjectValue(col.fieldName, row);
+				if (val == null || val === undefined) {
+					this.showRequired[(row[this.grid.keyFieldName])] = true;
+					invalids.push(col);
+				}
 			}
 		}
 
@@ -634,17 +637,17 @@ export class GridViewComponent implements AfterViewInit, IGridViewComponent {
 		this.grid.rowSaveAll.emit(args);
 		if (!args.cancel) {
 			if (!args.observable) {
-				this.changedRows = { };
-				this.editingRows = { };
-				this.newRows = { };
-				this.deletedRows = { };
+				this.changedRows = {};
+				this.editingRows = {};
+				this.newRows = {};
+				this.deletedRows = {};
 			}
 			else {
 				args.observable.subscribe(() => {
-					this.changedRows = { };
-					this.editingRows = { };
-					this.newRows = { };
-					this.deletedRows = { };
+					this.changedRows = {};
+					this.editingRows = {};
+					this.newRows = {};
+					this.deletedRows = {};
 				});
 			}
 		}
