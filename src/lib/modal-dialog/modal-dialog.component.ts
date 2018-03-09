@@ -70,19 +70,19 @@ export class ModalDialogComponent {
 	protected uniqueId = Utils.newGuid();
 
 	protected ok() {
-		this._hide(DialogResult.OK);
+		this.hide(DialogResult.OK);
 	}
 
 	protected cancel() {
-		this._hide(DialogResult.Cancel);
+		this.hide(DialogResult.Cancel);
 	}
 
 	protected yes() {
-		this._hide(DialogResult.Yes);
+		this.hide(DialogResult.Yes);
 	}
 
 	protected no() {
-		this._hide(DialogResult.No);
+		this.hide(DialogResult.No);
 	}
 
 	get isShown(): boolean {
@@ -107,7 +107,7 @@ export class ModalDialogComponent {
 		}
 		if (hideAfter > 0) {
 			// TODO: always ok?
-			window.setTimeout(() => this._hide(DialogResult.OK),
+			window.setTimeout(() => this.hide(DialogResult.OK),
 				hideAfter + 200);
 		}
 
@@ -123,7 +123,7 @@ export class ModalDialogComponent {
 					const rect = self.dialog.nativeElement.getBoundingClientRect();
 					
 					if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom)
-						self.zone.run(() => self._hide());
+						self.zone.run(() => self.hide());
 				}
 			};
 		}, 200);
@@ -158,11 +158,7 @@ export class ModalDialogComponent {
 		});
 	}
 
-	hide() {
-		this._hide();
-	}
-
-	private _hide(dialogResult: DialogResult = DialogResult.Cancel) {
+	hide(dialogResult: DialogResult = DialogResult.Cancel) {
 		let args = new ClosingArgs();
 		args.dialogResult = dialogResult;
 		this.closing.emit(args);
