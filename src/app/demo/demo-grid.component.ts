@@ -154,6 +154,7 @@ export class DemoGridComponent implements OnInit {
 			testCol.sortable = true;
 			testCol.filterMode = FilterMode.Contains;
 			testCol.valueMember = "id";
+			testCol.addBlank = true;
 			testCol.getRowCellStyle = (row: any) => { return { 'fontWeight': 'bold', 'color': 'white', 'backgroundColor': 'red' } };
 			this.gridDemo.columns.push(testCol);
 

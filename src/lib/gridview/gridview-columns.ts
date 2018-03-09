@@ -150,4 +150,5 @@ export class SelectColumn extends DataColumn {
 	displayMember: string;
 	valueMember: string;
 	parentField: string;
+	addBlank: boolean;
 }

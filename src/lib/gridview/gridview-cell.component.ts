@@ -43,6 +43,7 @@ import { ParserService } from '../services/parser.service';
 			<input type="text" style="width:100%" *ngIf="column.fieldType != fieldType.Numeric && !column.rows && !column.selectOptions" [(ngModel)]="row[column.fieldName]" (ngModelChange)="parentGridViewComponent.cellValueChanged(self)" />
 			<textarea style="width:100%" rows="{{column.rows}}" *ngIf="column.rows" [(ngModel)]="row[column.fieldName]" (ngModelChange)="parentGridViewComponent.cellValueChanged(self)"></textarea>
 			<select style="width:100%" [compareWith]="compareSelectOption" [(ngModel)]="row[column.fieldName]" (ngModelChange)="parentGridViewComponent.cellValueChanged(self)" *ngIf="column.selectOptions">
+				<option *ngIf="column.addBlank" [ngValue]="null"></option>
 				<option *ngFor="let o of column.selectOptions" [ngValue]="column.valueMember ? o[column.valueMember] : o">
 					{{column.displayMember ? o[column.displayMember] : o}}
 				</option>
