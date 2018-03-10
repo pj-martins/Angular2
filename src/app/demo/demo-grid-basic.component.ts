@@ -92,6 +92,9 @@ export class DemoGridBasicComponent implements OnInit {
 		this.gridDemo.columns.push(evtTypeCol);
 
 		let roomsDetailGridView = new DetailGridView();
+		roomsDetailGridView.allowAdd = true;
+		roomsDetailGridView.allowEdit = true;
+		roomsDetailGridView.allowDelete = true;
 		const hallRoomCol = new SelectColumn("hallRoomId", "Room");
 		hallRoomCol.displayMember = "roomName";
 		hallRoomCol.valueMember = "id";

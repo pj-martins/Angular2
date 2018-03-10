@@ -516,7 +516,7 @@ export class GridViewComponent implements AfterViewInit, IGridViewComponent {
 		args.rows = [row];
 		args.grid = this.grid;
 
-		if (this.grid.detailGridView) {
+		if (this.grid.detailGridView && (this.grid.detailGridView.allowEdit)) {
 			let dgvc = this.detailGridViewComponents[row[this.grid.keyFieldName]];
 			if (!dgvc.isExpanded)
 				dgvc.expandCollapse();

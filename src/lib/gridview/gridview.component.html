@@ -33,9 +33,9 @@
 					<button *ngIf="grid.allowMultiEdit && editing" class="icon-check-white icon-small icon-button" (click)="saveAll()"></button>
 					<button *ngIf="grid.allowMultiEdit && editing" class="icon-cancel-white icon-small icon-button" (click)="cancelAll()"></button>
 				</th>
-				<th *ngIf='!grid.printing && parentGridViewComponent && parentGridViewComponent.editing' style='width:45px' id="header_edit_{{uniqueId}}"
+				<th *ngIf='!grid.printing && parentGridViewComponent && parentGridViewComponent.editing && (grid.allowAdd || grid.allowDelete)' style='width:45px' id="header_edit_{{uniqueId}}"
 				 class="edit-th">
-					<button (click)='addRow()' class='icon-plus-white icon-small icon-button'></button>
+					<button (click)='addRow()' *ngIf="grid.allowAdd" class='icon-plus-white icon-small icon-button'></button>
 				</th>
 			</tr>
 			<tr *ngIf='!grid.printing && grid.filterVisible && hasFilterRow()'>
@@ -83,12 +83,12 @@
 					<td *ngIf='!grid.printing && !parentGridViewComponent && (grid.allowAdd || grid.allowEdit || grid.allowDelete)' class='edit-td'>
 						<button *ngIf="grid.allowEdit && !editingRow(row) && !promptConfirm[row[grid.keyFieldName]]" class="icon-pencil-black icon-x-small icon-button"
 						 (click)="editRow(row)"></button>
-						<button *ngIf="grid.allowDelete && !editingRow(row) && !promptConfirm[row[grid.keyFieldName]] && !grid.disableDelete" class="icon-remove-black icon-x-small icon-button"
+						<button *ngIf="grid.allowDelete && !editingRow(row) && !promptConfirm[row[grid.keyFieldName]] && grid.allowDelete" class="icon-remove-black icon-x-small icon-button"
 						 (click)="confirmDelete(row)"></button>
 						<button *ngIf="editingRow(row)" class="icon-check-black icon-x-small icon-button" (click)="saveEdit(row)"></button>
 						<button *ngIf="editingRow(row)" class="icon-cancel-black icon-x-small icon-button" (click)="cancelEdit(row)"></button>
 					</td>
-					<td *ngIf="!grid.printing && parentGridViewComponent && parentGridViewComponent.editing && !grid.disableDelete">
+					<td *ngIf="!grid.printing && parentGridViewComponent && parentGridViewComponent.editing && grid.allowDelete">
 						<button class="icon-remove-black icon-x-small icon-button" (click)="deleteRow(row)"></button>
 					</td>
 				</tr>

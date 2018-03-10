@@ -24,7 +24,6 @@ export class GridView {
 	selectMode: SelectMode;
 	disableAutoSort: boolean;
 	disableAutoFilter: boolean;
-	disableDelete: boolean;
 	pagingType: PagingType = PagingType.Auto;
 	height: string;
 	width: string;
