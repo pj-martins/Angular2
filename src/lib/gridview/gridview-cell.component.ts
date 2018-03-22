@@ -13,7 +13,7 @@ import { ParserService } from '../services/parser.service';
 <div *ngIf="!editing && column.template && !column.render">
 	<div [gridviewCellTemplate]="column.template" [column]="column" [row]="row" [parentGridViewComponent]="parentGridViewComponent" [parentGridView]="parentGridView"></div>
 </div>
-<div *ngIf="!editing && column.render">
+<div *ngIf="(!editing || column.readonly) && column.render">
 	<div>{{column.render(row)}}</div>
 </div>
 <div *ngIf="!column.template && !column.render && (!editing || !column.editTemplate)">
