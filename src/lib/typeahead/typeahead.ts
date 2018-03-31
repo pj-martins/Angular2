@@ -12,7 +12,7 @@ export const TYPEAHEAD_TEMPLATE = `
 		<div class='input-button-container' *ngIf='typeahead.dataSourceFunction && typeahead.loading'>
 			<span class='icon-small icon-refresh-black typeahead-refresh-icon'></span>
 		</div>
-		<div [hidden]='!typeahead.dropdownVisible' class='typeahead-popup component'>
+		<div [hidden]='!typeahead.dropdownVisible' class='typeahead-popup component' [style.maxHeight]="typeahead.popupHeight">
 			<div *ngFor='let item of typeahead.items; let i = index' [hidden]='typeahead.itemHidden(item)'>
 				<div class='typeahead-item' class="typeahead-item {{typeahead.activeIndex == i ? 'typeahead-item-selected' : ''}}" (mouseover)='typeahead.hovered(i)' (click)='typeahead.selectItem(item)'>
 					<div [innerHtml]='typeahead.itemDisplay(item)'></div>
@@ -76,6 +76,7 @@ export class Typeahead {
 	textValue: string;
 	minLength = 1;
 	waitMs = 0;
+	popupHeight: string = "600px";
 	hideButton = false;
 	itemSelected = new EventEmitter<any>();
 	uniqueId = Utils.newGuid();

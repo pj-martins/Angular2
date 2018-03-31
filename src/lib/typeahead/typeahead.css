@@ -15,7 +15,6 @@
 	white-space: nowrap;
 	overflow-x: hidden;
 	overflow-y: auto;
-	max-height: 600px;
 }
 
 .typeahead-item {
