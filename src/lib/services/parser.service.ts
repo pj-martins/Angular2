@@ -16,7 +16,7 @@ export class ParserService {
 				tempObj = tempObj[part];
 			}
             // if there are no periods then simply return the raw value
-            if (!tempObj) return parts.length == 1 ? tempObj : undefined;
+            if (tempObj === null || tempObj === undefined) return parts.length == 1 ? tempObj : undefined;
         }
         return tempObj;
     }

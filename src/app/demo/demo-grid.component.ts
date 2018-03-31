@@ -127,6 +127,7 @@ export class DemoGridComponent implements OnInit {
 			evtTypeCol.allowSizing = true;
 			evtTypeCol.displayMember = "eventTypeName";
 			evtTypeCol.render = (row: any) => `The event type is ${row.hallEventType.eventTypeName}`;
+			evtTypeCol.readonly = true;
 			this.gridDemo.columns.push(evtTypeCol);
 
 			// let requestedByCol = new DataColumn("requestedBy");
