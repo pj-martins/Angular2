@@ -23,7 +23,7 @@
 				<th *ngIf='!grid.printing && grid.allowRowSelect' style='width:1%' id="header_select_{{uniqueId}}"></th>
 				<th [style.padding]="grid.printing ? grid.printSettings.cellPadding : ''" *ngFor="let col of grid.getVisibleColumns() | orderBy:['columnIndex'];let i = index;let last = last; let first = first"
 				 id="header_{{i}}_{{uniqueId}}" [style.width]="grid.printing ? (col.printWidth || col.width) : col.width" [style.maxWidth]="grid.printing ? (col.printWidth || col.width) : col.width" [ngClass]="!last ? 'resize-border' : ''">
-					<gridview-headercell [style.padding]="grid.printing ? grid.printSettings.cellPadding : ''" (sortChanged)='handleSortChanged($event)' [first]='first' [last]='last' [columnIndex]='i' [column]='col'
+					<gridview-headercell (sortChanged)='handleSortChanged($event)' [first]='first' [last]='last' [columnIndex]='i' [column]='col'
 					 [parentGridView]="grid" [parentGridViewComponent]="self"></gridview-headercell>
 				</th>
 				<th *ngIf='!grid.printing && !parentGridViewComponent && (grid.allowAdd || grid.allowEdit || grid.allowDelete)' style='width:45px'
