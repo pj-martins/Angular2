@@ -65,6 +65,14 @@ export class MultiTypeaheadDirective implements OnInit {
 		this._component.instance.typeahead.waitMs = v;
 	}
 
+	@Input()
+	get popupHeight(): string {
+		return this._component.instance.typeahead.popupHeight;
+	}
+	set popupHeight(v: string) {
+		this._component.instance.typeahead.popupHeight = v;
+	}
+
 	@Output()
 	get itemSelected(): EventEmitter<any> {
 		return this._component.instance.typeahead.itemSelected;
