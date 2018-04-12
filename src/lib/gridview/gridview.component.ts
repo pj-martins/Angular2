@@ -664,7 +664,7 @@ export class GridViewComponent implements AfterViewInit, IGridViewComponent {
 
 		if (this.grid.detailGridView) {
 			let dgvc = this.detailGridViewComponents[row[this.grid.keyFieldName]];
-			if (dgvc && dgvc.detailGridViewInstance.data.length > 0) {
+			if (dgvc && (Object.keys(dgvc.gridViewComponent.changedRows).length > 0 || Object.keys(dgvc.gridViewComponent.deletedRows).length > 0)) {
 				// for (let row of dgvc.detailGridViewInstance.data) {
 				// 	dgvc.gridViewComponent.saveEdit(row);
 				// }
