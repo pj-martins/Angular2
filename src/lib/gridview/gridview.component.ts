@@ -598,7 +598,7 @@ export class GridViewComponent implements AfterViewInit, IGridViewComponent {
 		}
 
 		let dgvc = this.detailGridViewComponents[row[this.grid.keyFieldName]];
-		if (dgvc) {
+		if (dgvc && dgvc.detailGridViewInstance.data) {
 			for (let drow of dgvc.detailGridViewInstance.data) {
 				invalids = invalids.concat(dgvc.gridViewComponent.validate(drow));
 			}
