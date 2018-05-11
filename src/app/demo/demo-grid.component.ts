@@ -12,6 +12,7 @@ import {
 } from './grid-cell-templates.component';
 import { RoomComponent } from './room.component';
 import { Observable } from 'rxjs/Observable';
+import { RowArguments } from '../../lib/gridview/index';
 
 declare var EVENTS: Array<Event>;
 @Component({
@@ -74,6 +75,10 @@ export class DemoGridComponent implements OnInit {
 			}
 		}));
 
+		this.gridDemo.rowCancelled.subscribe((a: RowArguments) => {
+			console.log("A:", a.row);
+		});
+		
 		if (!this.route.snapshot.params['auto']) {
 			this.gridDemo.name = "gridDemo";
 			let custCol = new DataColumn("customer.customerName");

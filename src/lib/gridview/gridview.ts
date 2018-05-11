@@ -29,6 +29,7 @@ export class GridView {
 	width: string;
 	dataChanged: EventEmitter<any> = new EventEmitter<any>();
 	rowEdit = new EventEmitter<RowArguments>();
+	rowCancelled = new EventEmitter<RowArguments>();
 	rowSave = new EventEmitter<RowArguments>();
 	rowSaveAll = new EventEmitter<RowArguments>();
 	rowCreate = new EventEmitter<RowArguments>();

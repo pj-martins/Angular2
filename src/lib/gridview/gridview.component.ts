@@ -717,6 +717,11 @@ export class GridViewComponent implements AfterViewInit, IGridViewComponent {
 		delete this.editingRows[row[this.grid.keyFieldName]];
 		delete this.changedRows[row[this.grid.keyFieldName]];
 		delete this.deletedRows[row[this.grid.keyFieldName]];
+
+		let args = new RowArguments();
+		args.rows = [row];
+		args.grid = this.grid;
+		this.grid.rowCancelled.emit(args);
 	}
 
 	refreshDataSource() {
