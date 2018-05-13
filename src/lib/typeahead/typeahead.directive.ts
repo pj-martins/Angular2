@@ -94,7 +94,6 @@ export class TypeaheadDirective implements OnInit, OnChanges {
 		return this._component.instance.typeahead.popupHeight;
 	}
 	set popupHeight(v: string) {
-		console.log("V:", v);
 		this._component.instance.typeahead.popupHeight = v;
 	}
 

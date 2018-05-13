@@ -10,7 +10,7 @@ import { ParserService } from '../services/parser.service';
 import { Utils } from '../shared';
 import { Observable } from 'rxjs/Observable';
 import { CellArguments } from '../index';
-import moment from 'moment-es6';
+import moment from 'moment-timezone-es6';
 
 @Component({
 	selector: 'gridview',

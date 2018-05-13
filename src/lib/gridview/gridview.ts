@@ -57,6 +57,7 @@ export class GridView {
 	getRowClass: (row: any) => string;
 	printing = false;
 	printSettings = new PrintSettings();
+	timezone: string;
 
 	getDataColumns(): Array<DataColumn> {
 		let cols: Array<DataColumn> = [];

@@ -4,11 +4,12 @@
   "license": "PJ",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --port 4201",
     "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
+    "deploydev": "npm run packagr && npm run csscopy",
     "deploy": "npm version patch && npm run packagr && npm run csscopy && cd dist && npm publish",
     "packagr": "ng-packagr -p ng-package.json",
     "csscopy": "copyfiles -f ./src/lib/assets/css/* ./dist/assets/css"
@@ -24,6 +25,7 @@
     "@angular/platform-browser-dynamic": "^5.1.0",
     "@angular/router": "^5.1.0",
     "core-js": "^2.4.1",
+    "moment": "^2.22.1",
     "moment-es6": "^1.0.0",
     "rxjs": "^5.5.6",
     "zone.js": "^0.8.19"
@@ -34,7 +36,6 @@
     "@angular/language-service": "^5.1.0",
     "@types/jasmine": "~2.8.3",
     "@types/jasminewd2": "~2.0.2",
-    "@types/moment-timezone": "^0.5.4",
     "@types/node": "~6.0.60",
     "codelyzer": "^4.0.1",
     "jasmine-core": "~2.8.0",
@@ -45,6 +46,7 @@
     "karma-coverage-istanbul-reporter": "^1.2.1",
     "karma-jasmine": "~1.1.0",
     "karma-jasmine-html-reporter": "^0.2.2",
+    "moment-timezone": "^0.5.17",
     "ng-packagr": "^1.6.0",
     "protractor": "~5.1.2",
     "ts-node": "~3.2.0",

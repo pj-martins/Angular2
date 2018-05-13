@@ -12,7 +12,7 @@ import {
 } from './grid-cell-templates.component';
 import { RoomComponent } from './room.component';
 import { Observable } from 'rxjs/Observable';
-import moment from 'moment-es6';
+import moment from 'moment-timezone-es6';
 
 declare var EVENTS: Array<Event>;
 @Component({

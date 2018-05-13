@@ -1,7 +1,7 @@
 ﻿import { Component } from '@angular/core';
 import { Room } from './classes';
 import { Observable } from 'rxjs/Rx';
-import moment from 'moment-es6';
+import moment from 'moment-timezone-es6';
 
 declare var ROOMS: Array<Room>;
 

@@ -60,6 +60,7 @@ export class DemoGridComponent implements OnInit {
 
 	private initGrid() {
 		this.gridDemo = new GridView();
+		this.gridDemo.timezone = "America/Los_Angeles";
 		this.gridDemo.pageSize = 20;
 		this.gridDemo.filterVisible = true;
 		this.gridDemo.allowColumnOrdering = true;
@@ -78,7 +79,7 @@ export class DemoGridComponent implements OnInit {
 		this.gridDemo.rowCancelled.subscribe((a: RowArguments) => {
 			console.log("A:", a.row);
 		});
-		
+
 		if (!this.route.snapshot.params['auto']) {
 			this.gridDemo.name = "gridDemo";
 			let custCol = new DataColumn("customer.customerName");
@@ -97,9 +98,17 @@ export class DemoGridComponent implements OnInit {
 			startCol.sortDirection = SortDirection.Desc;
 			startCol.width = "110px";
 			startCol.printWidth = "90px";
-			
+
 			startCol.filterMode = FilterMode.DateRange;
 			this.gridDemo.columns.push(startCol);
+
+			let startTime = new DataColumn("eventStartDT", "Start");
+			startTime.fieldType = FieldType.Time;
+			startTime.sortable = true;
+			startTime.sortDirection = SortDirection.Desc;
+			startTime.width = "110px";
+			startTime.printWidth = "90px";
+			this.gridDemo.columns.push(startTime);
 
 			let endCol = new DataColumn("eventEndDT", "End");
 			endCol.fieldType = FieldType.Date;

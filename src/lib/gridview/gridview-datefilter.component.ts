@@ -11,10 +11,10 @@ import { FieldType } from './gridview-enums';
 	template: `
 <div class='date-filter-picker'>
 	<div class='date-filter-from'>
-		<input type="text" style='width:100%' dateTimePicker [hideTime]="true" placeholder="From" [(ngModel)]='fromDate' (ngModelChange)='filterChanged()' [selectOnCalendarClick]="true" />
+		<input type="text" style='width:100%' dateTimePicker [timezone]="parentGridView.timezone" [hideTime]="true" placeholder="From" [(ngModel)]='fromDate' (ngModelChange)='filterChanged()' [selectOnCalendarClick]="true" />
 	</div>
 	<div class='date-filter-to'>
-		<input type="text" style='width:100%' dateTimePicker [hideTime]="true" placeholder="To" [(ngModel)]='toDate' (ngModelChange)='filterChanged()' [selectOnCalendarClick]="true" />
+		<input type="text" style='width:100%' dateTimePicker [timezone]="parentGridView.timezone" [hideTime]="true" placeholder="To" [(ngModel)]='toDate' (ngModelChange)='filterChanged()' [selectOnCalendarClick]="true" />
 	</div>
 </div>
 `

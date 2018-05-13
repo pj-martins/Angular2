@@ -1,7 +1,7 @@
 ﻿import { Directive, ViewContainerRef, OnInit, ComponentFactoryResolver, TemplateRef, Input, Output, ComponentRef, ElementRef, EventEmitter, OnChanges, forwardRef } from '@angular/core';
 import { Validator, AbstractControl, NG_VALIDATORS } from '@angular/forms';
 import { DateTimePickerComponent } from './datetime-picker.component';
-import moment from 'moment-es6';
+import moment from 'moment-timezone-es6';
 
 export const MAX_MIN_VALIDATOR: any = {
 	provide: NG_VALIDATORS,
@@ -71,6 +71,14 @@ export class DateTimePickerDirective implements OnInit, OnChanges, Validator {
 		this._component.instance.minuteStep = v;
 	}
 
+	@Input()
+	get timezone(): string {
+		return this._component.instance.timezone;
+	}
+	set timezone(v: string) {
+		this._component.instance.timezone = v;
+	}
+
 	private _dateFormat: string;
 	@Input()
 	get dateFormat(): string {
@@ -113,7 +121,7 @@ export class DateTimePickerDirective implements OnInit, OnChanges, Validator {
 		}
 
 		if (this.ngModel && !this.ngModel.getTime) {
-			this.ngModel = moment(this.ngModel).toDate();
+			this.ngModel = this._component.instance.getMoment(this.ngModel).toDate();
 			if (isNaN(this.ngModel.getTime()))
 				this.ngModel = null;
 		}
@@ -126,15 +134,15 @@ export class DateTimePickerDirective implements OnInit, OnChanges, Validator {
 		this.inputChanged = false;
 		let formattedDate = this.elementRef.nativeElement.value;
 		if (formattedDate) {
-			let date = moment(formattedDate);
+			let date = this._component.instance.getMoment(formattedDate);
 			if (!date.isValid()) {
 				// might be just a time string
 				let valid = false;
-				let curr = moment(this.ngModel);
+				let curr = this._component.instance.getMoment(this.ngModel);
 				if (!curr.isValid())
-					curr = moment("1900-01-01");
-				let datePart = this.ngModel ? moment(curr).format('YYYY/MM/DD') : '1900/01/01';
-				date = moment(datePart + ' ' + formattedDate);
+					curr = this._component.instance.getMoment("1900-01-01");
+				let datePart = this.ngModel ? this._component.instance.getMoment(curr).format('YYYY/MM/DD') : '1900/01/01';
+				date = this._component.instance.getMoment(datePart + ' ' + formattedDate);
 				if (!date.isValid()) {
 					//this.ngModel = null;
 					//this.formatDate(this.ngModel);
@@ -171,7 +179,7 @@ export class DateTimePickerDirective implements OnInit, OnChanges, Validator {
 		if (!date)
 			formattedDate = "";
 		else
-			formattedDate = moment(date).format(this.dateFormat);
+			formattedDate = this._component.instance.getMoment(date).format(this.dateFormat);
 		window.setTimeout(() => {
 			this.elementRef.nativeElement.value = formattedDate;
 			this.elementRef.nativeElement.style.color = this._initialColor;
@@ -183,7 +191,7 @@ export class DateTimePickerDirective implements OnInit, OnChanges, Validator {
 		if (this.elementRef.nativeElement == document.activeElement) return null;
 
 		if (c.value && this.maxDate) {
-			let dt = moment(c.value);
+			let dt = this._component.instance.getMoment(c.value);
 			if (dt.isValid() && dt.isAfter(this.maxDate)) {
 				return {
 					max: true
@@ -192,7 +200,7 @@ export class DateTimePickerDirective implements OnInit, OnChanges, Validator {
 		}
 
 		if (c.value && this.minDate) {
-			let dt = moment(c.value);
+			let dt = this._component.instance.getMoment(c.value);
 			if (dt.isValid() && dt.isBefore(this.minDate)) {
 				return {
 					min: true

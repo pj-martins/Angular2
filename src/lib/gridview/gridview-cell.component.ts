@@ -19,14 +19,14 @@ import { ParserService } from '../services/parser.service';
 <div *ngIf="!column.template && !column.render && (!editing || !column.editTemplate)">
 	<div *ngIf="column.fieldType == fieldType.Date">
 		<div *ngIf="!editing || column.readonly" 
-				[innerHTML]="getObjectValue() == null ? '' : getObjectValue() | moment:(column.format ? column.format : 'MM/DD/YYYY')"></div>
-		<input type="text" dateTimePicker [hideTime]="true" style="width:100%" *ngIf="(parentGridView.allowEdit || parentGridView.allowAdd) && !column.readonly && editing" [(ngModel)]="row[column.fieldName]" (ngModelChange)="parentGridViewComponent.cellValueChanged(self)" />
+				[innerHTML]="getObjectValue() == null ? '' : getObjectValue() | moment:(column.format ? column.format : 'MM/DD/YYYY'):parentGridView.timezone"></div>
+		<input type="text" dateTimePicker [timezone]="parentGridView.timezone" [hideTime]="true" style="width:100%" *ngIf="(parentGridView.allowEdit || parentGridView.allowAdd) && !column.readonly && editing" [(ngModel)]="row[column.fieldName]" (ngModelChange)="parentGridViewComponent.cellValueChanged(self)" />
 		<div class="error-label" *ngIf="!row[column.fieldName] && column.required && showRequired">{{column.getCaption()}} is required!</div>
 	</div>
 	<div *ngIf="column.fieldType == fieldType.Time">
 		<div *ngIf="!editing || column.readonly" 
-				[innerHTML]="getObjectValue() == null ? '' : getObjectValue() | moment:(column.format ? column.format : 'LT')"></div>
-		<input type="text" dateTimePicker [hideDate]="true" style="width:100%" *ngIf="!column.readonly &&  editing" [(ngModel)]="row[column.fieldName]" (ngModelChange)="parentGridViewComponent.cellValueChanged(self)" />
+				[innerHTML]="getObjectValue() == null ? '' : getObjectValue() | moment:(column.format ? column.format : 'LT'):parentGridView.timezone"></div>
+		<input type="text" dateTimePicker [timezone]="parentGridView.timezone" [hideDate]="true" style="width:100%" *ngIf="!column.readonly &&  editing" [(ngModel)]="row[column.fieldName]" (ngModelChange)="parentGridViewComponent.cellValueChanged(self)" />
 		<div class="error-label" *ngIf="!row[column.fieldName] && column.required && showRequired">{{column.getCaption()}} is required!</div>
 	</div>
 	<div *ngIf="!column.format && column.fieldType == fieldType.Boolean">
