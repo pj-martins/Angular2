@@ -1,6 +1,6 @@
 ﻿import { Component, Input, Output, ElementRef, EventEmitter, NgZone, ViewChild } from '@angular/core'
 import { Observable } from 'rxjs/Observable';
-import { Utils } from '../shared';
+import newGuid from '../utils/newGuid';
 
 @Component({
 	selector: 'modal-dialog',
@@ -67,7 +67,7 @@ export class ModalDialogComponent {
 	tag: any;
 
 	private currentonclick: any;
-	protected uniqueId = Utils.newGuid();
+	protected uniqueId = newGuid();
 
 	protected ok() {
 		this.hide(DialogResult.OK);

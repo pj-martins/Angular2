@@ -1,6 +1,8 @@
 ﻿import { EventEmitter, Type, PipeTransform } from '@angular/core';
 import { FieldType, FilterMode } from './gridview-enums';
-import { Utils, SortDirection } from '../shared';
+import { SortDirection } from '../shared';
+import newGuid from '../utils/newGuid';
+
 import { IGridViewCellTemplateComponent, IGridViewFilterCellTemplateComponent } from './gridview-interfaces';
 
 export class ColumnBase {
@@ -21,7 +23,7 @@ export class ColumnBase {
 
 	getIdentifier(): string {
 		if (!this.name)
-			this.name = Utils.newGuid();
+			this.name = newGuid();
 		return this.name;
 	}
 }

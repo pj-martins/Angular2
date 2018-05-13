@@ -5,7 +5,8 @@ import { SelectMode, PagingType, FilterMode, FieldType, PrintOrientation } from 
 import { IGridViewRowTemplateComponent, IGridViewComponent } from './gridview-interfaces';
 import { ParserService } from '../services/parser.service';
 import { OrderByPipe } from '../pipes/order-by.pipe';
-import { Utils, SortDirection } from '../shared';
+import { SortDirection } from '../shared';
+import newGuid from '../utils/newGuid';
 
 export const TEMP_KEY_FIELD: string = "_tmp_key_field";
 
@@ -53,11 +54,11 @@ export class GridView {
 	autoPopulateColumns = false;
 	allowMultiEdit = false;
 	name: string;
+	timezone: string;
 	gridViewComponent: IGridViewComponent;
 	getRowClass: (row: any) => string;
 	printing = false;
 	printSettings = new PrintSettings();
-	timezone: string;
 
 	getDataColumns(): Array<DataColumn> {
 		let cols: Array<DataColumn> = [];
@@ -210,7 +211,7 @@ export class GridView {
 		if (this.keyFieldName != TEMP_KEY_FIELD || !this.data) return;
 		for (let d of this.data) {
 			if (!d[this.keyFieldName])
-				d[this.keyFieldName] = Utils.newGuid();
+				d[this.keyFieldName] = newGuid();
 		}
 	}
 

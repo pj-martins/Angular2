@@ -13,6 +13,7 @@ import {
 import { RoomComponent } from './room.component';
 import { Observable } from 'rxjs/Observable';
 import { RowArguments } from '../../lib/gridview/index';
+import moment from 'moment-timezone-es6';
 
 declare var EVENTS: Array<Event>;
 @Component({
@@ -41,6 +42,7 @@ export class DemoGridComponent implements OnInit {
 
 	constructor(private route: ActivatedRoute) {
 		this.initGrid();
+		moment.tz.setDefault("America/Los_Angeles");
 	}
 
 	ngOnInit() {
@@ -60,7 +62,7 @@ export class DemoGridComponent implements OnInit {
 
 	private initGrid() {
 		this.gridDemo = new GridView();
-		this.gridDemo.timezone = "America/Los_Angeles";
+		// this.gridDemo.timezone = "America/Los_Angeles";
 		this.gridDemo.pageSize = 20;
 		this.gridDemo.filterVisible = true;
 		this.gridDemo.allowColumnOrdering = true;

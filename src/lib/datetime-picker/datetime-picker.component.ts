@@ -1,6 +1,6 @@
 ﻿import { Component, Input, Output, EventEmitter, OnInit, forwardRef, NgZone, Directive, Attribute, ElementRef } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor, AbstractControl, NG_VALIDATORS, Validator, FormControl } from '@angular/forms';
-import { Utils } from '../shared';
+import newGuid from '../utils/newGuid';
 import moment from 'moment-timezone-es6';
 @Component({
 	selector: 'datetime-picker',
@@ -92,7 +92,7 @@ export class DateTimePickerComponent implements OnInit { // implements ControlVa
 	minDate: Date;
 	maxDate: Date;
 	minuteStep: number;
-	uniqueId = Utils.newGuid();
+	uniqueId = newGuid();
 	dropdownVisible: boolean = false;
 	timezone: string;
 	

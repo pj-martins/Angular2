@@ -7,7 +7,7 @@ import { SortDirection } from '../shared';
 import { GridViewPagerComponent } from './gridview-pager.component';
 import { GridViewHeaderCellComponent } from './gridview-headercell.component';
 import { ParserService } from '../services/parser.service';
-import { Utils } from '../shared';
+import newGuid from '../utils/newGuid';
 import { Observable } from 'rxjs/Observable';
 import { CellArguments } from '../index';
 import moment from 'moment-timezone-es6';
@@ -22,7 +22,7 @@ export class GridViewComponent implements AfterViewInit, IGridViewComponent {
 
 	protected selectedKeys: { [keyFieldValue: string]: boolean } = {};
 
-	protected uniqueId = Utils.newGuid();
+	protected uniqueId = newGuid();
 
 	@Input()
 	parentGridViewComponent: GridViewComponent;
@@ -490,7 +490,7 @@ export class GridViewComponent implements AfterViewInit, IGridViewComponent {
 		let args = new RowArguments();
 		const row = {};
 		if (this._grid.keyFieldName == TEMP_KEY_FIELD) {
-			row[TEMP_KEY_FIELD] = Utils.newGuid();
+			row[TEMP_KEY_FIELD] = newGuid();
 		}
 		args.grid = this.grid;
 		args.rows = [row];

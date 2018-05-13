@@ -1,6 +1,6 @@
 {
   "name": "pajama-angular",
-  "version": "0.1.64",
+  "version": "0.1.67",
   "license": "PJ",
   "scripts": {
     "ng": "ng",
@@ -27,6 +27,8 @@
     "core-js": "^2.4.1",
     "moment": "^2.22.1",
     "moment-es6": "^1.0.0",
+    "moment-timezone": "^0.5.17",
+    "moment-timezone-es6": "^1.0.0",
     "rxjs": "^5.5.6",
     "zone.js": "^0.8.19"
   },
@@ -46,8 +48,7 @@
     "karma-coverage-istanbul-reporter": "^1.2.1",
     "karma-jasmine": "~1.1.0",
     "karma-jasmine-html-reporter": "^0.2.2",
-    "moment-timezone": "^0.5.17",
-    "ng-packagr": "^1.6.0",
+    "ng-packagr": "^2.4.4",
     "protractor": "~5.1.2",
     "ts-node": "~3.2.0",
     "tslint": "~5.9.1",
