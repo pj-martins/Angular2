@@ -190,6 +190,11 @@ export class DemoGridComponent implements OnInit {
 			test2Col.visible = false;
 			this.gridDemo.columns.push(test2Col);
 
+			const btnCol = new ButtonColumn();
+			btnCol.text = "TEST";
+			this.gridDemo.columns.push(btnCol);
+
+
 			this.gridDemo.cellValueChanged.subscribe((args: CellArguments) => {
 				if (args.column.name == testCol.name || args.column.name == test2Col.name) {
 					args.row.test = this._selOptions.find(o => o.id == args.row.testId);
