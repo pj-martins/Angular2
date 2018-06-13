@@ -166,8 +166,12 @@ export class DateTimePickerComponent implements OnInit { // implements ControlVa
 		return moment.tz(dt, this.timezone);
 	}
 	refreshCalendarDates() {
-		if (!this.selectedDate)
+		if (!this.selectedDate) {
 			this.selectedDate = this.getMoment();
+			this.selectedDate.hours(0);
+			this.selectedDate.minutes(0);
+			this.selectedDate.seconds(0);
+		}
 		if (!this.selectedMonth)
 			this.selectedMonth = this.getMoment(this.selectedDate).month() + 1;
 		if (!this.selectedYear)
