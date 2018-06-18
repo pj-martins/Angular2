@@ -11,22 +11,24 @@ import {
 	CustomerCellTemplateComponent, CoordinatorFilterCellTemplateComponent, EventTypeFilterCellTemplateComponent, RequestedByFilterCellTemplateComponent, CustomerCellEditTemplateComponent
 } from './grid-cell-templates.component';
 import { RoomComponent } from './room.component';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { RowArguments } from '../../lib/gridview/index';
 import moment from 'moment-timezone-es6';
+import { DataService } from '../../lib';
 
-declare var EVENTS: Array<Event>;
 @Component({
 	selector: 'demo-grid',
 	template: `
 <gridview [grid]='gridDemo' (pageChanged)='pageChanged()'></gridview>
 <br /><br /><br /><br />
-<input type="checkbox" [(ngModel)]='gridDemo.allowEdit' />Allow Edit
-<input type="checkbox" [(ngModel)]='gridDemo.visible' />Grid Visible
-<input type="checkbox" [(ngModel)]='gridDemo.hideEditDeleteButtons' />Hide Edit Delete
-<br />
-Height: <input type="text" [(ngModel)]='gridDemo.height' />
-<button (click)="gridDemo.printGrid()">Print</button>
+<div *ngIf="gridDemo">
+	<input type="checkbox" [(ngModel)]='gridDemo.allowEdit' />Allow Edit
+	<input type="checkbox" [(ngModel)]='gridDemo.visible' />Grid Visible
+	<input type="checkbox" [(ngModel)]='gridDemo.hideEditDeleteButtons' />Hide Edit Delete
+	<br />
+	Height: <input type="text" [(ngModel)]='gridDemo.height' />
+	<button (click)="gridDemo.printGrid()">Print</button>
+</div>
 `
 })
 export class DemoGridComponent implements OnInit {
@@ -39,14 +41,18 @@ export class DemoGridComponent implements OnInit {
 		{ id: 3, display: "TEST THREE" },
 	];
 
+	private events: Array<any>;
 
-	constructor(private route: ActivatedRoute) {
-		this.initGrid();
+
+	constructor(private route: ActivatedRoute, private dataService: DataService) {
 		moment.tz.setDefault("America/Los_Angeles");
 	}
 
-	ngOnInit() {
-		this.gridDemo.data = EVENTS;
+	async ngOnInit() {
+		this.events = (await this.dataService.getItems<any>('/assets/events.json').toPromise()).data;
+		await this.initGrid();
+		
+		this.gridDemo.data = this.events;
 		for (let i = 0; i < this.gridDemo.data.length; i++) {
 			this.gridDemo.data[i].test = this._selOptions[i % 4];
 			this.gridDemo.data[i].testId = this.gridDemo.data[i].test.id;
@@ -60,7 +66,7 @@ export class DemoGridComponent implements OnInit {
 			}, 100);
 	}
 
-	private initGrid() {
+	private async initGrid() {
 		this.gridDemo = new GridView();
 		// this.gridDemo.timezone = "America/Los_Angeles";
 		this.gridDemo.pageSize = 20;
@@ -136,7 +142,7 @@ export class DemoGridComponent implements OnInit {
 			evtTypeCol.filterValue = [];
 			evtTypeCol.filterTemplate = EventTypeFilterCellTemplateComponent;
 			const eventTypes = [];
-			for (let e of EVENTS) {
+			for (let e of this.events) {
 				if (e.hallEventType && !eventTypes.find(et => et.id == e.hallEventType.id)) eventTypes.push(Object.assign({}, e.hallEventType));
 			}
 			evtTypeCol.selectOptions = eventTypes;

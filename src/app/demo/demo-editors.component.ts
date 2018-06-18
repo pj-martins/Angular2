@@ -1,15 +1,14 @@
-﻿import { Component } from '@angular/core';
+﻿import { Component, OnInit } from '@angular/core';
 import { Room } from './classes';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs';
+import { DataService } from '../../lib';
 import moment from 'moment-timezone-es6';
-
-declare var ROOMS: Array<Room>;
 
 @Component({
 	selector: 'demo-editors',
 	templateUrl: './demo-editors.component.html'
 })
-export class DemoEditorsComponent {
+export class DemoEditorsComponent implements OnInit {
 	selectedDateTime: Date;
 	timeZone: any = "2018-01-01";
 	hideDate: boolean;
@@ -30,8 +29,17 @@ export class DemoEditorsComponent {
 	selectedRoom: Room;
 	selectedRoom2: Room;
 	selectedRoom3: Room;
+
+	rooms: Array<any>;
+
+	constructor(private dataService: DataService) {
+		
+	}
+
+	async ngOnInit() {
+		this.rooms = (await this.dataService.getItems('/assets/rooms.json').toPromise()).data;
+	}
 	
-	rooms = ROOMS;
 	getRooms = (partial: string): Array<any> => {
 		let rooms = [];
 		for (let r of this.rooms) {

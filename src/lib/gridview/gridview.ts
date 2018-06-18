@@ -1,5 +1,5 @@
 ﻿import { EventEmitter, Type } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { ColumnBase, DataColumn } from './gridview-columns';
 import { SelectMode, PagingType, FilterMode, FieldType, PrintOrientation } from './gridview-enums';
 import { IGridViewRowTemplateComponent, IGridViewComponent } from './gridview-interfaces';

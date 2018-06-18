@@ -8,7 +8,7 @@ import { GridViewPagerComponent } from './gridview-pager.component';
 import { GridViewHeaderCellComponent } from './gridview-headercell.component';
 import { ParserService } from '../services/parser.service';
 import newGuid from '../utils/newGuid';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { CellArguments } from '../index';
 import moment from 'moment-timezone-es6';
 

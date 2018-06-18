@@ -1,5 +1,5 @@
 ﻿import { Component, ViewChild } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { ModalDialogComponent, DialogResult, Button } from '../../lib/modal-dialog/modal-dialog.component';
 
 @Component({

@@ -24,6 +24,7 @@ import { CoordinatorFilterCellTemplateComponent, CustomerCellTemplateComponent, 
 import { RoomNodeTemplateComponent } from './demo/treeview-templates.component';
 import { RoomComponent } from './demo/room.component';
 import { DemoGridBasicComponent } from './demo/demo-grid-basic.component';
+import { DataService } from '../lib';
 
 @NgModule({
 	imports: [
@@ -43,7 +44,7 @@ import { DemoGridBasicComponent } from './demo/demo-grid-basic.component';
 		ModalDialogModule,
 		routing
 	],
-	providers: [ParserService],
+	providers: [ParserService, DataService],
 	declarations: [
 		AppComponent,
 		DemoGridComponent,

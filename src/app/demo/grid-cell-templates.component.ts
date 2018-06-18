@@ -1,4 +1,4 @@
-﻿import { Component, OnInit } from '@angular/core';
+﻿import { Component, OnInit, Input } from '@angular/core';
 import { GridView } from '../../lib/gridview/gridview';
 import { DataColumn } from '../../lib/gridview/gridview-columns';
 import { FilterMode, FieldType } from '../../lib/gridview/gridview-enums';
@@ -39,8 +39,6 @@ export class RequestedByFilterCellTemplateComponent extends GridViewFilterCellTe
 })
 export class CustomerCellTemplateComponent extends GridViewCellTemplateComponent { }
 
-declare var EVENTS: Array<Event>;
-
 @Component({
 	selector: 'customer-cell-edit',
 	template: `
@@ -48,10 +46,13 @@ declare var EVENTS: Array<Event>;
 `
 })
 export class CustomerCellEditTemplateComponent extends GridViewCellTemplateComponent {
+	@Input()
+	events: Array<any>;
+
 	customers = new Array<Customer>();
 	constructor() {
 		super();
-		for (let e of EVENTS) {
+		for (let e of this.events) {
 			if (e.customer) {
 				let exists = false;
 				for (let c of this.customers) {

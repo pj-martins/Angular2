@@ -1,5 +1,6 @@
 ﻿import { Component, Input, Output, ElementRef, EventEmitter, NgZone, ViewChild } from '@angular/core'
-import { Observable } from 'rxjs/Observable';
+import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import newGuid from '../utils/newGuid';
 
 @Component({
@@ -137,11 +138,11 @@ export class ModalDialogComponent {
 	showResult(headerText: string, bodyContent: string, hideAfter: number = 0): Observable<DialogResult> {
 		this.headerText = headerText;
 		this.bodyContent = bodyContent;
-		return this.show(Button.OK, hideAfter).map(s => {
+		return this.show(Button.OK, hideAfter).pipe(map(s => {
 			this.headerText = null;
 			this.bodyContent = null;
 			return s;
-		});
+		}));
 	}
 
 	showError(headerText: string, bodyContent: string): Observable<DialogResult> {
@@ -151,11 +152,11 @@ export class ModalDialogComponent {
 	showYesNo(headerText: string, bodyContent: string): Observable<DialogResult> {
 		this.headerText = headerText;
 		this.bodyContent = bodyContent;
-		return this.show(Button.YesNo).map(s => {
+		return this.show(Button.YesNo).pipe(map(s => {
 			this.headerText = null;
 			this.bodyContent = null;
 			return s;
-		});
+		}));
 	}
 
 	hide(dialogResult: DialogResult = DialogResult.Cancel) {

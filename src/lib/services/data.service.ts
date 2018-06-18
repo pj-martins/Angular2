@@ -1,11 +1,9 @@
 ﻿import { Injectable } from '@angular/core';
 import { Http, Response, RequestOptions } from '@angular/http';
-import { Observable } from 'rxjs/Rx';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
 import { SortDirection } from '../shared';
 import moment from 'moment-es6';
-import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
+import { map, catchError } from 'rxjs/operators';
+import { Observable, throwError } from 'rxjs';
 
 @Injectable()
 export class DataService {
@@ -18,32 +16,32 @@ export class DataService {
 
 	post<TObject>(url: string, body: TObject = null): Observable<TObject> {
 		return this.http.post(url, body, this.getOptions())
-			.map((res: Response) => {
+			.pipe(map((res: Response) => {
 				if (!res.text())
 					return null;
 				return res.json();
-			})
-			.catch(e => this.handleError(e));
+			}),
+				catchError(e => this.handleError(e)));
 	}
 
 	put<TObject>(url: string, body: TObject): Observable<TObject> {
 		return this.http.put(url, body, this.getOptions())
-			.map((res: Response) => {
+			.pipe(map((res: Response) => {
 				if (!res.text())
 					return null;
 				return res.json();
-			})
-			.catch(e => this.handleError(e));
+			}),
+				catchError(e => this.handleError(e)));
 	}
 
 	delete(url: string): Observable<boolean> {
 		return this.http.delete(url, this.getOptions())
-			.map((res: Response) => {
+			.pipe(map((res: Response) => {
 				if (!res.text())
 					return null;
 				return res.json();
-			})
-			.catch(e => this.handleError(e));
+			}),
+				catchError(e => this.handleError(e)));
 	}
 
 	getItems<TObject>(url: string, args?: GetArguments): Observable<Items<TObject>> {
@@ -58,21 +56,21 @@ export class DataService {
 		}
 
 		return this.http.get(url, this.getOptions())
-			.map((res: Response) => {
+			.pipe(map((res: Response) => {
 				return res.json();
-			})
-			.catch(e => this.handleError(e));
+			}),
+				catchError(e => this.handleError(e)));
 	}
 
 	getItem<TObject>(url: string): Observable<TObject> {
 		return this.http.get(url, this.getOptions())
-			.map((res: Response) => {
+			.pipe(map((res: Response) => {
 				return res.json();
-			})
-			.catch(e => this.handleError(e));
+			}),
+				catchError(e => this.handleError(e)));
 	}
 
-	handleError(error: any): ErrorObservable {
+	handleError(error: any): Observable<never> {
 		// let errMessage = 'Error occured!';
 		// if (error) {
 		// 	if (!error.exceptionMessage && !error.message && error._body) {
@@ -89,7 +87,8 @@ export class DataService {
 		// }
 		// console.error(errMessage);
 		// return Observable.throw(errMessage);
-		return Observable.throw(error);
+		// return Observable.throw(error);
+		return throwError(error);
 	}
 }
 

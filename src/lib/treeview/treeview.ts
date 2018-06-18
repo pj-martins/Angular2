@@ -1,5 +1,5 @@
 ﻿import { EventEmitter, Type } from '@angular/core';
-import { Observable } from 'rxjs/Observable'
+import { Observable } from 'rxjs';
 
 export class TreeViewNode {
 	dataItem: any;

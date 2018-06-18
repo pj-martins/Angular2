@@ -4,10 +4,10 @@ import { RoomComponent } from './room.component';
 import { TreeViewNode } from '../../lib/treeview/treeview';
 import { TreeViewComponent } from '../../lib/treeview/treeview.component';
 import { RoomNodeTemplateComponent } from './treeview-templates.component';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 import moment from 'moment-es6';
-declare var EVENTS: Array<Event>;
+import { DataService } from '../../lib';
 
 
 @Component({
@@ -25,10 +25,16 @@ export class DemoTreeComponent implements OnInit {
 	@ViewChild(TreeViewComponent)
 	treeViewComponent: TreeViewComponent;
 
-	ngOnInit() {
+	constructor(private dataService: DataService) {
+
+	}
+
+	async ngOnInit() {
+		let events = (await this.dataService.getItems<any>('/assets/events.json').toPromise()).data;
+
 		this.nodes = new Array<TreeViewNode>();
-		for (let i = 0; i < EVENTS.length; i++) {
-			let e = EVENTS[i];
+		for (let i = 0; i < events.length; i++) {
+			let e = events[i];
 
 			let node: TreeViewNode;
 			for (let curr of this.nodes) {

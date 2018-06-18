@@ -11,10 +11,10 @@ import {
 	CustomerCellTemplateComponent, CoordinatorFilterCellTemplateComponent, EventTypeFilterCellTemplateComponent, RequestedByFilterCellTemplateComponent, CustomerCellEditTemplateComponent
 } from './grid-cell-templates.component';
 import { RoomComponent } from './room.component';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import moment from 'moment-timezone-es6';
+import { DataService } from '../../lib';
 
-declare var EVENTS: Array<Event>;
 @Component({
 	selector: 'demo-grid-basic',
 	template: `
@@ -23,14 +23,16 @@ declare var EVENTS: Array<Event>;
 export class DemoGridBasicComponent implements OnInit {
 	gridDemo: GridView;
 	private _coordinatorColumn: DataColumn;
+	private events: Array<any>;
 
-	constructor(private route: ActivatedRoute) {
-		this.initGrid();
+	constructor(private route: ActivatedRoute, private dataService: DataService) {
+		
 	}
 
-	ngOnInit() {
+	async ngOnInit() {
 		let i = 0;
-		for (let e of EVENTS) {
+		this.events = (await this.dataService.getItems('/assets/events.json').toPromise()).data;
+		for (let e of this.events) {
 			if (e.customer) e.customerId = e.customer.id;
 			if (e.hallRequestRooms) {
 				for (let r of e.hallRequestRooms) {
@@ -41,10 +43,11 @@ export class DemoGridBasicComponent implements OnInit {
 				e.eventStartDate = moment(e.eventStartDT.toString().substring(0, 10)).toDate();
 			i++;
 		}
-		this.gridDemo.data = EVENTS;
+		await this.initGrid();
+		this.gridDemo.data = this.events;
 	}
 
-	private initGrid() {
+	private async initGrid() {
 		this.gridDemo = new GridView();
 		this.gridDemo.allowEdit = true;
 		this.gridDemo.allowAdd = true;
@@ -56,7 +59,7 @@ export class DemoGridBasicComponent implements OnInit {
 		});
 
 		let custCol = new SelectColumn("customerId");
-		custCol.selectOptions = EVENTS.map(e => e.customer);
+		custCol.selectOptions = this.events.map(e => e.customer);
 		custCol.displayMember = "customerName";
 		custCol.valueMember = "id";
 		custCol.width = "320px";
@@ -86,7 +89,7 @@ export class DemoGridBasicComponent implements OnInit {
 
 		let evtTypeCol = new SelectColumn("hallEventType", "Event Type");
 		const eventTypes = [];
-		for (let e of EVENTS) {
+		for (let e of this.events) {
 			if (e.hallEventType && !eventTypes.find(et => et.id == e.hallEventType.id)) eventTypes.push(Object.assign({}, e.hallEventType));
 		}
 		evtTypeCol.selectOptions = eventTypes;
@@ -103,7 +106,7 @@ export class DemoGridBasicComponent implements OnInit {
 		hallRoomCol.valueMember = "id";
 		hallRoomCol.required = true;
 		const rooms = []
-		for (let e of EVENTS) {
+		for (let e of this.events) {
 			for (let r of e.hallRequestRooms) {
 				rooms.push(r.hallRoom);
 			}
