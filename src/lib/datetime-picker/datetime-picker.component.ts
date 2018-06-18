@@ -109,9 +109,9 @@ export class DateTimePickerComponent implements OnInit { // implements ControlVa
 	}
 	private selectedDate: any;
 	private currentonclick: any;
-	protected dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-	protected weekNumbers = [0, 1, 2, 3, 4, 5];
-	protected months = [
+	dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+	weekNumbers = [0, 1, 2, 3, 4, 5];
+	months = [
 		{ number: 1, name: "January" },
 		{ number: 2, name: "February" },
 		{ number: 3, name: "March" },
@@ -125,12 +125,12 @@ export class DateTimePickerComponent implements OnInit { // implements ControlVa
 		{ number: 11, name: "November" },
 		{ number: 12, name: "December" }
 	];
-	protected calendarDates: Array<Array<any>>;
-	protected selectedMonth: number;
-	protected selectedYear: number;
-	protected selectedHour: string;
-	protected selectedMinute: string;
-	protected selectedAMPM: string;
+	calendarDates: Array<Array<any>>;
+	selectedMonth: number;
+	selectedYear: number;
+	selectedHour: string;
+	selectedMinute: string;
+	selectedAMPM: string;
 	constructor(private zone: NgZone, public elementRef: ElementRef) { }
 	ngOnInit() {
 		// TODO: hackish, need to find a better way to hide drop down when they click off of it, can't use blur
@@ -211,7 +211,7 @@ export class DateTimePickerComponent implements OnInit { // implements ControlVa
 			startDate.add(1, 'd');
 		}
 	}
-	protected formatMinute() {
+	formatMinute() {
 		let currMinute = this.getMinuteInt();
 		this.selectedMinute = "00".substring(0, 2 - currMinute.toString().length) + currMinute.toString();
 	}
@@ -221,11 +221,11 @@ export class DateTimePickerComponent implements OnInit { // implements ControlVa
 			currHour = 0;
 		return currHour;
 	}
-	protected formatHour() {
+	formatHour() {
 		let currHour = this.getHourInt();
 		this.selectedHour = currHour.toString();
 	}
-	protected selectNow() {
+	selectNow() {
 		this.updateDateTimeControls(this.getMoment());
 	}
 	showDropdown() {
@@ -242,12 +242,12 @@ export class DateTimePickerComponent implements OnInit { // implements ControlVa
 		this.selectedAMPM = null;
 		this.refreshCalendarDates();
 	}
-	protected datesAreEqual(date: any) {
+	datesAreEqual(date: any) {
 		if (!this.selectedDate) return false;
 		if (!date) return false;
 		return this.selectedDate.format("MMDDYYYY") == date.format("MMDDYYYY");
 	}
-	protected addMonth(backwards) {
+	addMonth(backwards) {
 		this.selectedMonth += (backwards ? -1 : 1);
 		if (this.selectedMonth <= 0) {
 			this.selectedMonth = 12;
@@ -259,11 +259,11 @@ export class DateTimePickerComponent implements OnInit { // implements ControlVa
 		}
 		this.refreshCalendarDates();
 	}
-	protected addYear(backwards) {
+	addYear(backwards) {
 		this.selectedYear += (backwards ? -1 : 1);
 		this.refreshCalendarDates();
 	}
-	protected addHour(backwards) {
+	addHour(backwards) {
 		var hour = this.getHourInt();
 		hour += (backwards ? -1 : 1);
 		let toggleAMPM = false;
@@ -288,7 +288,7 @@ export class DateTimePickerComponent implements OnInit { // implements ControlVa
 			this.selectedAMPM = this.selectedAMPM == 'AM' ? 'PM' : 'AM';
 		}
 	}
-	protected selectDate(date, fromInput = false) {
+	selectDate(date, fromInput = false) {
 		if (!fromInput && ((this.minDate && date < this.minDate) || (this.maxDate && date > this.maxDate)))
 			return;
 		this.selectedDate = date;
@@ -330,7 +330,7 @@ export class DateTimePickerComponent implements OnInit { // implements ControlVa
 		}
 		this.innerValue = selectedDate.toDate();
 	}
-	protected addMinute(backwards) {
+	addMinute(backwards) {
 		let currMinute = this.getMinuteInt();
 		currMinute += (backwards ? -1 : 1) * (this.minuteStep || 1);
 		if (currMinute < 0) {

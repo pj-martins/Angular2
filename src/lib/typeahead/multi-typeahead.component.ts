@@ -36,14 +36,14 @@ export class MultiTypeaheadComponent extends MultiTextboxComponent {
 		}
 	}
 
-	protected itemsAreEqual(item1: any, item2: any): boolean {
+	itemsAreEqual(item1: any, item2: any): boolean {
 		if (!this.typeahead.displayMember)
 			return item1 == item2;
 		return this.parserService.getObjectValue(this.typeahead.displayMember, item1) ==
 			this.parserService.getObjectValue(this.typeahead.displayMember, item2);
 	}
 
-	protected getObjectValue(item) {
+	getObjectValue(item) {
 		if (!this.typeahead.displayMember)
 			return item;
 		return this.parserService.getObjectValue(this.typeahead.displayMember, item);

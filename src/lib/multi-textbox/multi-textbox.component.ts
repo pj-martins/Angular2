@@ -70,7 +70,7 @@ export class MultiTextboxComponent implements OnInit {
 		this.paddingChanged.emit(this._paddingLeft);
 	}
 
-	protected removeItem(item: any) {
+	removeItem(item: any) {
 		for (let i = this._items.length - 1; i >= 0; i--) {
 			if (this.itemsAreEqual(this._items[i], item)) {
 				this._items.splice(i, 1);
@@ -81,7 +81,7 @@ export class MultiTextboxComponent implements OnInit {
 		this.resize();
 	}
 
-	protected itemsAreEqual(item1: any, item2: any): boolean {
+	itemsAreEqual(item1: any, item2: any): boolean {
 		return item1 == item2;
 	}
 
@@ -114,7 +114,7 @@ export class MultiTextboxComponent implements OnInit {
 		this.resize();
 	}
 
-	protected getObjectValue(item: any) {
+	getObjectValue(item: any) {
 		return item;
 	}
 }

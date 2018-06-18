@@ -20,9 +20,9 @@ import moment from 'moment-timezone-es6';
 export class GridViewComponent implements AfterViewInit, IGridViewComponent {
 	private _grid: GridView;
 
-	protected selectedKeys: { [keyFieldValue: string]: boolean } = {};
+	selectedKeys: { [keyFieldValue: string]: boolean } = {};
 
-	protected uniqueId = newGuid();
+	uniqueId = newGuid();
 
 	@Input()
 	parentGridViewComponent: GridViewComponent;
@@ -156,7 +156,7 @@ export class GridViewComponent implements AfterViewInit, IGridViewComponent {
 		this.elementRef.nativeElement.firstElementChild.style.height = "calc(" + this.grid.height + " - " + (el.offsetHeight + 2) + "px)";
 	}
 
-	protected hasFilterRow() {
+	hasFilterRow() {
 		if (this.grid.disableFilterRow) return false;
 		for (let col of this.grid.getDataColumns()) {
 			if (col.filterMode != FilterMode.None) {
@@ -166,20 +166,20 @@ export class GridViewComponent implements AfterViewInit, IGridViewComponent {
 		return false;
 	}
 
-	protected editingRow(row: any) {
+	editingRow(row: any) {
 		return this.editingRows[row[this.grid.keyFieldName]];
 	}
 
-	protected get editing() {
+	get editing() {
 		return this.adding || Object.keys(this.editingRows).length > 0;
 	}
 
-	protected get adding() {
+	get adding() {
 		return Object.keys(this.newRows).length > 0;
 	}
 
 	private _indexWidthInited = false;
-	protected getVisibleColumnCount(): number {
+	getVisibleColumnCount(): number {
 		if (this.grid.rowTemplate)
 			return 1;
 
@@ -214,7 +214,7 @@ export class GridViewComponent implements AfterViewInit, IGridViewComponent {
 		this.updateHeight();
 	}
 
-	protected toggleFilter() {
+	toggleFilter() {
 		this.grid.filterVisible = !this.grid.filterVisible;
 		this.grid.currentPage = 1;
 		this.filterChanged.emit(null);
@@ -222,7 +222,7 @@ export class GridViewComponent implements AfterViewInit, IGridViewComponent {
 		this.refreshDataSource();
 	}
 
-	protected rowClick(row) {
+	rowClick(row) {
 		if (this.grid.selectMode > 0) {
 			this.selectedKeys[row[this.grid.keyFieldName]] = !this.selectedKeys[row[this.grid.keyFieldName]];
 
@@ -244,7 +244,7 @@ export class GridViewComponent implements AfterViewInit, IGridViewComponent {
 		}
 	}
 
-	protected handleSortChanged(column: DataColumn) {
+	handleSortChanged(column: DataColumn) {
 		if (this.sortChanged)
 			this.sortChanged.emit(column);
 

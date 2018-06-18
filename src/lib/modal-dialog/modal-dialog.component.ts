@@ -33,11 +33,11 @@ import newGuid from '../utils/newGuid';
 export class ModalDialogComponent {
 	private currObserver: any;
 
-	protected overrideTop;
-	protected overrideLeft;
+	overrideTop;
+	overrideLeft;
 
-	protected button = Button;
-	protected buttons = Button.OK;
+	button = Button;
+	buttons = Button.OK;
 	
 	shown = false;
 	
@@ -68,21 +68,21 @@ export class ModalDialogComponent {
 	tag: any;
 
 	private currentonclick: any;
-	protected uniqueId = newGuid();
+	uniqueId = newGuid();
 
-	protected ok() {
+	ok() {
 		this.hide(DialogResult.OK);
 	}
 
-	protected cancel() {
+	cancel() {
 		this.hide(DialogResult.Cancel);
 	}
 
-	protected yes() {
+	yes() {
 		this.hide(DialogResult.Yes);
 	}
 
-	protected no() {
+	no() {
 		this.hide(DialogResult.No);
 	}
 
