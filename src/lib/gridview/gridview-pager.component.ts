@@ -42,8 +42,8 @@ export class GridViewPagerComponent {
 	@Output() pageChanging = new EventEmitter<any>();
 
 	pagingType = PagingType;
-	protected moreToLeft = false;
-	protected moreToRight = false;
+	moreToLeft = false;
+	moreToRight = false;
 
 	pageSizes: Array<any> = [{ size: 10, label: '10' }, { size: 25, label: '25' }, { size: 50, label: '50' }, { size: 100, label: '100' }, { size: 0, label: 'All' }];
 
@@ -68,7 +68,7 @@ export class GridViewPagerComponent {
 		return totalPages;
 	}
 
-	protected getPageArray() {
+	getPageArray() {
 		let pageArray: number[] = [];
 		let totalPages = this.getTotalPages();
 		let start = 1;

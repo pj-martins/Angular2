@@ -84,24 +84,24 @@ export class GridViewSettingsComponent {
 		this.settingsModal.hide();
 	}
 
-	protected resetGridState() {
+	resetGridState() {
 		this.parentGridView.resetGridState();
 		this.settingsModal.hide();
 	}
 
-	protected visibilityChanged(col: ColumnBase) {
+	visibilityChanged(col: ColumnBase) {
 		if (col instanceof DataColumn && (<DataColumn>col).filterValue)
 			this.parentGridView.dataChanged.emit(this.parentGridView);
 
 		this.parentGridView.saveGridState();
 	}
 
-	protected showHideColumn(col: ColumnBase) {
+	showHideColumn(col: ColumnBase) {
 		col.visible = !col.visible;
 		this.visibilityChanged(col);
 	}
 
-	protected openCloseSettings(evt: any) {
+	openCloseSettings(evt: any) {
 		if (this.settingsModal.isShown) {
 			this.settingsModal.hide();
 		}

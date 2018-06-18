@@ -4,9 +4,9 @@ import newGuid from '../utils/newGuid';
 
 export const TYPEAHEAD_TEMPLATE = `
 	<div class='typeahead'>
-		<div class='input-button-container id_{{uniqueId}}' *ngIf='!typeahead.dataSourceFunction && !typeahead.hideButton'>
-			<button class='input-button id_{{uniqueId}}' (click)='typeahead.openByButton()' (keydown)='typeahead.keydown($event)' tabindex="-1">
-				<div class='icon-arrow-down-black icon-xx-small id_{{uniqueId}}'></div>
+		<div class='input-button-container id_{{typeahead.uniqueId}}' *ngIf='!typeahead.dataSourceFunction && !typeahead.hideButton'>
+			<button class='input-button id_{{typeahead.uniqueId}}' (click)='typeahead.openByButton()' (keydown)='typeahead.keydown($event)' tabindex="-1">
+				<div class='icon-arrow-down-black icon-xx-small id_{{typeahead.uniqueId}}'></div>
 			</button>
 		</div>
 		<div class='input-button-container' *ngIf='typeahead.dataSourceFunction && typeahead.loading'>
@@ -85,7 +85,7 @@ export class Typeahead {
 	typeaheadError = false;
 
 
-	protected selectItem(item: any) {
+	selectItem(item: any) {
 		this.typeaheadError = false;
 		this.textValue = this.displayMember ? this.parserService.getObjectValue(this.displayMember, item) : item;
 		this.innerValue = this.valueMember ? this.parserService.getObjectValue(this.valueMember, item) : item;
@@ -293,7 +293,7 @@ export class Typeahead {
 		}
 	}
 
-	protected itemHidden(item: any): boolean {
+	itemHidden(item: any): boolean {
 		if (this.isOpenByButton) return false;
 		return !this.isMatch(item);
 	}
@@ -309,7 +309,7 @@ export class Typeahead {
 		return -1;
 	}
 
-	protected itemDisplay(item) {
+	itemDisplay(item) {
 		let objValue = this.displayMember ? this.parserService.getObjectValue(this.displayMember, item) : item;
 		let matchIndex = this.getTextMatchIndex(item);
 		if (matchIndex >= 0) {
@@ -320,7 +320,7 @@ export class Typeahead {
 		return objValue;
 	}
 
-	protected hovered(index) {
+	hovered(index) {
 		this.activeIndex = index;
 	}
 
@@ -351,7 +351,7 @@ export class Typeahead {
 		};
 	}
 
-	protected openByButton() {
+	openByButton() {
 		this.dropdownVisible = !this.dropdownVisible;
 		this.isOpenByButton = this.dropdownVisible;
 		if (this.isOpenByButton && this.activeIndex < 0 && this.textValue) {

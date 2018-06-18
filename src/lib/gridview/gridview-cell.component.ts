@@ -33,19 +33,19 @@ import { ParserService } from '../services/parser.service';
 		<div *ngIf="!editing || column.readonly" [ngClass]="{ 'icon-small icon-check-black' : getObjectValue(false) == true }"></div>
 		<input type="checkbox" *ngIf="!column.readonly && editing" [(ngModel)]="row[column.fieldName]" (ngModelChange)="parentGridViewComponent.cellValueChanged(self)" />
 	</div>
-	<div *ngIf="column.click">
-		<button class="{{column.class}}" (click)="column.click.emit(row)">{{column.text || getObjectValue('')}}</button>
+	<div *ngIf="column['click']">
+		<button class="{{column['class']}}" (click)="column['click'].emit(row)">{{column['text'] || getObjectValue('')}}</button>
 	</div>
 	<!-- TODO: should we allow links to above items? duplication here too -->
-	<div *ngIf="column.fieldType != fieldType.Date && column.fieldType != fieldType.Time && column.fieldType != fieldType.Boolean && !column.format && !column.click">
+	<div *ngIf="column.fieldType != fieldType.Date && column.fieldType != fieldType.Time && column.fieldType != fieldType.Boolean && !column.format && !column['click']">
 		<div *ngIf="(!editing || column.readonly) && !column.render" [innerHTML]="getObjectValue('')"></div>
 		<div *ngIf="editing && !column.readonly" style="width:100%">
-			<input type="text" style="width:100%" *ngIf="column.fieldType != fieldType.Numeric && !column.rows && !column.selectOptions" [(ngModel)]="row[column.fieldName]" (ngModelChange)="parentGridViewComponent.cellValueChanged(self)" />
-			<textarea style="width:100%" rows="{{column.rows}}" *ngIf="column.rows" [(ngModel)]="row[column.fieldName]" (ngModelChange)="parentGridViewComponent.cellValueChanged(self)"></textarea>
-			<select style="width:100%" [compareWith]="compareSelectOption" [(ngModel)]="row[column.fieldName]" (ngModelChange)="parentGridViewComponent.cellValueChanged(self)" *ngIf="column.selectOptions">
-				<option *ngIf="column.addBlank" [ngValue]="null"></option>
-				<option *ngFor="let o of column.selectOptions" [ngValue]="column.valueMember ? o[column.valueMember] : o">
-					{{column.displayMember ? o[column.displayMember] : o}}
+			<input type="text" style="width:100%" *ngIf="column.fieldType != fieldType.Numeric && !column['rows'] && !column['selectOptions']" [(ngModel)]="row[column.fieldName]" (ngModelChange)="parentGridViewComponent.cellValueChanged(self)" />
+			<textarea style="width:100%" rows="{{column['rows']}}" *ngIf="column['rows']" [(ngModel)]="row[column.fieldName]" (ngModelChange)="parentGridViewComponent.cellValueChanged(self)"></textarea>
+			<select style="width:100%" [compareWith]="compareSelectOption" [(ngModel)]="row[column.fieldName]" (ngModelChange)="parentGridViewComponent.cellValueChanged(self)" *ngIf="column['selectOptions']">
+				<option *ngIf="column['addBlank']" [ngValue]="null"></option>
+				<option *ngFor="let o of column['selectOptions']" [ngValue]="column['valueMember'] ? o[column['valueMember']] : o">
+					{{column['displayMember'] ? o[column['displayMember']] : o}}
 				</option>
 			</select>
 			<input type="number" style="width:100%" *ngIf="column.fieldType == fieldType.Numeric" [(ngModel)]="row[column.fieldName]" (ngModelChange)="parentGridViewComponent.cellValueChanged(self)" />
@@ -69,21 +69,20 @@ export class GridViewCellComponent {
 
 	@Input() index: number;
 
-	protected self = this;
-
-	protected fieldType = FieldType;
+	self = this;
+	fieldType = FieldType;
 
 	get editing(): boolean {
 		return this.parentGridViewComponent.editingRows[this.row[this.parentGridViewComponent.grid.keyFieldName]];
 	}
 
-	protected get showRequired(): boolean {
+	get showRequired(): boolean {
 		return this.parentGridViewComponent.showRequired[this.row[this.parentGridViewComponent.grid.keyFieldName]];
 	}
 
 	constructor(protected parserService: ParserService) { }
 
-	protected getObjectValue(def: any = null) {
+	getObjectValue(def: any = null) {
 		let val = this.parserService.getObjectValue(this.column.fieldName, this.row);
 		if (val == null) return def;
 		if (this.column.columnPipe) {

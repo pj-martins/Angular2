@@ -19,6 +19,7 @@ export class GridView {
 	totalRecords: number;
 	columns: Array<ColumnBase> = [];
 	showHeader: boolean = true;
+	allowRowSelect = false;
 	visible = true;
 	detailGridView: DetailGridView;
 	keyFieldName: string;
@@ -53,6 +54,8 @@ export class GridView {
 	allowDelete = false;
 	autoPopulateColumns = false;
 	allowMultiEdit = false;
+	noBorder = false;
+	// showFooter = false;
 	name: string;
 	timezone: string;
 	gridViewComponent: IGridViewComponent;
@@ -70,7 +73,7 @@ export class GridView {
 		return cols;
 	}
 
-	getVisibleColumns(hideRowTemplate): Array<ColumnBase> {
+	getVisibleColumns(hideRowTemplate = false): Array<ColumnBase> {
 
 		let cols = new Array<ColumnBase>();
 		for (let c of this.columns) {

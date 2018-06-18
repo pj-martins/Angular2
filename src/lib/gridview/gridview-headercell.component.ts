@@ -91,7 +91,7 @@ export class GridViewHeaderCellComponent implements AfterViewInit {
 
 	// we could set the column widths directly but that will cause grid to redraw which would
 	// be expensive, so we'll wait until after
-	protected startResize(evt: any) {
+	startResize(evt: any) {
 		if (this.elementRef.nativeElement.parentElement.nextElementSibling == null)
 			return;
 

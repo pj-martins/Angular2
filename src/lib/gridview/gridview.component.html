@@ -41,7 +41,7 @@
 			<tr *ngIf='!grid.printing && grid.filterVisible && hasFilterRow()'>
 				<td class="filter-td" *ngIf='grid.detailGridView && !grid.detailGridView.hideExpandButton' style='width:20px'></td>
 				<td class="filter-td" *ngIf='grid.allowRowSelect'></td>
-				<td class="filter-td" *ngFor="let col of grid.getVisibleColumns() | orderBy:['columnIndex']" id="filter_{{i}}_{{uniqueId}}"
+				<td class="filter-td" *ngFor="let col of grid.getVisibleColumns() | orderBy:['columnIndex']; index as i" id="filter_{{i}}_{{uniqueId}}"
 				 [style.width]="grid.printing ? (col.printWidth || col.width) : col.width" [style.maxWidth]="grid.printing ? (col.printWidth || col.width) : col.width">
 					<gridview-filtercell *ngIf="(col.filterMode && col.filterMode != 0) || col.filterTemplate" [parentGridView]="grid" [parentGridViewComponent]="self"
 					 [column]='col'>
@@ -114,12 +114,12 @@
 				</tr>
 			</ng-template>
 		</tbody>
-		<tfoot *ngIf='grid.showFooter'>
+		<!--<tfoot *ngIf='grid.showFooter'>
 			<tr>
 				<td *ngIf='grid.detailGridView' style='width:20px'></td>
 				<td *ngFor="let col of grid.getVisibleColumns() | orderBy:['columnIndex']" grid-view-footer-cell='col'></td>
 			</tr>
-		</tfoot>
+		</tfoot>-->
 	</table>
 	<div *ngIf="!grid.printing" class='row' id="foot_{{uniqueId}}">
 		<div class='float-left'>

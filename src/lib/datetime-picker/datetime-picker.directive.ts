@@ -129,7 +129,7 @@ export class DateTimePickerDirective implements OnInit, OnChanges, Validator {
 		//this.formatDate(this.ngModel);
 	}
 
-	protected blurEditor() {
+	blurEditor() {
 		if (!this.inputChanged) return;
 		this.inputChanged = false;
 		let formattedDate = this.elementRef.nativeElement.value;
@@ -166,7 +166,7 @@ export class DateTimePickerDirective implements OnInit, OnChanges, Validator {
 		this.formatDate(this.ngModel);
 	}
 
-	protected keyup(event: any) {
+	keyup(event: any) {
 		let charCode = event.which || event.keyCode;
 		// which other char codes?
 		if ((charCode >= 48 && charCode <= 90) || (charCode >= 96 && charCode <= 111) || (charCode >= 186 && charCode <= 222) || charCode == 8) {

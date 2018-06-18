@@ -103,9 +103,9 @@ export class GridViewComponent implements AfterViewInit, IGridViewComponent {
 	showRequired: { [tempKeyValue: string]: boolean } = {};
 	printing = false;
 
-	protected promptConfirm: { [templateKeyValue: string]: boolean } = {};
+	promptConfirm: { [templateKeyValue: string]: boolean } = {};
 
-	protected self: GridViewComponent = this;
+	self: GridViewComponent = this;
 	protected sortDirection = SortDirection;
 	protected fieldType = FieldType;
 
@@ -209,7 +209,7 @@ export class GridViewComponent implements AfterViewInit, IGridViewComponent {
 		window.setTimeout(() => this.updateDimensions(), 100);
 	}
 
-	protected updateDimensions() {
+	updateDimensions() {
 		this.updateBodyHeight();
 		this.updateHeight();
 	}
@@ -548,11 +548,11 @@ export class GridViewComponent implements AfterViewInit, IGridViewComponent {
 		this.grid.cellValueChanged.emit(args);
 	}
 
-	protected confirmDelete(row: any) {
+	confirmDelete(row: any) {
 		this.promptConfirm[row[this.grid.keyFieldName]] = true;
 	}
 
-	protected cancelDelete(row: any) {
+	cancelDelete(row: any) {
 		delete this.promptConfirm[row[this.grid.keyFieldName]];
 	}
 

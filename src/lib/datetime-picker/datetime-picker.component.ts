@@ -20,14 +20,14 @@ import moment from 'moment-timezone-es6';
 					</select>
 					<input type="number" [(ngModel)]="selectedYear" (change)="refreshCalendarDates()" />
 					<div class="arrow-up-down-container">
-						<div class="datetime-picker-top-spinner datetime-picker-clickable icon-arrow-up-black spinner-arrows" (click)="addYear()">
+						<div class="datetime-picker-top-spinner datetime-picker-clickable icon-arrow-up-black spinner-arrows" (click)="addYear(false)">
 						</div>
 						<div class="datetime-picker-bottom-spinner datetime-picker-clickable icon-arrow-down-black spinner-arrows" (click)="addYear(true)">
 						</div>
 					</div>
 					<div class="arrow-left-right-container">
 						<div class="icon-arrow-left-black icon-x-small datetime-picker-month-spinner datetime-picker-clickable" (click)="addMonth(true)"></div>
-						<div class="icon-arrow-right-black icon-x-small datetime-picker-month-spinner datetime-picker-clickable" (click)="addMonth()"></div>
+						<div class="icon-arrow-right-black icon-x-small datetime-picker-month-spinner datetime-picker-clickable" (click)="addMonth(false)"></div>
 					</div>
 				</div>
 			</div>
@@ -50,14 +50,14 @@ import moment from 'moment-timezone-es6';
 				<div class="datetime-picker-time-panel id_{{uniqueId}}">
 					<input type="text" [(ngModel)]="selectedHour" (blur)="formatHour()" />
 					<div class="arrow-up-down-container">
-						<div class="datetime-picker-top-spinner datetime-picker-clickable icon-arrow-up-black spinner-arrows" (click)="addHour()">
+						<div class="datetime-picker-top-spinner datetime-picker-clickable icon-arrow-up-black spinner-arrows" (click)="addHour(false)">
 						</div>
 						<div class="datetime-picker-bottom-spinner datetime-picker-clickable icon-arrow-down-black spinner-arrows" (click)="addHour(true)">
 						</div>
 					</div>
 					<input type="text" [(ngModel)]="selectedMinute" (blur)="formatMinute()" />
 					<div class="arrow-up-down-container">
-						<div class="datetime-picker-top-spinner datetime-picker-clickable icon-arrow-up-black spinner-arrows" (click)="addMinute()">
+						<div class="datetime-picker-top-spinner datetime-picker-clickable icon-arrow-up-black spinner-arrows" (click)="addMinute(false)">
 						</div>
 						<div class="datetime-picker-bottom-spinner datetime-picker-clickable icon-arrow-down-black spinner-arrows" (click)="addMinute(true)">
 						</div>

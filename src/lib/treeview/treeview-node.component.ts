@@ -30,7 +30,7 @@ export class TreeViewNodeComponent {
 	@Input()
 	nodes: Array<TreeViewNode>;
 
-	protected expandCollapseNode(node: TreeViewNode) {
+	expandCollapseNode(node: TreeViewNode) {
 		node.isExpanded = !node.isExpanded;
 		if (node.isExpanded)
 			this.expandNode(node);

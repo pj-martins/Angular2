@@ -39,9 +39,9 @@ export class GridViewFilterCellComponent implements OnInit, IGridViewFilterCellC
 	@Input() parentGridView: GridView
 	@Input() parentGridViewComponent: GridViewComponent;
 
-	protected self = this;
-	protected checklistItems = [];
-	protected filterMode = FilterMode;
+	self = this;
+	checklistItems = [];
+	filterMode = FilterMode;
 
 	constructor(protected elementRef: ElementRef) { }
 
