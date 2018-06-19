@@ -53,12 +53,13 @@ export class DemoGridBasicComponent implements OnInit {
 		this.gridDemo.allowAdd = true;
 		this.gridDemo.allowDelete = true;
 		this.gridDemo.allowMultiEdit = true;
+		this.gridDemo.descriptionField = 'customer.customerName';
 		this.gridDemo.pagingType = PagingType.Disabled;
 		this.gridDemo.rowCancelled.subscribe((a: RowArguments) => {
 			console.log("A:", a.row);
 		});
 
-		let custCol = new SelectColumn("customerId");
+		let custCol = new SelectColumn("customerId", "Customer");
 		custCol.selectOptions = this.events.map(e => e.customer);
 		custCol.displayMember = "customerName";
 		custCol.valueMember = "id";

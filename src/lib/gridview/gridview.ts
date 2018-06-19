@@ -23,6 +23,7 @@ export class GridView {
 	visible = true;
 	detailGridView: DetailGridView;
 	keyFieldName: string;
+	descriptionField: string;
 	selectMode: SelectMode;
 	disableAutoSort: boolean;
 	disableAutoFilter: boolean;
@@ -55,6 +56,7 @@ export class GridView {
 	autoPopulateColumns = false;
 	allowMultiEdit = false;
 	noBorder = false;
+	inRowPromptConfirm = false;
 	// showFooter = false;
 	name: string;
 	timezone: string;

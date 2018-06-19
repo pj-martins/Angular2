@@ -11,6 +11,8 @@ import newGuid from '../utils/newGuid';
 import { Observable } from 'rxjs';
 import { CellArguments } from '../index';
 import moment from 'moment-timezone-es6';
+import { ModalDialogComponent } from '../modal-dialog';
+import { DialogResult } from '../../../dist';
 
 @Component({
 	selector: 'gridview',
@@ -62,6 +64,9 @@ export class GridViewComponent implements AfterViewInit, IGridViewComponent {
 		this._pager = v;
 		this.initPager();
 	}
+
+	@ViewChild("confirmDialog")
+	confirmDialog: ModalDialogComponent;
 
 	private initPager() {
 		if (!this.pager || !this._grid) return;
@@ -549,7 +554,23 @@ export class GridViewComponent implements AfterViewInit, IGridViewComponent {
 	}
 
 	confirmDelete(row: any) {
-		this.promptConfirm[row[this.grid.keyFieldName]] = true;
+		if (this.grid.inRowPromptConfirm) {
+			this.promptConfirm[row[this.grid.keyFieldName]] = true;
+		}
+		else {
+			let desc = '';
+			if (row && this.grid.descriptionField) {
+				desc = this.parserService.getObjectValue(this.grid.descriptionField, row);
+			}
+
+			if (!desc) desc = 'this row';
+			this.confirmDialog.showYesNo("Warning", `Are you sure you want to delete ${desc}?`)
+				.subscribe((r: DialogResult) => {
+					if (r == DialogResult.Yes) {
+						this.deleteRow(row);
+					}
+				});
+		}
 	}
 
 	cancelDelete(row: any) {

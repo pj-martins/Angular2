@@ -21,9 +21,9 @@ import newGuid from '../utils/newGuid';
 	</div>
 	<div class="modal-dialog-footer" *ngIf="showFooter">
 		<button type="button" class="btn" *ngIf="buttons == button.OK || buttons == button.OKCancel" (click)="ok()">OK</button>
-		<button type="button" class="btn" *ngIf="buttons == button.OKCancel" (click)="cancel()">Cancel</button>
-        <button type="button" class="btn" *ngIf="buttons == button.YesNo" (click)="yes()">Yes</button>
-        <button type="button" class="btn" *ngIf="buttons == button.YesNo" (click)="no()">No</button>
+		<button type="button" class="btn" *ngIf="buttons == button.OKCancel" (click)="cancel()" style="margin-left: 10px">Cancel</button>
+        <button type="button" class="btn" *ngIf="buttons == button.YesNo" (click)="yes()" style="margin-left: 10px">Yes</button>
+        <button type="button" class="btn" *ngIf="buttons == button.YesNo" (click)="no()" style="margin-left: 10px">No</button>
 	</div>
 </div>
 <div class="modal-background" *ngIf="shown && showBackdrop"></div>

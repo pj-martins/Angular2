@@ -82,14 +82,14 @@
 					</td>
 					<td *ngIf='!grid.printing && !parentGridViewComponent && (grid.allowAdd || grid.allowEdit || grid.allowDelete)' class='edit-td'>
 						<button *ngIf="grid.allowEdit && !editingRow(row) && !promptConfirm[row[grid.keyFieldName]]" class="icon-pencil-black icon-x-small icon-button"
-						 (click)="editRow(row)"></button>
+						 (click)="editRow(row)" style="margin-left:10px"></button>
 						<button *ngIf="grid.allowDelete && !editingRow(row) && !promptConfirm[row[grid.keyFieldName]] && grid.allowDelete" class="icon-remove-black icon-x-small icon-button"
-						 (click)="confirmDelete(row)"></button>
-						<button *ngIf="editingRow(row)" class="icon-check-black icon-x-small icon-button" (click)="saveEdit(row)"></button>
-						<button *ngIf="editingRow(row)" class="icon-cancel-black icon-x-small icon-button" (click)="cancelEdit(row)"></button>
+						 (click)="confirmDelete(row)" style="margin-left:10px"></button>
+						<button *ngIf="editingRow(row)" class="icon-check-black icon-x-small icon-button" (click)="saveEdit(row)" style="margin-left:10px"></button>
+						<button *ngIf="editingRow(row)" class="icon-cancel-black icon-x-small icon-button" (click)="cancelEdit(row)" style="margin-left:10px"></button>
 					</td>
 					<td *ngIf="!grid.printing && parentGridViewComponent && parentGridViewComponent.editing && grid.allowDelete">
-						<button class="icon-remove-black icon-x-small icon-button" (click)="deleteRow(row)"></button>
+						<button class="icon-remove-black icon-x-small icon-button" (click)="deleteRow(row)" style="margin-left:10px"></button>
 					</td>
 				</tr>
 				<tr *ngIf='promptConfirm[row[grid.keyFieldName]]'>
@@ -142,3 +142,5 @@
 		</div>
 	</div>
 </div>
+<modal-dialog #confirmDialog [showBackdrop]='true'>
+</modal-dialog>
