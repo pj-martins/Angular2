@@ -91,7 +91,7 @@ export class Typeahead {
 		this.innerValue = this.valueMember ? this.parserService.getObjectValue(this.valueMember, item) : item;
 		this.isOpenByButton = false;
 		this.dropdownVisible = false;
-		this.itemSelected.emit(this.innerValue);
+		this.itemSelected.emit(item);
 	}
 
 
