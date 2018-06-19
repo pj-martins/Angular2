@@ -11,8 +11,7 @@ import newGuid from '../utils/newGuid';
 import { Observable } from 'rxjs';
 import { CellArguments } from '../index';
 import moment from 'moment-timezone-es6';
-import { ModalDialogComponent } from '../modal-dialog';
-import { DialogResult } from '../../../dist';
+import { ModalDialogComponent, DialogResult } from '../modal-dialog';
 
 @Component({
 	selector: 'gridview',
