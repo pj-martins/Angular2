@@ -171,6 +171,9 @@ export class TypeaheadDirective implements OnInit, OnChanges {
 				}
 			}
 		}
+		else if (!textValue) {
+			textValue = v;
+		}
 		window.setTimeout(() => {
 			this.elementRef.nativeElement.value = textValue;
 			this.elementRef.nativeElement.style.color = this._initialColor;
