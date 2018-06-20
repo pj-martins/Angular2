@@ -89,6 +89,14 @@ export class TypeaheadDirective implements OnInit, OnChanges {
 		this._component.instance.typeahead.itemSelected = v;
 	}
 
+	@Output()
+	get objectSelected(): EventEmitter<any> {
+		return this._component.instance.typeahead.objectSelected;
+	}
+	set objectSelected(v: EventEmitter<any>) {
+		this._component.instance.typeahead.objectSelected = v;
+	}
+
 	@Input()
 	get popupHeight(): string {
 		return this._component.instance.typeahead.popupHeight;

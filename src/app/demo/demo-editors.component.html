@@ -91,11 +91,14 @@
 	<div class="row">
 		<div class="col-md-1">Display &amp; Value Member:</div>
 		<div class="col-md-3">
-			<input type="text" typeahead [dataSource]="rooms" [(ngModel)]="selectedRoomID" displayMember="roomName" valueMember="id"
+			<input type="text" typeahead [dataSource]="rooms" (objectSelected)="roomSelected($event)" [(ngModel)]="selectedRoomID" displayMember="roomName" valueMember="id"
 			/>
 		</div>
 		<div class="col-md-7" *ngIf="selectedRoomID">
 			ID: {{selectedRoomID}}
+		</div>
+		<div class="col-md-7" *ngIf="youSelected">
+			You selected: {{youSelected}}
 		</div>
 	</div>
 	<br />

@@ -79,6 +79,7 @@ export class Typeahead {
 	popupHeight: string = "600px";
 	hideButton = false;
 	itemSelected = new EventEmitter<any>();
+	objectSelected = new EventEmitter<any>();
 	uniqueId = newGuid();
 
 
@@ -91,7 +92,8 @@ export class Typeahead {
 		this.innerValue = this.valueMember ? this.parserService.getObjectValue(this.valueMember, item) : item;
 		this.isOpenByButton = false;
 		this.dropdownVisible = false;
-		this.itemSelected.emit(item);
+		this.itemSelected.emit(this.innerValue);
+		this.objectSelected.emit(item);
 	}
 
 

@@ -19,6 +19,7 @@ export class DemoEditorsComponent implements OnInit {
 	minuteStep: number;
 
 	selectedText: string;
+	youSelected: string;
 	multiTextboxItems: Array<string> = ['Item 1', 'Item 2'];
 	multiTypeaheadItems: Array<string> = [];
 	dataSource: Array<string> = ['Alpha', 'Bravo', 'Charlie', 'Delta', 'Echo', 'Foxtrot', 'Tango', 'Zulu'];
@@ -30,7 +31,7 @@ export class DemoEditorsComponent implements OnInit {
 	selectedRoom2: Room;
 	selectedRoom3: Room;
 
-	rooms: Array<any>;
+	rooms: Array<any> = [];
 
 	constructor(private dataService: DataService) {
 		
@@ -53,6 +54,10 @@ export class DemoEditorsComponent implements OnInit {
 	getRoomsObservable = (partial: string): Observable<Array<any>> => {
 		let rooms = this.getRooms(partial);
 		return Observable.create(o => o.next(rooms));
+	}
+
+	roomSelected(room: Room) {
+		this.youSelected = room.roomName;
 	}
 
 	prevDate() {
