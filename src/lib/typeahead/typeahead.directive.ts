@@ -171,7 +171,7 @@ export class TypeaheadDirective implements OnInit, OnChanges {
 				}
 			}
 		}
-		else if (!textValue) {
+		else if (!textValue && !this.limitToList) {
 			textValue = v;
 		}
 		window.setTimeout(() => {
