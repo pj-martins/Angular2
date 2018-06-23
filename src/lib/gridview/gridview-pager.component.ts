@@ -10,7 +10,7 @@ import { ParserService } from '../services/parser.service';
 	selector: 'gridview-pager',
 	styleUrls: ['gridview-pager.css', 'gridview.css'],
 	template: `
-<div class='show-hide-animation grid-pagination' [hidden]='!(parentGridView.pagingType < 2 && parentGridViewComponent.displayData && parentGridView.data && parentGridView.data.length > 0)'>
+<div class='show-hide-animation grid-pagination' *ngIf='parentGridView.pagingType < 2 && parentGridViewComponent.displayData && parentGridView.data && parentGridView.data.length > 0'>
     <div *ngIf='parentGridView.pageSize > 0 && (parentGridView.pagingType == pagingType.Auto ? parentGridViewComponent.unpagedData.length : parentGridView.totalRecords) > parentGridView.pageSize'>
 		<div>
 			<ul class="pagination">

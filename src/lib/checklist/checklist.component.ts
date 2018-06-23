@@ -15,7 +15,7 @@ export class CheckListItem {
 		<div class="drop-down-image icon-xx-small checklist-button-image id_{{uniqueId}} {{ allSelected || selectedItems.length < 1 || !showFilterIcon ? 'icon-arrow-down-black' : 'icon-filter-black'}}"></div>
 	</button>
 	<div class='checklist'>
-		<div class='checklist-dropdown' [hidden]='!dropdownVisible'>
+		<div class='checklist-dropdown' *ngIf='dropdownVisible' [style.maxHeight]="popupHeight">
 			<div *ngIf='!disableAll' (click)='selectAll()' class='checklist-item checklist-item-all id_{{uniqueId}}'>
 				<div class="checklist-check icon-small {{ allSelected ? 'icon-check-black' : ''}}"></div>(Select All)</div>
 				<div *ngFor='let item of displayItems' (click)='selectItem(item)' class='checklist id_{{uniqueId}}'>
@@ -44,6 +44,9 @@ export class CheckListComponent implements OnInit {
 
 	@Input()
 	disableAll = false;
+
+	@Input()
+	popupHeight: string;
 
 	@Output()
 	selectionChanged = new EventEmitter<any>();

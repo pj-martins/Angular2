@@ -2,7 +2,7 @@
 
 @Component({
     selector: 'overlay',
-    template: `<div class="overlay-container" [hidden]="!loading">
+    template: `<div class="overlay-container" *ngIf="loading">
                     <div class="overlay-background"></div>
                     <div class="overlay-content">
                         <br />

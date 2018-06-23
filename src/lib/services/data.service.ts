@@ -14,7 +14,7 @@ export class DataService {
 		return null;
 	}
 
-	post<TObject>(url: string, body: TObject = null): Observable<TObject> {
+	post<TIn, TOut>(url: string, body: TIn = null): Observable<TOut> {
 		return this.http.post(url, body, this.getOptions())
 			.pipe(map((res: Response) => {
 				if (!res.text())
@@ -24,7 +24,7 @@ export class DataService {
 				catchError(e => this.handleError(e)));
 	}
 
-	put<TObject>(url: string, body: TObject): Observable<TObject> {
+	put<TIn, TOut>(url: string, body: TIn): Observable<TOut> {
 		return this.http.put(url, body, this.getOptions())
 			.pipe(map((res: Response) => {
 				if (!res.text())
@@ -62,7 +62,17 @@ export class DataService {
 				catchError(e => this.handleError(e)));
 	}
 
-	getItem<TObject>(url: string): Observable<TObject> {
+	get<TObject>(url: string, args?: GetArguments): Observable<TObject> {
+		if (args) {
+			let firstIn = true;
+			if (args.params) {
+				for (let p in args.params) {
+					url += (firstIn ? '?' : '&') + p + '=' + args.params[p];
+					firstIn = false;
+				}
+			}
+		}
+
 		return this.http.get(url, this.getOptions())
 			.pipe(map((res: Response) => {
 				return res.json();

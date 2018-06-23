@@ -148,13 +148,13 @@ export class GridViewComponent implements AfterViewInit, IGridViewComponent {
 	}
 
 	private updateBodyHeight() {
-		if (!this.grid.showHeader || !this.grid.height) return;
+		if (!this.grid || !this.grid.showHeader || !this.grid.height) return;
 		this.elementRef.nativeElement.getElementsByTagName("tbody")[0].style.height = "calc(100% - " +
 			this.elementRef.nativeElement.getElementsByTagName("thead")[0].offsetHeight + "px)";
 	}
 
 	private updateHeight() {
-		if (!this.grid.height || !this.grid.height.endsWith("%")) return;
+		if (!this.grid || !this.grid.height || !this.grid.height.endsWith("%")) return;
 		let el = document.getElementById("foot_" + this.uniqueId);
 		if (!el) return;
 		this.elementRef.nativeElement.firstElementChild.style.height = "calc(" + this.grid.height + " - " + (el.offsetHeight + 2) + "px)";
