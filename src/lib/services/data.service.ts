@@ -103,7 +103,9 @@ export class DataService {
 }
 
 export class Items<TObject> {
+	// use items for ODATA, data for nodejs
 	data: TObject[];
+	items: TObject[];
 	count: number;
 }
 
