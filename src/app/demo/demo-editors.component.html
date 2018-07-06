@@ -121,6 +121,13 @@
 			{{'ID: ' + selectedRoom3.id + ' - Room Name: ' + selectedRoom3.roomName}}
 		</div>
 	</div>
+	<br />
+	<div class="row">
+		<div class="col-md-1">No Limit List:</div>
+		<div class="col-md-3">
+			<input type="text" typeahead [dataSource]="dataSource" [(ngModel)]="noLimitText" [limitToList]="false" />
+		</div>
+	</div>
 </expand-collapse>
 <expand-collapse headerText="Multi Type Ahead">
 	<div class="row">

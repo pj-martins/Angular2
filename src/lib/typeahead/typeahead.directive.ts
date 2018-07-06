@@ -112,7 +112,9 @@ export class TypeaheadDirective implements OnInit, OnChanges {
 		this._component.instance.typeahead.itemSelected.subscribe(v => {
 			this.elementRef.nativeElement.style.color = this.elementRef.nativeElement.style.backgroundColor || "white";
 			this.ngModelChange.emit(v);
-			//this.setText(v);
+			if (!this.limitToList) {
+				this.elementRef.nativeElement.style.color = this._initialColor;
+			}
 		});
 		this._initialColor = this.elementRef.nativeElement.style.color;
 		this.elementRef.nativeElement.style.width = "100%";

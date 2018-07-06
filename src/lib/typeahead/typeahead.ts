@@ -5,7 +5,7 @@ import newGuid from '../utils/newGuid';
 export const TYPEAHEAD_TEMPLATE = `
 	<div class='typeahead'>
 		<div class='input-button-container id_{{typeahead.uniqueId}}' *ngIf='!typeahead.dataSourceFunction && !typeahead.hideButton'>
-			<button class='input-button id_{{typeahead.uniqueId}}' (click)='typeahead.openByButton()' (keydown)='typeahead.keydown($event)' tabindex="-1">
+			<button type='button' class='input-button id_{{typeahead.uniqueId}}' (click)='typeahead.openByButton()' (keydown)='typeahead.keydown($event)' tabindex="-1">
 				<div class='icon-arrow-down-black icon-xx-small id_{{typeahead.uniqueId}}'></div>
 			</button>
 		</div>
